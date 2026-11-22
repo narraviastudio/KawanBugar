@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kawan Bugar — Pasukan Gak Takut Diet</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            cream: {
+              50: '#FDFBF7',
+              100: '#F7F3EB',
+              200: '#EDE5D5',
+            },
+            sage: {
+              50: '#F2F7F4',
+              100: '#E1EDE6',
+              200: '#C3DBD0',
+              500: '#4A7C64',
+              600: '#3A6651',
+              700: '#2D5241',
+              800: '#223F32',
+            },
+            slate: {
+              850: '#1E293B',
+              900: '#0F172A',
+            }
+          },
+          boxShadow: {
+            'soft': '0 4px 20px -2px rgba(45, 82, 65, 0.07), 0 2px 6px -1px rgba(45, 82, 65, 0.04)',
+            'nav': '0 -4px 24px rgba(15, 23, 42, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #FDFBF7;
+      color: #1E293B;
+      -webkit-tap-highlight-color: transparent;
+    }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+    /* Animasi progress ring */
+    .progress-ring__circle {
+      transition: stroke-dashoffset 0.7s cubic-bezier(0.22, 1, 0.36, 1), stroke 0.35s ease;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
+    /* Animasi perpindahan tab halus */
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .tab-animate {
+      animation: fadeSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    /* Sembunyikan scrollbar horizontal pada filter chip */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans text-lg leading-relaxed selection:bg-sage-200 selection:text-sage-900 pb-28">
+
+  <!-- Floating Toast Notification (Bawah layar di atas navigasi) -->
+  <div id="toast-container" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 w-11/12 max-w-md pointer-events-none transition-all duration-300 opacity-0 translate-y-4">
+    <div id="toast-box" class="bg-sage-800/95 backdrop-blur-xs text-white px-5 py-3.5 rounded-2xl shadow-xl flex items-center gap-3 border border-sage-600">
+      <span id="toast-icon" class="text-2xl shrink-0">✅</span>
+      <p id="toast-message" class="font-medium text-base leading-snug"></p>
+    </div>
+  </div>
+
+  <!-- Modal Konfirmasi Kustom (Pengganti confirm) -->
+  <div id="confirm-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-cream-200 tab-animate">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl shrink-0">
+          🌅
+        </div>
+        <h3 id="confirm-title" class="font-display font-bold text-xl sm:text-2xl text-slate-900">Mulai Catatan Baru?</h3>
+      </div>
+      <p id="confirm-desc" class="text-slate-700 text-base sm:text-lg mb-6 leading-relaxed">
+        Catatan makanan dan air minum hari ini akan diarsipkan ke riwayat, lalu hitungan hari ini kembali ke 0. Lanjutkan?
+      </p>
+      <div class="grid grid-cols-2 gap-3">
+        <button id="confirm-cancel-btn" type="button" class="py-3.5 px-4 rounded-2xl font-semibold text-slate-700 bg-cream-100 hover:bg-cream-200 active:scale-95 transition text-base sm:text-lg">
+          Batal
+        </button>
+        <button id="confirm-ok-btn" type="button" class="py-3.5 px-4 rounded-2xl font-bold text-white bg-sage-600 hover:bg-sage-700 active:scale-95 transition text-base sm:text-lg shadow-md">
+          Ya, Lanjutkan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Utama Ringkas & Hangat -->
+  <header class="bg-sage-700 text-white shadow-sm sticky top-0 z-30">
+    <div class="max-w-3xl mx-auto px-4 py-3.5 sm:py-4 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white/15 flex items-center justify-center text-2xl shadow-inner shrink-0">
+          🌿
+        </div>
+        <div class="min-w-0">
+          <h1 class="font-display font-extrabold text-xl sm:text-2xl tracking-tight leading-tight truncate">
+            Kawan Bugar
+          </h1>
+          <p class="text-amber-200 text-xs sm:text-sm font-bold tracking-wide truncate">
+            pasukan gak takut diet 💪🥗😊
+          </p>
+        </div>
+      </div>
+
+      <!-- Kontrol Ukuran Teks -->
+      <div class="flex items-center gap-1.5 bg-sage-800/80 p-1 rounded-2xl border border-sage-600 shrink-0">
+        <span class="text-xs text-sage-200 pl-2 font-medium hidden sm:inline">Huruf:</span>
+        <button type="button" onclick="setFontScale('normal')" id="font-normal-btn" class="px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-white text-sage-800 transition">
+          Normal
+        </button>
+        <button type="button" onclick="setFontScale('large')" id="font-large-btn" class="px-2.5 py-1.5 rounded-xl text-sm sm:text-base font-bold text-sage-100 hover:bg-sage-700 transition">
+          Besar +
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Konten Utama -->
+  <main class="flex-1 max-w-3xl w-full mx-auto px-4 py-5 sm:py-7 space-y-6">
+
+    <!-- ========================================== -->
+    <!-- TAB 1: HARI INI (DASHBOARD UTAMA)          -->
+    <!-- ========================================== -->
+    <section id="view-beranda" class="space-y-6 tab-animate">
+
+      <!-- Sapaan & Tanggal -->
+      <div class="flex flex-wrap items-center justify-between gap-2 px-1">
+        <div>
+          <p class="text-xs sm:text-sm font-semibold text-sage-700 uppercase tracking-wider" id="current-date-display">
+            Hari Ini
+          </p>
+          <h2 class="font-display font-extrabold text-2xl sm:text-3xl text-slate-900 mt-0.5" id="greeting-title">
+            Halo, Kawan Bugar!
+          </h2>
+        </div>
+        <span id="status-badge" class="px-4 py-2 rounded-2xl font-bold text-sm sm:text-base bg-sage-100 text-sage-800 border border-sage-200 shadow-2xs">
+          ✅ Masih Aman
+        </span>
+      </div>
+
+      <!-- Kartu Ringkasan Kalori dengan Progress Ring -->
+      <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-soft border border-cream-200 space-y-5">
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
+          <!-- Lingkaran Progress -->
+          <div class="sm:col-span-5 flex flex-col items-center justify-center">
+            <div class="relative w-44 h-44 sm:w-48 sm:h-48 flex items-center justify-center">
+              <svg class="w-full h-full" viewBox="0 0 160 160">
+                <circle class="text-cream-200" stroke-width="14" stroke="currentColor" fill="transparent" r="66" cx="80" cy="80" />
+                <circle id="calorie-ring-circle" class="progress-ring__circle text-sage-600" stroke-width="14" stroke-dasharray="414.69" stroke-dashoffset="414.69" stroke-linecap="round" stroke="currentColor" fill="transparent" r="66" cx="80" cy="80" />
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-3">
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Terpakai</span>
+                <span id="consumed-calories-display" class="font-display font-extrabold text-3xl sm:text-4xl text-slate-900 leading-tight">0</span>
+                <span class="text-xs sm:text-sm font-medium text-slate-500">dari <strong id="ring-target-mini">1.450</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Angka Sisa & Target -->
+          <div class="sm:col-span-7 space-y-4">
+            <div class="grid grid-cols-2 gap-3">
+              <div class="bg-cream-50 p-4 rounded-2xl border border-cream-200">
+                <p class="text-xs sm:text-sm font-semibold text-slate-600 mb-1">🎯 Target Harian</p>
+                <p class="font-display font-extrabold text-xl sm:text-2xl text-sage-700">
+                  <span id="target-calories-display">1.450</span> <span class="text-sm font-normal text-slate-500">kkal</span>
+                </p>
+              </div>
+              <div class="bg-cream-50 p-4 rounded-2xl border border-cream-200">
+                <p id="remaining-label" class="text-xs sm:text-sm font-semibold text-slate-600 mb-1">⏳ Sisa Kuota</p>
+                <p id="remaining-calories-display" class="font-display font-extrabold text-xl sm:text-2xl text-slate-900">
+                  1.450 <span class="text-sm font-normal text-slate-500">kkal</span>
+                </p>
+              </div>
+            </div>
+
+            <!-- Pesan Empatik Pasukan Gak Takut Diet -->
+            <div id="empathetic-banner" class="p-3.5 sm:p-4 rounded-2xl bg-sage-50 border border-sage-200 text-sage-900 text-sm sm:text-base font-medium leading-relaxed">
+              Mantap! Masih ada sisa <strong>1.450 kkal</strong> untuk dinikmati dengan nyaman hari ini.
+            </div>
+
+            <!-- Tombol Cepat Catat Makan -->
+            <button type="button" onclick="switchTab('tambah')" class="w-full py-3.5 px-5 rounded-2xl bg-sage-600 hover:bg-sage-700 active:scale-98 text-white font-display font-bold text-lg shadow-sm transition flex items-center justify-center gap-2">
+              <span class="text-xl">🍽️</span>
+              <span>+ Catat Makanan Sekarang</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Ringkasan 4 Waktu Makan -->
+        <div class="pt-4 border-t border-cream-200">
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <button type="button" onclick="quickFilterMeal('Sarapan')" class="text-left bg-amber-50/70 hover:bg-amber-50 border border-amber-200/80 p-3 rounded-2xl transition active:scale-98">
+              <span class="block text-xs sm:text-sm font-bold text-amber-800">🌅 Sarapan</span>
+              <span class="font-display font-extrabold text-lg text-slate-900"><span id="meal-sum-Sarapan">0</span> <span class="text-xs font-normal text-slate-600">kkal</span></span>
+            </button>
+            <button type="button" onclick="quickFilterMeal('Makan Siang')" class="text-left bg-emerald-50/70 hover:bg-emerald-50 border border-emerald-200/80 p-3 rounded-2xl transition active:scale-98">
+              <span class="block text-xs sm:text-sm font-bold text-emerald-800">☀️ Siang</span>
+              <span class="font-display font-extrabold text-lg text-slate-900"><span id="meal-sum-Makan Siang">0</span> <span class="text-xs font-normal text-slate-600">kkal</span></span>
+            </button>
+            <button type="button" onclick="quickFilterMeal('Makan Malam')" class="text-left bg-indigo-50/70 hover:bg-indigo-50 border border-indigo-200/80 p-3 rounded-2xl transition active:scale-98">
+              <span class="block text-xs sm:text-sm font-bold text-indigo-800">🌙 Malam</span>
+              <span class="font-display font-extrabold text-lg text-slate-900"><span id="meal-sum-Makan Malam">0</span> <span class="text-xs font-normal text-slate-600">kkal</span></span>
+            </button>
+            <button type="button" onclick="quickFilterMeal('Camilan')" class="text-left bg-rose-50/70 hover:bg-rose-50 border border-rose-200/80 p-3 rounded-2xl transition active:scale-98">
+              <span class="block text-xs sm:text-sm font-bold text-rose-800">🍵 Camilan</span>
+              <span class="font-display font-extrabold text-lg text-slate-900"><span id="meal-sum-Camilan">0</span> <span class="text-xs font-normal text-slate-600">kkal</span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- KARTU PELACAK MINUM AIR PUTIH (WATER TRACKER) -->
+      <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-soft border border-cream-200 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center text-2xl shrink-0">
+              💧
+            </div>
+            <div>
+              <h3 class="font-display font-bold text-xl text-slate-900">Minum Air Putih</h3>
+              <p class="text-sm text-slate-600">Target 8 gelas (2 liter) per hari</p>
+            </div>
+          </div>
+          <div class="text-right">
+            <span id="water-count-display" class="font-display font-extrabold text-2xl text-sky-700">0 / 8</span>
+            <span class="block text-xs font-medium text-slate-500" id="water-ml-display">0 ml</span>
+          </div>
+        </div>
+
+        <!-- 8 Ikon Gelas Visual Interaktif -->
+        <div id="water-glasses-grid" class="grid grid-cols-8 gap-1.5 sm:gap-2.5 py-1">
+          <!-- Diisi otomatis oleh JavaScript -->
+        </div>
+
+        <!-- Tombol Cepat Tambah / Kurang Air -->
+        <div class="flex items-center gap-3 pt-1">
+          <button type="button" onclick="changeWater(-1)" class="py-3 px-4 rounded-2xl bg-cream-100 hover:bg-cream-200 active:scale-95 text-slate-700 font-bold text-base sm:text-lg transition">
+            - 1
+          </button>
+          <button type="button" onclick="changeWater(1)" class="flex-1 py-3.5 px-5 rounded-2xl bg-sky-600 hover:bg-sky-700 active:scale-98 text-white font-display font-bold text-base sm:text-lg shadow-xs transition flex items-center justify-center gap-2">
+            <span>💧</span>
+            <span>+ 1 Gelas (250 ml)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- DAFTAR CATATAN MAKANAN HARI INI -->
+      <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-soft border border-cream-200 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h3 class="font-display font-bold text-xl sm:text-2xl text-slate-900">Catatan Makan Hari Ini</h3>
+            <p class="text-sm sm:text-base text-slate-600">Menu yang sudah dimakan hari ini</p>
+          </div>
+          <button type="button" onclick="confirmResetDay()" class="py-2 px-3.5 rounded-xl bg-cream-100 hover:bg-amber-100 text-slate-700 hover:text-amber-900 font-semibold text-sm transition">
+            🌅 Reset Hari Ini
+          </button>
+        </div>
+
+        <!-- Filter Waktu Makan -->
+        <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+          <button type="button" onclick="setLogFilter('Semua')" data-filter="Semua" class="log-filter-btn shrink-0 px-4 py-2 rounded-2xl font-bold text-sm sm:text-base bg-sage-700 text-white transition">
+            Semua
+          </button>
+          <button type="button" onclick="setLogFilter('Sarapan')" data-filter="Sarapan" class="log-filter-btn shrink-0 px-4 py-2 rounded-2xl font-semibold text-sm sm:text-base bg-cream-100 text-slate-700 hover:bg-cream-200 transition">
+            🌅 Sarapan
+          </button>
+          <button type="button" onclick="setLogFilter('Makan Siang')" data-filter="Makan Siang" class="log-filter-btn shrink-0 px-4 py-2 rounded-2xl font-semibold text-sm sm:text-base bg-cream-100 text-slate-700 hover:bg-cream-200 transition">
+            ☀️ Siang
+          </button>
+          <button type="button" onclick="setLogFilter('Makan Malam')" data-filter="Makan Malam" class="log-filter-btn shrink-0 px-4 py-2 rounded-2xl font-semibold text-sm sm:text-base bg-cream-100 text-slate-700 hover:bg-cream-200 transition">
+            🌙 Malam
+          </button>
+          <button type="button" onclick="setLogFilter('Camilan')" data-filter="Camilan" class="log-filter-btn shrink-0 px-4 py-2 rounded-2xl font-semibold text-sm sm:text-base bg-cream-100 text-slate-700 hover:bg-cream-200 transition">
+            🍵 Camilan
+          </button>
+        </div>
+
+        <!-- Daftar Log -->
+        <div id="food-log-list" class="space-y-3">
+          <!-- Diisi otomatis via JS -->
+        </div>
+      </div>
+
+      <!-- KARTU KIRIM LAPORAN KE WHATSAPP KELUARGA -->
+      <div class="bg-sage-50 rounded-3xl p-5 sm:p-6 border border-sage-200 space-y-3">
+        <div class="flex items-start gap-3.5">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-2xl shrink-0">
+            📲
+          </div>
+          <div>
+            <h3 class="font-display font-bold text-lg sm:text-xl text-slate-900">Kabar Sehat untuk Keluarga</h3>
+            <p class="text-sm sm:text-base text-slate-700 leading-relaxed">
+              Bagikan ringkasan makan dan minum air hari ini ke WhatsApp anak atau keluarga dengan sekali tekan.
+            </p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+          <button type="button" onclick="shareToWhatsApp()" class="py-3.5 px-5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white font-display font-bold text-base sm:text-lg shadow-xs transition flex items-center justify-center gap-2">
+            <span>💬</span>
+            <span>Kirim Laporan ke WA</span>
+          </button>
+          <button type="button" onclick="copyReportToClipboard()" class="py-3.5 px-4 rounded-2xl bg-white hover:bg-cream-100 active:scale-98 text-slate-800 border border-sage-200 font-bold text-base transition flex items-center justify-center gap-2">
+            <span>📋</span>
+            <span>Salin Teks Laporan</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: CATAT MAKAN (DATABASE & FAVORIT)    -->
+    <!-- ========================================== -->
+    <section id="view-tambah" class="hidden space-y-6 tab-animate">
+
+      <!-- Langkah 1 & 2: Waktu Makan & Porsi -->
+      <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-soft border border-cream-200 space-y-5">
+        <div>
+          <h2 class="font-display font-extrabold text-2xl text-slate-900">Catat Makanan & Minuman</h2>
+          <p class="text-slate-600 text-base">Atur waktu makan dan porsi di bawah ini, lalu pilih menunya.</p>
+        </div>
+
+        <!-- Waktu Makan -->
+        <div>
+          <label class="block font-bold text-slate-800 text-base mb-2">1. Waktu Makan</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <button type="button" onclick="selectMealTime('Sarapan')" data-meal="Sarapan" class="meal-select-btn py-3 px-3 rounded-2xl border-2 border-sage-600 bg-sage-50 text-sage-900 font-bold text-base flex items-center justify-center gap-1.5 transition">
+              <span>🌅</span> Sarapan
+            </button>
+            <button type="button" onclick="selectMealTime('Makan Siang')" data-meal="Makan Siang" class="meal-select-btn py-3 px-3 rounded-2xl border-2 border-cream-200 bg-white text-slate-700 font-semibold text-base flex items-center justify-center gap-1.5 transition">
+              <span>☀️</span> Siang
+            </button>
+            <button type="button" onclick="selectMealTime('Makan Malam')" data-meal="Makan Malam" class="meal-select-btn py-3 px-3 rounded-2xl border-2 border-cream-200 bg-white text-slate-700 font-semibold text-base flex items-center justify-center gap-1.5 transition">
+              <span>🌙</span> Malam
+            </button>
+            <button type="button" onclick="selectMealTime('Camilan')" data-meal="Camilan" class="meal-select-btn py-3 px-3 rounded-2xl border-2 border-cream-200 bg-white text-slate-700 font-semibold text-base flex items-center justify-center gap-1.5 transition">
+              <span>🍵</span> Camilan
+            </button>
+          </div>
+        </div>
+
+        <!-- Ukuran Porsi -->
+        <div>
+          <label class="block font-bold text-slate-800 text-base mb-2">2. Ukuran Porsi</label>
+          <div class="grid grid-cols-4 gap-2">
+            <button type="button" onclick="selectPortion(0.5)" data-portion="0.5" class="portion-btn py-3 px-2 rounded-2xl border-2 border-cream-200 bg-white text-slate-700 font-bold text-sm sm:text-base transition">
+              ½ Porsi<br><span class="text-xs font-normal text-slate-500">Setengah</span>
+            </button>
+            <button type="button" onclick="selectPortion(1)" data-portion="1" class="portion-btn py-3 px-2 rounded-2xl border-2 border-sage-600 bg-sage-50 text-sage-900 font-bold text-sm sm:text-base transition">
+              1 Porsi<br><span class="text-xs font-normal text-sage-700">Normal</span>
+            </button>
+            <button type="button" onclick="selectPortion(1.5)" data-portion="1.5" class="portion-btn py-3 px-2 rounded-2xl border-2 border-cream-200 bg-white text-slate-700 font-bold text-sm sm:text-base transition">
+              1½ Porsi<br><span class="text-xs font-normal text-slate-500">Agak Banyak</span>
+            </button>
+            <button type="button" onclick="selectPortion(2)" data-portion="2" class="portion-btn py-3 px-2 rounded-2xl border-2 border-cream-200 bg-white text-slate-700 font-bold text-sm sm:text-base transition">
+              2 Porsi<br><span class="text-xs font-normal text-slate-500">Dobel</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MENU FAVORIT / SERING DIMAKAN (1-TAP) -->
+      <div class="bg-amber-50/70 rounded-3xl p-5 sm:p-6 border border-amber-200/80 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="font-display font-bold text-lg sm:text-xl text-amber-950 flex items-center gap-2">
+            <span>⭐</span> Favorit & Sering Dimakan
+          </h3>
+          <span class="text-xs font-semibold text-amber-800 bg-amber-100 px-2.5 py-1 rounded-xl">1x Tekan</span>
+        </div>
+        <p class="text-sm text-amber-900/80">Langsung tekan menu di bawah ini untuk mencatat sesuai waktu & porsi yang dipilih:</p>
+        <div id="favorite-foods-chips" class="flex flex-wrap gap-2 pt-1">
+          <!-- Diisi otomatis via JS -->
+        </div>
+      </div>
+
+      <!-- PENCARIAN & DATABASE MAKANAN INDONESIA -->
+      <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-soft border border-cream-200 space-y-5">
+        <div>
+          <label for="food-search-input" class="block font-bold text-slate-800 text-lg mb-2">
+            3. Pilih dari Daftar Menu Harian
+          </label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xl text-slate-400">🔍</span>
+            <input
+              type="text"
+              id="food-search-input"
+              oninput="renderFoodDatabase()"
+              placeholder="Cari makanan... misal: nasi, telur, sop, pisang"
+              class="w-full pl-12 pr-16 py-3.5 rounded-2xl bg-cream-50 border-2 border-cream-200 focus:border-sage-600 focus:bg-white focus:outline-none text-base sm:text-lg text-slate-900 placeholder:text-slate-400 transition"
+            />
+            <button type="button" id="clear-search-btn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-xl bg-cream-200 text-slate-700 font-bold text-xs sm:text-sm">
+              Hapus
+            </button>
+          </div>
+        </div>
+
+        <!-- Horizontal Filter Chips dengan Ikon -->
+        <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+          <button type="button" onclick="setCategoryFilter('Semua')" data-cat="Semua" class="cat-filter-btn shrink-0 px-4 py-2.5 rounded-2xl font-bold text-sm sm:text-base bg-sage-700 text-white transition">
+            Semua
+          </button>
+          <button type="button" onclick="setCategoryFilter('Makanan Pokok')" data-cat="Makanan Pokok" class="cat-filter-btn shrink-0 px-4 py-2.5 rounded-2xl font-semibold text-sm sm:text-base bg-cream-100 text-slate-700 hover:bg-cream-200 transition">
+            🍚 Makanan Pokok
+          </button>
+          <button type="button" onclick="setCategoryFilter('Lauk Pauk')" data-cat="Lauk Pauk" class="cat-filter-btn shrink-0 px-4 py-2.5 rounded-2xl font-semibold text-sm sm:text-base bg-cream-100 text-slate-700 hover:bg-cream-200 transition">
+            🍗 Lauk Pauk
+          </button>
+          <button type="button" onclick="setCategoryFilter('Sayur & Buah')" data-cat="Sayur & Buah" class="cat-filter-btn shrink-0 px-4 py-2.5 rounded-2xl font-semibold text-sm sm:text-base bg-cream-100 text-slate-700 hover:bg-cream-200 transition">
+            🥗 Sayur & Buah
+          </button>
+          <button type="button" onclick="setCategoryFilter('Minuman & Camilan')" data-cat="Minuman & Camilan" class="cat-filter-btn shrink-0 px-4 py-2.5 rounded-2xl font-semibold text-sm sm:text-base bg-cream-100 text-slate-700 hover:bg-cream-200 transition">
+            🍵 Minuman & Camilan
+          </button>
+        </div>
+
+        <!-- Grid Daftar Menu -->
+        <div id="food-database-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- Diisi otomatis via JS -->
+        </div>
+      </div>
+
+      <!-- Form Input Manual -->
+      <div class="bg-cream-100 rounded-3xl p-5 sm:p-7 border border-cream-200">
+        <h3 class="font-display font-bold text-xl text-slate-900 mb-1">Menu Belum Ada di Daftar?</h3>
+        <p class="text-slate-600 text-base mb-4">Tulis nama makanan dan perkiraan kalorinya di bawah ini.</p>
+
+        <form id="custom-food-form" onsubmit="handleCustomFoodSubmit(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <div class="sm:col-span-2">
+              <label for="custom-food-name" class="block font-bold text-slate-800 text-base mb-1.5">Nama Makanan / Minuman</label>
+              <input
+                type="text"
+                id="custom-food-name"
+                required
+                placeholder="Contoh: Kue Nagasari 1 potong"
+                class="w-full px-4 py-3.5 rounded-2xl bg-white border-2 border-cream-200 focus:border-sage-600 focus:outline-none text-base sm:text-lg text-slate-900"
+              />
+            </div>
+            <div>
+              <label for="custom-food-cal" class="block font-bold text-slate-800 text-base mb-1.5">Kalori (kkal)</label>
+              <input
+                type="number"
+                id="custom-food-cal"
+                required
+                min="0"
+                max="3000"
+                placeholder="Contoh: 140"
+                class="w-full px-4 py-3.5 rounded-2xl bg-white border-2 border-cream-200 focus:border-sage-600 focus:outline-none text-base sm:text-lg text-slate-900"
+              />
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+            <p class="text-sm sm:text-base text-slate-700">
+              Dicatat ke: <strong id="custom-meal-indicator" class="text-sage-800">Sarapan</strong>
+            </p>
+            <button type="submit" class="w-full sm:w-auto py-3.5 px-7 rounded-2xl bg-sage-700 hover:bg-sage-800 active:scale-98 text-white font-display font-bold text-base sm:text-lg shadow-sm transition">
+              ➕ Simpan Menu Manual
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: RIWAYAT 7 HARI & BERAT BADAN        -->
+    <!-- ========================================== -->
+    <section id="view-riwayat" class="hidden space-y-6 tab-animate">
+
+      <div>
+        <h2 class="font-display font-extrabold text-2xl sm:text-3xl text-slate-900">Riwayat & Berat Badan</h2>
+        <p class="text-slate-600 text-base">Pantau perkembangan timbangan dan konsistensi makan minggu ini.</p>
+      </div>
+
+      <!-- KARTU CATAT BERAT BADAN HARI INI -->
+      <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-soft border border-cream-200 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-sage-100 text-sage-700 flex items-center justify-center text-2xl shrink-0">
+              ⚖️
+            </div>
+            <div>
+              <h3 class="font-display font-bold text-xl text-slate-900">Catat Berat Badan</h3>
+              <p class="text-sm text-slate-600">Timbang pagi hari sebelum makan agar akurat</p>
+            </div>
+          </div>
+          <div class="bg-sage-50 px-3.5 py-2 rounded-2xl border border-sage-200 text-right">
+            <span class="block text-xs text-slate-500">Berat Terakhir</span>
+            <span id="latest-weight-badge" class="font-display font-extrabold text-xl text-sage-800">62,0 kg</span>
+          </div>
+        </div>
+
+        <!-- Form Input Berat Badan -->
+        <form onsubmit="handleWeightLogSubmit(event)" class="flex flex-col sm:flex-row gap-3">
+          <div class="relative flex-1">
+            <input
+              type="number"
+              id="weight-checkin-input"
+              step="0.1"
+              min="30"
+              max="200"
+              required
+              placeholder="Masukkan berat (misal: 61.5)"
+              class="w-full px-4 py-3.5 pr-14 rounded-2xl bg-cream-50 border-2 border-cream-200 focus:border-sage-600 focus:bg-white focus:outline-none text-xl font-bold text-slate-900"
+            />
+            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold">kg</span>
+          </div>
+          <button type="submit" class="py-3.5 px-6 rounded-2xl bg-sage-600 hover:bg-sage-700 active:scale-98 text-white font-display font-bold text-base sm:text-lg shadow-xs transition shrink-0">
+            💾 Simpan Timbangan
+          </button>
+        </form>
+
+        <!-- Grafik Tren Timbangan Terakhir -->
+        <div class="pt-3 border-t border-cream-200">
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="font-bold text-base text-slate-800">Catatan Timbangan Terakhir</h4>
+            <span id="weight-diff-badge" class="text-xs sm:text-sm font-bold px-2.5 py-1 rounded-xl bg-cream-100 text-slate-700">
+              Stabil
+            </span>
+          </div>
+          <div id="weight-trend-chart" class="grid grid-cols-5 gap-2 sm:gap-3 items-end pt-4 pb-2 px-2 bg-cream-50 rounded-2xl border border-cream-200 min-h-[150px]">
+            <!-- Bar chart berat badan diisi oleh JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- KARTU RIWAYAT KALORI & AIR 7 HARI TERAKHIR -->
+      <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-soft border border-cream-200 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h3 class="font-display font-bold text-xl text-slate-900">Riwayat 7 Hari Terakhir</h3>
+            <p class="text-sm sm:text-base text-slate-600">Perbandingan asupan kalori harian dengan target</p>
+          </div>
+          <span id="weekly-consistency-badge" class="px-3.5 py-1.5 rounded-2xl bg-sage-100 text-sage-800 font-bold text-sm">
+            🌟 Konsisten Baik
+          </span>
+        </div>
+
+        <!-- Daftar / Grafik Bar 7 Hari -->
+        <div id="history-7days-list" class="space-y-3">
+          <!-- Diisi otomatis via JS -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 4: PROFIL & KALKULATOR KALORI          -->
+    <!-- ========================================== -->
+    <section id="view-profil" class="hidden space-y-6 tab-animate">
+
+      <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-soft border border-cream-200">
+        <div class="mb-6">
+          <h2 class="font-display font-extrabold text-2xl text-slate-900">Profil & Target Kalori</h2>
+          <p class="text-slate-600 text-base">Sesuaikan data diri untuk menghitung kebutuhan kalori harian yang aman.</p>
+        </div>
+
+        <form id="profile-form" onsubmit="handleProfileSave(event)" class="space-y-6">
+          <!-- Nama Panggilan -->
+          <div>
+            <label for="profile-name" class="block font-bold text-slate-800 text-base mb-2">Nama Panggilan (Opsional)</label>
+            <input
+              type="text"
+              id="profile-name"
+              placeholder="Contoh: Ibu Siti / Bapak Budi / Mama"
+              class="w-full px-4 py-3.5 rounded-2xl bg-cream-50 border-2 border-cream-200 focus:border-sage-600 focus:bg-white focus:outline-none text-lg text-slate-900"
+            />
+          </div>
+
+          <!-- Jenis Kelamin -->
+          <div>
+            <label class="block font-bold text-slate-800 text-base mb-2">Jenis Kelamin</label>
+            <div class="grid grid-cols-2 gap-3">
+              <button type="button" onclick="selectGender('female')" id="gender-female-btn" class="py-3.5 px-4 rounded-2xl border-2 border-sage-600 bg-sage-50 text-sage-900 font-bold text-lg flex items-center justify-center gap-2 transition">
+                <span>👩</span> Wanita
+              </button>
+              <button type="button" onclick="selectGender('male')" id="gender-male-btn" class="py-3.5 px-4 rounded-2xl border-2 border-cream-200 bg-white text-slate-700 font-semibold text-lg flex items-center justify-center gap-2 transition">
+                <span>👨</span> Pria
+              </button>
+            </div>
+          </div>
+
+          <!-- Usia, Berat Badan, Tinggi Badan -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label for="profile-age" class="block font-bold text-slate-800 text-base mb-2">Usia</label>
+              <div class="relative">
+                <input
+                  type="number"
+                  id="profile-age"
+                  required
+                  min="15"
+                  max="120"
+                  value="60"
+                  oninput="updateLiveCalculation()"
+                  class="w-full px-4 py-3.5 pr-16 rounded-2xl bg-cream-50 border-2 border-cream-200 focus:border-sage-600 focus:bg-white focus:outline-none text-xl font-bold text-slate-900"
+                />
+                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 font-medium text-sm">tahun</span>
+              </div>
+            </div>
+
+            <div>
+              <label for="profile-weight" class="block font-bold text-slate-800 text-base mb-2">Berat Badan</label>
+              <div class="relative">
+                <input
+                  type="number"
+                  id="profile-weight"
+                  required
+                  min="30"
+                  max="200"
+                  step="0.1"
+                  value="62"
+                  oninput="updateLiveCalculation()"
+                  class="w-full px-4 py-3.5 pr-12 rounded-2xl bg-cream-50 border-2 border-cream-200 focus:border-sage-600 focus:bg-white focus:outline-none text-xl font-bold text-slate-900"
+                />
+                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 font-medium text-sm">kg</span>
+              </div>
+            </div>
+
+            <div>
+              <label for="profile-height" class="block font-bold text-slate-800 text-base mb-2">Tinggi Badan</label>
+              <div class="relative">
+                <input
+                  type="number"
+                  id="profile-height"
+                  required
+                  min="100"
+                  max="220"
+                  value="158"
+                  oninput="updateLiveCalculation()"
+                  class="w-full px-4 py-3.5 pr-12 rounded-2xl bg-cream-50 border-2 border-cream-200 focus:border-sage-600 focus:bg-white focus:outline-none text-xl font-bold text-slate-900"
+                />
+                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 font-medium text-sm">cm</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tingkat Aktivitas Harian -->
+          <div>
+            <label class="block font-bold text-slate-800 text-base mb-2.5">Aktivitas Sehari-hari</label>
+            <div class="space-y-2.5">
+              <label class="flex items-start gap-3.5 p-4 rounded-2xl border-2 border-cream-200 bg-cream-50/50 hover:bg-cream-50 cursor-pointer transition has-checked:border-sage-600 has-checked:bg-sage-50">
+                <input type="radio" name="activity" value="1.2" checked onchange="updateLiveCalculation()" class="mt-1.5 w-5 h-5 accent-sage-600" />
+                <div>
+                  <span class="block font-bold text-slate-900 text-base">Sangat Ringan (Banyak di rumah)</span>
+                  <span class="text-sm text-slate-600">Aktivitas harian santai di dalam rumah, duduk, atau istirahat.</span>
+                </div>
+              </label>
+
+              <label class="flex items-start gap-3.5 p-4 rounded-2xl border-2 border-cream-200 bg-cream-50/50 hover:bg-cream-50 cursor-pointer transition has-checked:border-sage-600 has-checked:bg-sage-50">
+                <input type="radio" name="activity" value="1.375" onchange="updateLiveCalculation()" class="mt-1.5 w-5 h-5 accent-sage-600" />
+                <div>
+                  <span class="block font-bold text-slate-900 text-base">Ringan (Jalan kaki santai / kerja rumah ringan)</span>
+                  <span class="text-sm text-slate-600">Jalan pagi 15–30 menit, berkebun ringan, atau membereskan rumah.</span>
+                </div>
+              </label>
+
+              <label class="flex items-start gap-3.5 p-4 rounded-2xl border-2 border-cream-200 bg-cream-50/50 hover:bg-cream-50 cursor-pointer transition has-checked:border-sage-600 has-checked:bg-sage-50">
+                <input type="radio" name="activity" value="1.55" onchange="updateLiveCalculation()" class="mt-1.5 w-5 h-5 accent-sage-600" />
+                <div>
+                  <span class="block font-bold text-slate-900 text-base">Sedang (Rutin senam / jalan cepat 3–5x seminggu)</span>
+                  <span class="text-sm text-slate-600">Aktif bergerak hampir setiap hari dengan olahraga teratur.</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Tujuan Diet -->
+          <div>
+            <label class="block font-bold text-slate-800 text-base mb-2.5">Tujuan Pengaturan Makan</label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <label class="flex items-start gap-3 p-4 rounded-2xl border-2 border-cream-200 bg-cream-50/50 hover:bg-cream-50 cursor-pointer transition has-checked:border-sage-600 has-checked:bg-sage-50">
+                <input type="radio" name="goal" value="maintain" checked onchange="updateLiveCalculation()" class="mt-1.5 w-5 h-5 accent-sage-600 shrink-0" />
+                <div>
+                  <span class="block font-bold text-slate-900 text-base">⚖️ Jaga Berat Badan</span>
+                  <span class="text-xs sm:text-sm text-slate-600">Pola makan seimbang agar berat badan stabil & bertenaga.</span>
+                </div>
+              </label>
+
+              <label class="flex items-start gap-3 p-4 rounded-2xl border-2 border-cream-200 bg-cream-50/50 hover:bg-cream-50 cursor-pointer transition has-checked:border-sage-600 has-checked:bg-sage-50">
+                <input type="radio" name="goal" value="lose_gentle" onchange="updateLiveCalculation()" class="mt-1.5 w-5 h-5 accent-sage-600 shrink-0" />
+                <div>
+                  <span class="block font-bold text-slate-900 text-base">🌿 Turun Perlahan (-300 kkal)</span>
+                  <span class="text-xs sm:text-sm text-slate-600">Pengurangan lembut dan aman agar tetap bertenaga.</span>
+                </div>
+              </label>
+
+              <label class="flex items-start gap-3 p-4 rounded-2xl border-2 border-cream-200 bg-cream-50/50 hover:bg-cream-50 cursor-pointer transition has-checked:border-sage-600 has-checked:bg-sage-50">
+                <input type="radio" name="goal" value="lose_steady" onchange="updateLiveCalculation()" class="mt-1.5 w-5 h-5 accent-sage-600 shrink-0" />
+                <div>
+                  <span class="block font-bold text-slate-900 text-base">🔥 Turun Bertahap (-500 kkal)</span>
+                  <span class="text-xs sm:text-sm text-slate-600">Penurunan lebih aktif dengan batas aman minimal.</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Kartu Hasil Perhitungan Target Kalori -->
+          <div class="bg-sage-700 text-white rounded-3xl p-6 shadow-md space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sage-600 pb-4">
+              <div>
+                <p class="text-sage-100 text-sm sm:text-base font-medium">Rekomendasi Target Kalori Harian</p>
+                <p class="font-display font-extrabold text-3xl sm:text-4xl mt-1">
+                  <span id="calc-preview-target">1.450</span> <span class="text-lg font-normal text-sage-100">kkal / hari</span>
+                </p>
+              </div>
+              <div class="bg-sage-800/80 px-4 py-2.5 rounded-2xl text-right">
+                <span class="block text-xs text-sage-200">Kebutuhan Dasar (BMR)</span>
+                <span class="font-bold text-base sm:text-lg"><span id="calc-preview-bmr">1.208</span> kkal</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-sage-100">
+              <span>Kebutuhan Harian Total: <strong id="calc-preview-tdee" class="text-white">1.450 kkal</strong></span>
+              <span class="sm:text-right">Status IMT: <strong id="calc-preview-bmi" class="text-white">24.8 (Normal)</strong></span>
+            </div>
+            <p class="text-xs text-sage-200/90">
+              *Batas aman minimum otomatis dijaga di angka 1.200 kkal/hari agar tubuh tetap bugar.
+            </p>
+          </div>
+
+          <!-- Tombol Simpan Profil -->
+          <button type="submit" class="w-full py-4 px-6 rounded-2xl bg-sage-600 hover:bg-sage-700 active:scale-98 text-white font-display font-bold text-lg sm:text-xl shadow-md transition flex items-center justify-center gap-2">
+            <span>💾</span>
+            <span>Simpan Profil & Terapkan Target</span>
+          </button>
+        </form>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- BOTTOM NAVIGATION BAR (ERGONOMIS DI HP)    -->
+  <!-- ========================================== -->
+  <nav aria-label="Menu Utama" class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-cream-200 shadow-nav">
+    <div class="max-w-3xl mx-auto px-2 py-2 grid grid-cols-4 gap-1.5">
+      <button type="button" onclick="switchTab('beranda')" id="tab-beranda" class="nav-tab flex flex-col items-center justify-center py-2 px-1 rounded-2xl font-bold text-xs sm:text-sm bg-sage-100 text-sage-800 transition">
+        <span class="text-xl sm:text-2xl mb-0.5">🏠</span>
+        <span>Hari Ini</span>
+      </button>
+      <button type="button" onclick="switchTab('tambah')" id="tab-tambah" class="nav-tab flex flex-col items-center justify-center py-2 px-1 rounded-2xl font-semibold text-xs sm:text-sm text-slate-600 hover:bg-cream-100 transition">
+        <span class="text-xl sm:text-2xl mb-0.5">🍽️</span>
+        <span>Catat Makan</span>
+      </button>
+      <button type="button" onclick="switchTab('riwayat')" id="tab-riwayat" class="nav-tab flex flex-col items-center justify-center py-2 px-1 rounded-2xl font-semibold text-xs sm:text-sm text-slate-600 hover:bg-cream-100 transition">
+        <span class="text-xl sm:text-2xl mb-0.5">📈</span>
+        <span>Riwayat</span>
+      </button>
+      <button type="button" onclick="switchTab('profil')" id="tab-profil" class="nav-tab flex flex-col items-center justify-center py-2 px-1 rounded-2xl font-semibold text-xs sm:text-sm text-slate-600 hover:bg-cream-100 transition">
+        <span class="text-xl sm:text-2xl mb-0.5">👤</span>
+        <span>Profil</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========================================== -->
+  <!-- LOGIKA APLIKASI (JAVASCRIPT)               -->
+  <!-- ========================================== -->
+  <script>
+    // 1. DATABASE MAKANAN SEHARI-HARI INDONESIA
+    const INDONESIAN_FOODS = [
+      // Makanan Pokok
+      { id: 'nasi-putih', name: 'Nasi Putih', portionDesc: '1 centong / 100g', calories: 130, category: 'Makanan Pokok', icon: '🍚' },
+      { id: 'nasi-merah', name: 'Nasi Merah', portionDesc: '1 centong / 100g', calories: 110, category: 'Makanan Pokok', icon: '🍚' },
+      { id: 'bubur-ayam', name: 'Bubur Ayam', portionDesc: '1 mangkuk sedang', calories: 370, category: 'Makanan Pokok', icon: '🥣' },
+      { id: 'lontong-sayur', name: 'Lontong Sayur', portionDesc: '1 porsi sedang', calories: 360, category: 'Makanan Pokok', icon: '🍲' },
+      { id: 'roti-gandum', name: 'Roti Gandum Tawar', portionDesc: '1 lembar', calories: 80, category: 'Makanan Pokok', icon: '🍞' },
+      { id: 'kentang-rebus', name: 'Kentang Rebus / Kukus', portionDesc: '1 buah sedang (100g)', calories: 87, category: 'Makanan Pokok', icon: '🥔' },
+      { id: 'ubi-rebus', name: 'Ubi Jalar Rebus / Kukus', portionDesc: '1 potong sedang (100g)', calories: 90, category: 'Makanan Pokok', icon: '🍠' },
+      { id: 'oatmeal', name: 'Oatmeal Masak Air', portionDesc: '1 mangkuk kecil (40g)', calories: 150, category: 'Makanan Pokok', icon: '🥣' },
+
+      // Lauk Pauk
+      { id: 'telur-rebus', name: 'Telur Ayam Rebus', portionDesc: '1 butir ukuran sedang', calories: 75, category: 'Lauk Pauk', icon: '🥚' },
+      { id: 'telur-dadar', name: 'Telur Dadar / Ceplok', portionDesc: '1 butir (sedikit minyak)', calories: 115, category: 'Lauk Pauk', icon: '🍳' },
+      { id: 'dada-ayam', name: 'Dada Ayam Bakar / Rebus', portionDesc: '1 potong tanpa kulit', calories: 165, category: 'Lauk Pauk', icon: '🍗' },
+      { id: 'ayam-goreng', name: 'Ayam Goreng Paha/Dada', portionDesc: '1 potong sedang', calories: 245, category: 'Lauk Pauk', icon: '🍗' },
+      { id: 'ikan-kembung', name: 'Ikan Kembung Bakar / Pepes', portionDesc: '1 ekor ukuran sedang', calories: 165, category: 'Lauk Pauk', icon: '🐟' },
+      { id: 'ikan-bandeng', name: 'Ikan Bandeng Presto / Kukus', portionDesc: '1 potong sedang (100g)', calories: 150, category: 'Lauk Pauk', icon: '🐟' },
+      { id: 'tempe-goreng', name: 'Tempe Goreng', portionDesc: '1 potong sedang', calories: 115, category: 'Lauk Pauk', icon: '🟫' },
+      { id: 'tempe-bacem', name: 'Tempe Bacem / Kukus', portionDesc: '1 potong sedang', calories: 85, category: 'Lauk Pauk', icon: '🟫' },
+      { id: 'tahu-kukus', name: 'Tahu Putih Kukus / Rebus', portionDesc: '1 potong sedang', calories: 40, category: 'Lauk Pauk', icon: '⬜' },
+      { id: 'tahu-goreng', name: 'Tahu Goreng', portionDesc: '1 potong sedang', calories: 80, category: 'Lauk Pauk', icon: '🟨' },
+
+      // Sayur & Buah
+      { id: 'sayur-asem', name: 'Sayur Asem', portionDesc: '1 mangkuk sedang', calories: 80, category: 'Sayur & Buah', icon: '🍲' },
+      { id: 'sayur-bayam', name: 'Sayur Bayam Bening', portionDesc: '1 mangkuk sedang', calories: 50, category: 'Sayur & Buah', icon: '🥬' },
+      { id: 'sayur-sop', name: 'Sayur Sop Ayam & Wortel', portionDesc: '1 mangkuk sedang', calories: 95, category: 'Sayur & Buah', icon: '🥣' },
+      { id: 'tumis-kangkung', name: 'Tumis Kangkung / Sawi', portionDesc: '1 piring kecil', calories: 90, category: 'Sayur & Buah', icon: '🥬' },
+      { id: 'soto-ayam', name: 'Soto Ayam Kuah Bening', portionDesc: '1 mangkuk (tanpa nasi)', calories: 310, category: 'Sayur & Buah', icon: '🍜' },
+      { id: 'gado-gado', name: 'Gado-gado Bumbu Kacang', portionDesc: '1 porsi sedang', calories: 320, category: 'Sayur & Buah', icon: '🥗' },
+      { id: 'pecel-sayur', name: 'Pecel Sayur', portionDesc: '1 porsi (tanpa nasi)', calories: 220, category: 'Sayur & Buah', icon: '🥗' },
+      { id: 'pepaya', name: 'Buah Pepaya Potong', portionDesc: '1 potong besar (150g)', calories: 55, category: 'Sayur & Buah', icon: '🥭' },
+      { id: 'pisang-ambon', name: 'Pisang Ambon / Kepok', portionDesc: '1 buah ukuran sedang', calories: 105, category: 'Sayur & Buah', icon: '🍌' },
+      { id: 'apel-merah', name: 'Buah Apel / Pir', portionDesc: '1 buah ukuran sedang', calories: 80, category: 'Sayur & Buah', icon: '🍎' },
+      { id: 'semangka', name: 'Buah Semangka / Melon', portionDesc: '1 potong besar (150g)', calories: 45, category: 'Sayur & Buah', icon: '🍉' },
+
+      // Minuman & Camilan
+      { id: 'teh-tawar', name: 'Teh Tawar Hangat / Es', portionDesc: '1 gelas', calories: 0, category: 'Minuman & Camilan', icon: '🍵' },
+      { id: 'teh-manis', name: 'Teh Manis (1 sdm gula)', portionDesc: '1 gelas', calories: 55, category: 'Minuman & Camilan', icon: '☕' },
+      { id: 'kopi-hitam', name: 'Kopi Hitam Tanpa Gula', portionDesc: '1 cangkir', calories: 5, category: 'Minuman & Camilan', icon: '☕' },
+      { id: 'susu-rendah-lemak', name: 'Susu Rendah Lemak / Lansia', portionDesc: '1 gelas (200ml)', calories: 100, category: 'Minuman & Camilan', icon: '🥛' },
+      { id: 'biskuit-gandum', name: 'Biskuit Gandum / Marie', portionDesc: '3 keping', calories: 110, category: 'Minuman & Camilan', icon: '🍪' },
+      { id: 'kacang-rebus', name: 'Kacang Tanah / Edamame Rebus', portionDesc: '1 genggam (50g)', calories: 140, category: 'Minuman & Camilan', icon: '🥜' }
+    ];
+
+    // Menu favorit bawaan sebelum user memiliki riwayat frekuensi sendiri
+    const DEFAULT_FAVORITE_IDS = ['nasi-putih', 'telur-rebus', 'sayur-sop', 'pisang-ambon', 'teh-tawar', 'tempe-bacem'];
+
+    // 2. STATE APLIKASI & PENYIMPANAN LOCALSTORAGE
+    const STORAGE_KEY = 'kawan_bugar_v2';
+
+    let appState = {
+      profile: {
+        name: '',
+        gender: 'female',
+        age: 60,
+        weight: 62,
+        height: 158,
+        activity: 1.2,
+        goal: 'maintain',
+        dailyTarget: 1450
+      },
+      todayDate: getTodayDateString(),
+      todayLogs: [],
+      waterGlasses: 0,
+      foodFrequency: {}, // { 'nasi-putih': 5, ... }
+      weightLogs: [], // [{ dateStr, displayDate, weight }]
+      history: [], // [{ dateStr, displayDate, totalCalories, targetCalories, waterGlasses, isSample }]
+      fontScale: 'normal'
+    };
+
+    // State UI sementara
+    let selectedMealTime = 'Sarapan';
+    let selectedPortion = 1;
+    let activeCategoryFilter = 'Semua';
+    let activeLogFilter = 'Semua';
+
+    // Helper: Tanggal hari ini format YYYY-MM-DD
+    function getTodayDateString(offsetDays = 0) {
+      const d = new Date();
+      d.setDate(d.getDate() + offsetDays);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function formatIndonesianDate(dateObj = new Date()) {
+      const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+      return dateObj.toLocaleDateString('id-ID', options);
+    }
+
+    function formatShortDate(dateStr) {
+      const parts = dateStr.split('-');
+      const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
+      return dateObj.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' });
+    }
+
+    function formatNumber(num) {
+      return Math.round(num).toLocaleString('id-ID');
+    }
+
+    // Buat data contoh awal agar halaman riwayat langsung informatif saat pertama dibuka
+    function seedInitialSampleData() {
+      const target = appState.profile.dailyTarget || 1450;
+      const sampleCalories = [
+        Math.round(target * 0.94),
+        Math.round(target * 1.02),
+        Math.round(target * 0.89),
+        Math.round(target * 0.97),
+        Math.round(target * 1.08),
+        Math.round(target * 0.92)
+      ];
+      const sampleWater = [7, 8, 6, 8, 7, 8];
+
+      appState.history = [];
+      for (let i = 1; i <= 6; i++) {
+        const dStr = getTodayDateString(-i);
+        appState.history.push({
+          dateStr: dStr,
+          displayDate: formatShortDate(dStr),
+          totalCalories: sampleCalories[i - 1],
+          targetCalories: target,
+          waterGlasses: sampleWater[i - 1],
+          isSample: true
+        });
+      }
+
+      // Data contoh timbangan awal
+      const baseW = appState.profile.weight || 62;
+      appState.weightLogs = [
+        { dateStr: getTodayDateString(-21), displayDate: formatShortDate(getTodayDateString(-21)), weight: +(baseW + 1.0).toFixed(1) },
+        { dateStr: getTodayDateString(-14), displayDate: formatShortDate(getTodayDateString(-14)), weight: +(baseW + 0.6).toFixed(1) },
+        { dateStr: getTodayDateString(-7), displayDate: formatShortDate(getTodayDateString(-7)), weight: +(baseW + 0.3).toFixed(1) },
+        { dateStr: getTodayDateString(0), displayDate: 'Hari Ini', weight: +baseW.toFixed(1) }
+      ];
+    }
+
+    // Muat data & Auto-Reset jika hari berganti
+    function loadState() {
+      let hasExistingData = false;
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          hasExistingData = true;
+          const parsed = JSON.parse(saved);
+          appState = { ...appState, ...parsed };
+          appState.profile = { ...appState.profile, ...(parsed.profile || {}) };
+        }
+      } catch (err) {
+        console.error('Gagal membaca data tersimpan:', err);
+      }
+
+      if (!hasExistingData) {
+        seedInitialSampleData();
+        saveState();
+        return;
+      }
+
+      // Auto-Reset Ganti Hari Otomatis saat dibuka di hari baru
+      const realToday = getTodayDateString();
+      if (appState.todayDate && appState.todayDate !== realToday) {
+        if (appState.todayLogs.length > 0 || appState.waterGlasses > 0) {
+          archiveDayToHistory(
+            appState.todayDate,
+            appState.todayLogs,
+            appState.profile.dailyTarget,
+            appState.waterGlasses
+          );
+        }
+        appState.todayDate = realToday;
+        appState.todayLogs = [];
+        appState.waterGlasses = 0;
+        saveState();
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (err) {
+        console.error('Gagal menyimpan data:', err);
+      }
+    }
+
+    function archiveDayToHistory(dateStr, logs, target, waterCount = 0) {
+      const total = logs.reduce((sum, item) => sum + item.calories, 0);
+      appState.history = appState.history.filter(h => h.dateStr !== dateStr);
+      appState.history.unshift({
+        dateStr,
+        displayDate: formatShortDate(dateStr),
+        totalCalories: total,
+        targetCalories: target,
+        waterGlasses: waterCount,
+        isSample: false
+      });
+      appState.history = appState.history.slice(0, 7);
+    }
+
+    // ==========================================
+    // NOTIFIKASI TOAST & MODAL KONFIRMASI
+    // ==========================================
+    let toastTimeout;
+    function showToast(message, icon = '✅') {
+      const container = document.getElementById('toast-container');
+      const msgEl = document.getElementById('toast-message');
+      const iconEl = document.getElementById('toast-icon');
+
+      msgEl.textContent = message;
+      iconEl.textContent = icon;
+
+      container.classList.remove('opacity-0', 'translate-y-4');
+      container.classList.add('opacity-100', 'translate-y-0');
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        container.classList.remove('opacity-100', 'translate-y-0');
+        container.classList.add('opacity-0', 'translate-y-4');
+      }, 3000);
+    }
+
+    function confirmResetDay() {
+      const modal = document.getElementById('confirm-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeConfirmModal() {
+      const modal = document.getElementById('confirm-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    document.getElementById('confirm-cancel-btn').addEventListener('click', closeConfirmModal);
+    document.getElementById('confirm-ok-btn').addEventListener('click', () => {
+      if (appState.todayLogs.length > 0 || appState.waterGlasses > 0) {
+        archiveDayToHistory(
+          appState.todayDate,
+          appState.todayLogs,
+          appState.profile.dailyTarget,
+          appState.waterGlasses
+        );
+      }
+      appState.todayDate = getTodayDateString();
+      appState.todayLogs = [];
+      appState.waterGlasses = 0;
+      saveState();
+      closeConfirmModal();
+      renderAll();
+      showToast('Catatan hari ini sudah direset untuk mulai baru!', '🌅');
+    });
+
+    // ==========================================
+    // NAVIGASI BOTTOM BAR & UKURAN HURUF
+    // ==========================================
+    function switchTab(tabName) {
+      const tabs = ['beranda', 'tambah', 'riwayat', 'profil'];
+      tabs.forEach(t => {
+        const viewEl = document.getElementById(`view-${t}`);
+        const btnEl = document.getElementById(`tab-${t}`);
+        if (t === tabName) {
+          viewEl.classList.remove('hidden');
+          btnEl.classList.add('bg-sage-100', 'text-sage-800', 'font-bold');
+          btnEl.classList.remove('text-slate-600', 'hover:bg-cream-100', 'font-semibold');
+        } else {
+          viewEl.classList.add('hidden');
+          btnEl.classList.remove('bg-sage-100', 'text-sage-800', 'font-bold');
+          btnEl.classList.add('text-slate-600', 'hover:bg-cream-100', 'font-semibold');
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setFontScale(scale) {
+      appState.fontScale = scale;
+      saveState();
+      applyFontScale();
+    }
+
+    function applyFontScale() {
+      const htmlEl = document.documentElement;
+      const normalBtn = document.getElementById('font-normal-btn');
+      const largeBtn = document.getElementById('font-large-btn');
+
+      if (appState.fontScale === 'large') {
+        htmlEl.style.fontSize = '18.5px';
+        largeBtn.classList.add('bg-white', 'text-sage-800');
+        largeBtn.classList.remove('text-sage-100');
+        normalBtn.classList.remove('bg-white', 'text-sage-800');
+        normalBtn.classList.add('text-sage-100');
+      } else {
+        htmlEl.style.fontSize = '16px';
+        normalBtn.classList.add('bg-white', 'text-sage-800');
+        normalBtn.classList.remove('text-sage-100');
+        largeBtn.classList.remove('bg-white', 'text-sage-800');
+        largeBtn.classList.add('text-sage-100');
+      }
+    }
+
+    // ==========================================
+    // PELACAK MINUM AIR PUTIH (WATER TRACKER)
+    // ==========================================
+    function changeWater(delta) {
+      const nextVal = Math.max(0, Math.min(16, (appState.waterGlasses || 0) + delta));
+      if (nextVal === appState.waterGlasses) return;
+
+      appState.waterGlasses = nextVal;
+      saveState();
+      renderWaterTracker();
+
+      if (delta > 0) {
+        if (nextVal === 8) {
+          showToast('Luar biasa! Target 8 gelas air hari ini tercapai! 🎉', '💧');
+        } else {
+          showToast(`+1 gelas air dicatat (${nextVal}/8 gelas)`, '💧');
+        }
+      }
+    }
+
+    function setWaterExact(count) {
+      appState.waterGlasses = count;
+      saveState();
+      renderWaterTracker();
+      showToast(`Catatan air minum diatur ke ${count} gelas`, '💧');
+    }
+
+    function renderWaterTracker() {
+      const count = appState.waterGlasses || 0;
+      document.getElementById('water-count-display').textContent = `${count} / 8 gelas`;
+      document.getElementById('water-ml-display').textContent = `${formatNumber(count * 250)} ml`;
+
+      const grid = document.getElementById('water-glasses-grid');
+      let html = '';
+      for (let i = 1; i <= 8; i++) {
+        const filled = i <= count;
+        html += `
+          <button
+            type="button"
+            onclick="setWaterExact(${i})"
+            aria-label="Gelas ke-${i}"
+            class="aspect-square rounded-2xl flex flex-col items-center justify-center border-2 transition active:scale-90 ${
+              filled
+                ? 'bg-sky-100 border-sky-500 text-sky-700 shadow-2xs'
+                : 'bg-cream-50 border-cream-200 text-slate-300 hover:border-sky-300'
+            }"
+          >
+            <span class="text-lg sm:text-xl leading-none">${filled ? '🥤' : '🥛'}</span>
+            <span class="text-[10px] font-bold mt-0.5 ${filled ? 'text-sky-800' : 'text-slate-400'}">${i}</span>
+          </button>
+        `;
+      }
+      grid.innerHTML = html;
+    }
+
+    // ==========================================
+    // BAGIKAN LAPORAN KE WHATSAPP / CLIPBOARD
+    // ==========================================
+    function generateWhatsAppReportText() {
+      const name = appState.profile.name || 'Kawan Bugar';
+      const target = appState.profile.dailyTarget || 1450;
+      const consumed = appState.todayLogs.reduce((sum, item) => sum + item.calories, 0);
+      const water = appState.waterGlasses || 0;
+      const weight = appState.profile.weight || 62;
+      const dateText = formatIndonesianDate();
+
+      let mealLines = '';
+      if (appState.todayLogs.length === 0) {
+        mealLines = '- Belum ada makanan dicatat';
+      } else {
+        const grouped = { 'Sarapan': [], 'Makan Siang': [], 'Makan Malam': [], 'Camilan': [] };
+        appState.todayLogs.forEach(item => {
+          if (grouped[item.mealTime]) grouped[item.mealTime].push(`${item.name} (${item.calories} kkal)`);
+        });
+        Object.keys(grouped).forEach(m => {
+          if (grouped[m].length > 0) {
+            mealLines += `\n*${m}:* ${grouped[m].join(', ')}`;
+          }
+        });
+      }
+
+      return `🌿 *Laporan Kawan Bugar* (${dateText})\n` +
+        `Pasukan gak takut diet 💪🥗😊\n\n` +
+        `👤 *Nama:* ${name}\n` +
+        `🔥 *Kalori Masuk:* ${formatNumber(consumed)} / ${formatNumber(target)} kkal\n` +
+        `💧 *Minum Air:* ${water} / 8 gelas (${formatNumber(water * 250)} ml)\n` +
+        `⚖️ *Berat Badan:* ${String(weight).replace('.', ',')} kg\n\n` +
+        `🍽️ *Catatan Makan Hari Ini:*${mealLines}`;
+    }
+
+    function shareToWhatsApp() {
+      const text = generateWhatsAppReportText();
+      const waUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
+      showToast('Membuka WhatsApp untuk kirim laporan...', '💬');
+    }
+
+    function copyReportToClipboard() {
+      const text = generateWhatsAppReportText();
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast('Teks laporan disalin! Siap ditempel di chat keluarga.', '📋');
+      } catch (e) {
+        showToast('Gagal menyalin teks.', '⚠️');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    // ==========================================
+    // KALKULATOR KEBUTUHAN KALORI
+    // ==========================================
+    function calculateCalorieMetrics(gender, age, weight, height, activity, goal) {
+      let bmr = (10 * weight) + (6.25 * height) - (5 * age);
+      bmr += (gender === 'male') ? 5 : -161;
+      bmr = Math.max(900, Math.round(bmr));
+
+      const tdee = Math.round(bmr * activity);
+
+      let target = tdee;
+      if (goal === 'lose_gentle') {
+        target = Math.max(1200, tdee - 300);
+      } else if (goal === 'lose_steady') {
+        target = Math.max(1200, tdee - 500);
+      }
+
+      const heightM = height / 100;
+      const bmi = weight / (heightM * heightM);
+      let bmiLabel = 'Normal';
+      if (bmi < 18.5) bmiLabel = 'Kurang';
+      else if (bmi >= 23 && bmi < 25) bmiLabel = 'Berlebih Ringan';
+      else if (bmi >= 25) bmiLabel = 'Berlebih';
+
+      return { bmr, tdee, target, bmi: bmi.toFixed(1), bmiLabel };
+    }
+
+    let currentFormGender = 'female';
+    function selectGender(gender) {
+      currentFormGender = gender;
+      const femaleBtn = document.getElementById('gender-female-btn');
+      const maleBtn = document.getElementById('gender-male-btn');
+
+      if (gender === 'female') {
+        femaleBtn.className = 'py-3.5 px-4 rounded-2xl border-2 border-sage-600 bg-sage-50 text-sage-900 font-bold text-lg flex items-center justify-center gap-2 transition';
+        maleBtn.className = 'py-3.5 px-4 rounded-2xl border-2 border-cream-200 bg-white text-slate-700 font-semibold text-lg flex items-center justify-center gap-2 transition';
+      } else {
+        maleBtn.className = 'py-3.5 px-4 rounded-2xl border-2 border-sage-600 bg-sage-50 text-sage-900 font-bold text-lg flex items-center justify-center gap-2 transition';
+        femaleBtn.className = 'py-3.5 px-4 rounded-2xl border-2 border-cream-200 bg-white text-slate-700 font-semibold text-lg flex items-center justify-center gap-2 transition';
+      }
+      updateLiveCalculation();
+    }
+
+    function updateLiveCalculation() {
+      const age = parseFloat(document.getElementById('profile-age').value) || 60;
+      const weight = parseFloat(document.getElementById('profile-weight').value) || 62;
+      const height = parseFloat(document.getElementById('profile-height').value) || 158;
+      const activityEl = document.querySelector('input[name="activity"]:checked');
+      const goalEl = document.querySelector('input[name="goal"]:checked');
+
+      const activity = activityEl ? parseFloat(activityEl.value) : 1.2;
+      const goal = goalEl ? goalEl.value : 'maintain';
+
+      const metrics = calculateCalorieMetrics(currentFormGender, age, weight, height, activity, goal);
+
+      document.getElementById('calc-preview-target').textContent = formatNumber(metrics.target);
+      document.getElementById('calc-preview-bmr').textContent = formatNumber(metrics.bmr);
+      document.getElementById('calc-preview-tdee').textContent = `${formatNumber(metrics.tdee)} kkal`;
+      document.getElementById('calc-preview-bmi').textContent = `${metrics.bmi} (${metrics.bmiLabel})`;
+    }
+
+    function populateProfileForm() {
+      const p = appState.profile;
+      document.getElementById('profile-name').value = p.name || '';
+      document.getElementById('profile-age').value = p.age;
+      document.getElementById('profile-weight').value = p.weight;
+      document.getElementById('profile-height').value = p.height;
+
+      selectGender(p.gender);
+
+      const actRadio = document.querySelector(`input[name="activity"][value="${p.activity}"]`);
+      if (actRadio) actRadio.checked = true;
+
+      const goalRadio = document.querySelector(`input[name="goal"][value="${p.goal}"]`);
+      if (goalRadio) goalRadio.checked = true;
+
+      updateLiveCalculation();
+    }
+
+    function handleProfileSave(event) {
+      event.preventDefault();
+      const name = document.getElementById('profile-name').value.trim();
+      const age = parseFloat(document.getElementById('profile-age').value) || 60;
+      const weight = parseFloat(document.getElementById('profile-weight').value) || 62;
+      const height = parseFloat(document.getElementById('profile-height').value) || 158;
+      const activity = parseFloat(document.querySelector('input[name="activity"]:checked').value);
+      const goal = document.querySelector('input[name="goal"]:checked').value;
+
+      const metrics = calculateCalorieMetrics(currentFormGender, age, weight, height, activity, goal);
+
+      appState.profile = {
+        name,
+        gender: currentFormGender,
+        age,
+        weight,
+        height,
+        activity,
+        goal,
+        dailyTarget: metrics.target
+      };
+
+      // Sinkronkan juga catatan timbangan hari ini
+      recordWeightEntry(weight, false);
+
+      saveState();
+      renderAll();
+      showToast(`Profil disimpan! Target harian: ${formatNumber(metrics.target)} kkal`, '🎯');
+      switchTab('beranda');
+    }
+
+    // ==========================================
+    // CATAT MAKAN, FAVORIT & DATABASE INDONESIA
+    // ==========================================
+    function selectMealTime(meal) {
+      selectedMealTime = meal;
+      document.getElementById('custom-meal-indicator').textContent = meal;
+
+      document.querySelectorAll('.meal-select-btn').forEach(btn => {
+        if (btn.dataset.meal === meal) {
+          btn.className = 'meal-select-btn py-3 px-3 rounded-2xl border-2 border-sage-600 bg-sage-50 text-sage-900 font-bold text-base flex items-center justify-center gap-1.5 transition';
+        } else {
+          btn.className = 'meal-select-btn py-3 px-3 rounded-2xl border-2 border-cream-200 bg-white text-slate-700 font-semibold text-base flex items-center justify-center gap-1.5 transition';
+        }
+      });
+    }
+
+    function selectPortion(portion) {
+      selectedPortion = portion;
+      document.querySelectorAll('.portion-btn').forEach(btn => {
+        if (parseFloat(btn.dataset.portion) === portion) {
+          btn.className = 'portion-btn py-3 px-2 rounded-2xl border-2 border-sage-600 bg-sage-50 text-sage-900 font-bold text-sm sm:text-base transition';
+        } else {
+          btn.className = 'portion-btn py-3 px-2 rounded-2xl border-2 border-cream-200 bg-white text-slate-700 font-bold text-sm sm:text-base transition';
+        }
+      });
+      renderFavoriteChips();
+      renderFoodDatabase();
+    }
+
+    function setCategoryFilter(cat) {
+      activeCategoryFilter = cat;
+      document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+        if (btn.dataset.cat === cat) {
+          btn.className = 'cat-filter-btn shrink-0 px-4 py-2.5 rounded-2xl font-bold text-sm sm:text-base bg-sage-700 text-white transition';
+        } else {
+          btn.className = 'cat-filter-btn shrink-0 px-4 py-2.5 rounded-2xl font-semibold text-sm sm:text-base bg-cream-100 text-slate-700 hover:bg-cream-200 transition';
+        }
+      });
+      renderFoodDatabase();
+    }
+
+    function clearSearch() {
+      document.getElementById('food-search-input').value = '';
+      renderFoodDatabase();
+    }
+
+    function renderFavoriteChips() {
+      const freqEntries = Object.entries(appState.foodFrequency || {})
+        .sort((a, b) => b[1] - a[1])
+        .map(entry => entry[0]);
+
+      // Gabungkan menu paling sering dimakan + default favorit hingga 6 item unik
+      const combinedIds = [...new Set([...freqEntries, ...DEFAULT_FAVORITE_IDS])].slice(0, 6);
+      const container = document.getElementById('favorite-foods-chips');
+
+      container.innerHTML = combinedIds.map(id => {
+        const food = INDONESIAN_FOODS.find(f => f.id === id);
+        if (!food) return '';
+        const cal = Math.round(food.calories * selectedPortion);
+        return `
+          <button
+            type="button"
+            onclick="addFoodFromDatabase('${food.id}')"
+            class="px-3.5 py-2.5 rounded-2xl bg-white hover:bg-amber-100/80 active:scale-95 border border-amber-300/80 shadow-2xs flex items-center gap-2 transition text-left"
+          >
+            <span class="text-xl">${food.icon}</span>
+            <div>
+              <span class="block font-bold text-slate-900 text-sm leading-tight">${food.name}</span>
+              <span class="block text-xs font-semibold text-sage-700">+${formatNumber(cal)} kkal</span>
+            </div>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function renderFoodDatabase() {
+      const searchInput = document.getElementById('food-search-input');
+      const query = searchInput.value.trim().toLowerCase();
+      const clearBtn = document.getElementById('clear-search-btn');
+
+      if (query.length > 0) clearBtn.classList.remove('hidden');
+      else clearBtn.classList.add('hidden');
+
+      const filtered = INDONESIAN_FOODS.filter(food => {
+        const matchesCat = activeCategoryFilter === 'Semua' || food.category === activeCategoryFilter;
+        const matchesQuery = food.name.toLowerCase().includes(query) || food.portionDesc.toLowerCase().includes(query);
+        return matchesCat && matchesQuery;
+      });
+
+      const listEl = document.getElementById('food-database-list');
+      if (filtered.length === 0) {
+        listEl.innerHTML = `
+          <div class="col-span-full text-center py-8 px-4 bg-cream-50 rounded-2xl border border-cream-200">
+            <p class="text-lg font-bold text-slate-800 mb-1">Menu tidak ditemukan</p>
+            <p class="text-slate-600 text-sm sm:text-base">Coba kata kunci lain atau isi di kotak <strong>Menu Belum Ada di Daftar</strong> di bawah.</p>
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = filtered.map(food => {
+        const adjustedCal = Math.round(food.calories * selectedPortion);
+        const portionText = selectedPortion === 1 ? food.portionDesc : `${selectedPortion}x (${food.portionDesc})`;
+
+        return `
+          <div class="flex items-center justify-between gap-3 p-4 rounded-2xl bg-cream-50/90 hover:bg-sage-50/80 border border-cream-200 transition">
+            <div class="flex items-start gap-3 min-w-0">
+              <span class="text-3xl shrink-0 mt-0.5">${food.icon}</span>
+              <div class="min-w-0">
+                <h4 class="font-bold text-slate-900 text-base sm:text-lg leading-snug">${food.name}</h4>
+                <p class="text-xs sm:text-sm text-slate-600">${portionText}</p>
+                <p class="font-display font-extrabold text-sage-700 text-base sm:text-lg mt-1">${formatNumber(adjustedCal)} kkal</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onclick="addFoodFromDatabase('${food.id}')"
+              class="shrink-0 py-3 px-4 rounded-2xl bg-sage-600 hover:bg-sage-700 active:scale-95 text-white font-bold text-sm sm:text-base shadow-2xs transition"
+            >
+              + Tambah
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function addFoodFromDatabase(foodId) {
+      const food = INDONESIAN_FOODS.find(f => f.id === foodId);
+      if (!food) return;
+
+      const finalCalories = Math.round(food.calories * selectedPortion);
+      const portionLabel = selectedPortion === 1 ? food.portionDesc : `${selectedPortion}x ${food.portionDesc}`;
+
+      const newEntry = {
+        id: 'log-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+        name: food.name,
+        portion: portionLabel,
+        calories: finalCalories,
+        mealTime: selectedMealTime,
+        icon: food.icon,
+        timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+      };
+
+      appState.todayLogs.unshift(newEntry);
+
+      // Tambah hitungan favorit
+      if (!appState.foodFrequency) appState.foodFrequency = {};
+      appState.foodFrequency[foodId] = (appState.foodFrequency[foodId] || 0) + 1;
+
+      saveState();
+      renderSummaryAndLogs();
+      renderFavoriteChips();
+      showToast(`${food.name} (+${formatNumber(finalCalories)} kkal) masuk ke ${selectedMealTime}!`, food.icon);
+    }
+
+    function handleCustomFoodSubmit(event) {
+      event.preventDefault();
+      const nameInput = document.getElementById('custom-food-name');
+      const calInput = document.getElementById('custom-food-cal');
+
+      const name = nameInput.value.trim();
+      const calories = Math.round(parseFloat(calInput.value) || 0);
+      if (!name) return;
+
+      const newEntry = {
+        id: 'log-' + Date.now(),
+        name,
+        portion: 'Catatan manual',
+        calories,
+        mealTime: selectedMealTime,
+        icon: '🍽️',
+        timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+      };
+
+      appState.todayLogs.unshift(newEntry);
+      saveState();
+      renderSummaryAndLogs();
+
+      nameInput.value = '';
+      calInput.value = '';
+      showToast(`${name} (+${formatNumber(calories)} kkal) dicatat ke ${selectedMealTime}!`, '🍽️');
+    }
+
+    function deleteLogEntry(logId) {
+      const targetItem = appState.todayLogs.find(item => item.id === logId);
+      appState.todayLogs = appState.todayLogs.filter(item => item.id !== logId);
+      saveState();
+      renderSummaryAndLogs();
+      if (targetItem) {
+        showToast(`${targetItem.name} dihapus dari catatan.`, '🗑️');
+      }
+    }
+
+    // ==========================================
+    // RIWAYAT 7 HARI & CATATAN BERAT BADAN
+    // ==========================================
+    function recordWeightEntry(weightVal, showNotif = true) {
+      const todayStr = getTodayDateString();
+      const cleanWeight = +parseFloat(weightVal).toFixed(1);
+
+      appState.profile.weight = cleanWeight;
+      // Hitung ulang target kalori otomatis dengan berat terbaru
+      const p = appState.profile;
+      const metrics = calculateCalorieMetrics(p.gender, p.age, cleanWeight, p.height, p.activity, p.goal);
+      appState.profile.dailyTarget = metrics.target;
+
+      if (!appState.weightLogs) appState.weightLogs = [];
+      appState.weightLogs = appState.weightLogs.filter(w => w.dateStr !== todayStr);
+      appState.weightLogs.push({
+        dateStr: todayStr,
+        displayDate: 'Hari Ini',
+        weight: cleanWeight
+      });
+      appState.weightLogs = appState.weightLogs.slice(-5);
+
+      saveState();
+      renderAll();
+      if (showNotif) {
+        showToast(`Berat badan ${String(cleanWeight).replace('.', ',')} kg tercatat!`, '⚖️');
+      }
+    }
+
+    function handleWeightLogSubmit(event) {
+      event.preventDefault();
+      const input = document.getElementById('weight-checkin-input');
+      const val = parseFloat(input.value);
+      if (!val || val < 30 || val > 200) return;
+
+      recordWeightEntry(val, true);
+      input.value = '';
+    }
+
+    function renderWeightSection() {
+      const currentW = appState.profile.weight || 62;
+      document.getElementById('latest-weight-badge').textContent = `${String(currentW).replace('.', ',')} kg`;
+      document.getElementById('weight-checkin-input').placeholder = `Sekarang ${String(currentW).replace('.', ',')} kg`;
+
+      const logs = appState.weightLogs || [];
+      const chartEl = document.getElementById('weight-trend-chart');
+      const diffBadge = document.getElementById('weight-diff-badge');
+
+      if (logs.length === 0) {
+        chartEl.innerHTML = `<p class="col-span-5 text-center text-slate-500 text-sm py-6">Belum ada riwayat timbangan.</p>`;
+        return;
+      }
+
+      // Hitung selisih dari catatan pertama ke terakhir
+      if (logs.length >= 2) {
+        const diff = +(logs[logs.length - 1].weight - logs[0].weight).toFixed(1);
+        if (diff < 0) {
+          diffBadge.textContent = `📉 Turun ${String(Math.abs(diff)).replace('.', ',')} kg`;
+          diffBadge.className = 'text-xs sm:text-sm font-bold px-2.5 py-1 rounded-xl bg-sage-100 text-sage-800';
+        } else if (diff > 0) {
+          diffBadge.textContent = `📈 Naik ${String(diff).replace('.', ',')} kg`;
+          diffBadge.className = 'text-xs sm:text-sm font-bold px-2.5 py-1 rounded-xl bg-amber-100 text-amber-900';
+        } else {
+          diffBadge.textContent = '⚖️ Stabil';
+          diffBadge.className = 'text-xs sm:text-sm font-bold px-2.5 py-1 rounded-xl bg-cream-200 text-slate-800';
+        }
+      }
+
+      const weights = logs.map(l => l.weight);
+      const minW = Math.min(...weights) - 1.5;
+      const maxW = Math.max(...weights) + 1.0;
+      const span = Math.max(2, maxW - minW);
+
+      chartEl.innerHTML = logs.map((item, idx) => {
+        const heightPct = Math.max(25, Math.min(100, Math.round(((item.weight - minW) / span) * 100)));
+        const isLatest = idx === logs.length - 1;
+        return `
+          <div class="flex flex-col items-center justify-end h-full gap-1.5">
+            <span class="text-xs sm:text-sm font-extrabold ${isLatest ? 'text-sage-800' : 'text-slate-700'}">
+              ${String(item.weight).replace('.', ',')}
+            </span>
+            <div class="w-full max-w-[42px] rounded-t-xl transition-all duration-500 ${isLatest ? 'bg-sage-600' : 'bg-sage-200'}" style="height: ${heightPct}px"></div>
+            <span class="text-[11px] font-medium text-slate-500 text-center leading-tight truncate w-full">
+              ${item.displayDate}
+            </span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderHistory7Days() {
+      const listEl = document.getElementById('history-7days-list');
+      const target = appState.profile.dailyTarget || 1450;
+      const todayConsumed = appState.todayLogs.reduce((sum, i) => sum + i.calories, 0);
+
+      // Gabungkan hari ini di urutan paling atas + riwayat sebelumnya
+      const combinedDays = [
+        {
+          displayDate: 'Hari Ini',
+          totalCalories: todayConsumed,
+          targetCalories: target,
+          waterGlasses: appState.waterGlasses || 0,
+          isToday: true
+        },
+        ...(appState.history || []).slice(0, 6)
+      ];
+
+      // Hitung berapa hari yang sesuai target (<= 105% target)
+      const goodDays = combinedDays.filter(d => d.totalCalories > 0 && d.totalCalories <= d.targetCalories * 1.05).length;
+      document.getElementById('weekly-consistency-badge').textContent = `🌟 ${goodDays} Hari Sesuai Target`;
+
+      listEl.innerHTML = combinedDays.map(day => {
+        const pct = Math.min(100, Math.round((day.totalCalories / day.targetCalories) * 100));
+        const isOver = day.totalCalories > day.targetCalories * 1.05;
+        const barColor = day.totalCalories === 0
+          ? 'bg-cream-200'
+          : isOver
+            ? 'bg-amber-500'
+            : 'bg-sage-600';
+
+        const statusBadge = day.totalCalories === 0
+          ? `<span class="text-xs font-semibold text-slate-500">Belum dicatat</span>`
+          : isOver
+            ? `<span class="text-xs font-bold px-2.5 py-0.5 rounded-lg bg-amber-100 text-amber-900">Agak Surplus</span>`
+            : `<span class="text-xs font-bold px-2.5 py-0.5 rounded-lg bg-sage-100 text-sage-800">✅ Pas Target</span>`;
+
+        return `
+          <div class="p-4 rounded-2xl ${day.isToday ? 'bg-sage-50/80 border-2 border-sage-300' : 'bg-cream-50 border border-cream-200'} space-y-2.5">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-slate-900 text-base">${day.displayDate}</span>
+                ${day.isSample ? '<span class="text-[11px] text-slate-400">(contoh)</span>' : ''}
+              </div>
+              ${statusBadge}
+            </div>
+
+            <!-- Bar Visual Kalori -->
+            <div class="w-full h-3 bg-cream-200 rounded-full overflow-hidden">
+              <div class="h-full ${barColor} rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+            </div>
+
+            <div class="flex items-center justify-between text-xs sm:text-sm text-slate-600">
+              <span>🔥 <strong>${formatNumber(day.totalCalories)}</strong> / ${formatNumber(day.targetCalories)} kkal</span>
+              <span>💧 ${day.waterGlasses || 0} gelas air</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ==========================================
+    // RINGKASAN DASHBOARD & LOG MAKANAN
+    // ==========================================
+    function setLogFilter(filter) {
+      activeLogFilter = filter;
+      document.querySelectorAll('.log-filter-btn').forEach(btn => {
+        if (btn.dataset.filter === filter) {
+          btn.className = 'log-filter-btn shrink-0 px-4 py-2 rounded-2xl font-bold text-sm sm:text-base bg-sage-700 text-white transition';
+        } else {
+          btn.className = 'log-filter-btn shrink-0 px-4 py-2 rounded-2xl font-semibold text-sm sm:text-base bg-cream-100 text-slate-700 hover:bg-cream-200 transition';
+        }
+      });
+      renderFoodLogs();
+    }
+
+    function quickFilterMeal(meal) {
+      setLogFilter(meal);
+      document.getElementById('food-log-list').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function renderSummaryAndLogs() {
+      const target = appState.profile.dailyTarget || 1450;
+      const consumed = appState.todayLogs.reduce((sum, item) => sum + item.calories, 0);
+      const remaining = target - consumed;
+      const percentage = Math.min(100, Math.round((consumed / target) * 100));
+
+      // Sapaan personal
+      const greetingTitle = document.getElementById('greeting-title');
+      if (appState.profile.name) {
+        greetingTitle.textContent = `Halo, ${appState.profile.name}!`;
+      } else {
+        greetingTitle.textContent = 'Halo, Kawan Bugar!';
+      }
+
+      // Angka utama
+      document.getElementById('consumed-calories-display').textContent = formatNumber(consumed);
+      document.getElementById('ring-target-mini').textContent = formatNumber(target);
+      document.getElementById('target-calories-display').textContent = formatNumber(target);
+
+      const remLabelEl = document.getElementById('remaining-label');
+      const remValEl = document.getElementById('remaining-calories-display');
+      const bannerEl = document.getElementById('empathetic-banner');
+
+      if (remaining >= 0) {
+        remLabelEl.textContent = '⏳ Sisa Kuota';
+        remValEl.innerHTML = `${formatNumber(remaining)} <span class="text-sm font-normal text-slate-500">kkal</span>`;
+        remValEl.className = 'font-display font-extrabold text-xl sm:text-2xl text-slate-900';
+      } else {
+        remLabelEl.textContent = '📊 Surplus Hari Ini';
+        remValEl.innerHTML = `+${formatNumber(Math.abs(remaining))} <span class="text-sm font-normal text-amber-800">kkal</span>`;
+        remValEl.className = 'font-display font-extrabold text-xl sm:text-2xl text-amber-800';
+      }
+
+      // Update Lingkaran SVG + Status Empatik
+      const circle = document.getElementById('calorie-ring-circle');
+      const statusBadge = document.getElementById('status-badge');
+
+      const radius = 66;
+      const circumference = 2 * Math.PI * radius; // ~414.69
+      const offset = circumference - (percentage / 100) * circumference;
+      circle.style.strokeDashoffset = offset;
+
+      const ratio = consumed / target;
+      if (ratio > 1.05) {
+        circle.classList.remove('text-sage-600', 'text-amber-500');
+        circle.classList.add('text-amber-500');
+        statusBadge.className = 'px-4 py-2 rounded-2xl font-bold text-sm sm:text-base bg-amber-100 text-amber-900 border border-amber-300';
+        statusBadge.textContent = '😊 Surplus Sedikit';
+        bannerEl.className = 'p-3.5 sm:p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-950 text-sm sm:text-base font-medium leading-relaxed';
+        bannerEl.innerHTML = `Hari ini surplus <strong>${formatNumber(Math.abs(remaining))} kkal</strong>. Tidak apa-apa, besok kita seimbangkan lagi dengan santai ya! 💪`;
+      } else if (ratio >= 0.85) {
+        circle.classList.remove('text-sage-600', 'text-amber-500');
+        circle.classList.add('text-amber-500');
+        statusBadge.className = 'px-4 py-2 rounded-2xl font-bold text-sm sm:text-base bg-amber-100 text-amber-900 border border-amber-300';
+        statusBadge.textContent = '🔔 Mendekati Target';
+        bannerEl.className = 'p-3.5 sm:p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-950 text-sm sm:text-base font-medium leading-relaxed';
+        bannerEl.innerHTML = `Pas sekali! Tersisa <strong>${formatNumber(Math.max(0, remaining))} kkal</strong> lagi untuk menutup hari dengan bugar.`;
+      } else {
+        circle.classList.remove('text-amber-500');
+        circle.classList.add('text-sage-600');
+        statusBadge.className = 'px-4 py-2 rounded-2xl font-bold text-sm sm:text-base bg-sage-100 text-sage-800 border border-sage-200';
+        statusBadge.textContent = '✅ Masih Aman';
+        bannerEl.className = 'p-3.5 sm:p-4 rounded-2xl bg-sage-50 border border-sage-200 text-sage-900 text-sm sm:text-base font-medium leading-relaxed';
+        bannerEl.innerHTML = `Mantap! Masih ada sisa <strong>${formatNumber(remaining)} kkal</strong> untuk jadwal makan berikutnya dengan nyaman.`;
+      }
+
+      // Hitung per waktu makan
+      const mealSums = { 'Sarapan': 0, 'Makan Siang': 0, 'Makan Malam': 0, 'Camilan': 0 };
+      appState.todayLogs.forEach(item => {
+        if (mealSums[item.mealTime] !== undefined) mealSums[item.mealTime] += item.calories;
+      });
+      Object.keys(mealSums).forEach(meal => {
+        const el = document.getElementById(`meal-sum-${meal}`);
+        if (el) el.textContent = formatNumber(mealSums[meal]);
+      });
+
+      renderFoodLogs();
+      renderHistory7Days();
+    }
+
+    function getMealBadgeStyle(mealTime) {
+      switch (mealTime) {
+        case 'Sarapan': return 'bg-amber-100 text-amber-900 border-amber-200';
+        case 'Makan Siang': return 'bg-emerald-100 text-emerald-900 border-emerald-200';
+        case 'Makan Malam': return 'bg-indigo-100 text-indigo-900 border-indigo-200';
+        default: return 'bg-rose-100 text-rose-900 border-rose-200';
+      }
+    }
+
+    function renderFoodLogs() {
+      const listEl = document.getElementById('food-log-list');
+      const filteredLogs = activeLogFilter === 'Semua'
+        ? appState.todayLogs
+        : appState.todayLogs.filter(item => item.mealTime === activeLogFilter);
+
+      if (filteredLogs.length === 0) {
+        listEl.innerHTML = `
+          <div class="text-center py-9 px-4 bg-cream-50 rounded-2xl border border-dashed border-cream-200">
+            <p class="text-3xl mb-2">🥗</p>
+            <p class="font-bold text-slate-800 text-base sm:text-lg mb-1">Belum ada catatan${activeLogFilter !== 'Semua' ? ` di ${activeLogFilter}` : ''}</p>
+            <p class="text-slate-600 text-sm sm:text-base mb-4">Yuk catat menu makan hari ini dengan mudah.</p>
+            <button type="button" onclick="switchTab('tambah')" class="py-2.5 px-5 rounded-2xl bg-sage-600 hover:bg-sage-700 text-white font-bold text-sm sm:text-base transition">
+              + Pilih Makanan
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = filteredLogs.map(item => `
+        <div class="flex items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl bg-cream-50 border border-cream-200">
+          <div class="flex items-start gap-3 min-w-0">
+            <span class="text-2xl sm:text-3xl shrink-0 mt-0.5">${item.icon || '🍽️'}</span>
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                <span class="px-2.5 py-0.5 rounded-lg text-xs font-bold border ${getMealBadgeStyle(item.mealTime)}">
+                  ${item.mealTime}
+                </span>
+                <span class="text-xs text-slate-500">${item.timestamp || ''}</span>
+              </div>
+              <h4 class="font-bold text-slate-900 text-base sm:text-lg leading-snug">${item.name}</h4>
+              <p class="text-xs sm:text-sm text-slate-600">${item.portion}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2.5 shrink-0">
+            <div class="text-right">
+              <span class="font-display font-extrabold text-lg sm:text-xl text-sage-800 block leading-none">${formatNumber(item.calories)}</span>
+              <span class="text-xs text-slate-500">kkal</span>
+            </div>
+            <button
+              type="button"
+              onclick="deleteLogEntry('${item.id}')"
+              aria-label="Hapus ${item.name}"
+              class="w-10 h-10 rounded-xl bg-white hover:bg-rose-50 active:scale-90 text-slate-400 hover:text-rose-700 border border-cream-200 flex items-center justify-center text-base transition"
+            >
+              🗑️
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderAll() {
+      document.getElementById('current-date-display').textContent = formatIndonesianDate();
+      applyFontScale();
+      populateProfileForm();
+      renderWaterTracker();
+      renderSummaryAndLogs();
+      renderFavoriteChips();
+      renderFoodDatabase();
+      renderWeightSection();
+      renderHistory7Days();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadState();
+      renderAll();
+    });
+  </script>
+</body>
+</html>
