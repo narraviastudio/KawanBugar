@@ -184,7 +184,7 @@
       <!-- STEP 1: DAFTAR KARTU PROFIL & TOMBOL + TAMBAH USER -->
       <div id="profile-picker-card" class="floating-card rounded-3xl p-5 sm:p-6 space-y-4">
         <div class="text-center space-y-1">
-          <h2 class="font-display font-extrabold text-xl text-slate-900">Siapa yang Menggunakan?</h2>
+          <h2 class="font-display font-extrabold text-xl sm:text-2xl text-slate-900">Assalamualaikum, diet yuk 😊🥗💪</h2>
           <p class="text-xs sm:text-sm text-slate-600">Pilih kartu nama Anda atau tambah user baru.</p>
         </div>
 
@@ -206,7 +206,7 @@
         </div>
 
         <div class="text-center space-y-1.5">
-          <div id="pin-selected-avatar" class="w-16 h-16 mx-auto rounded-3xl bg-sage-600 text-white flex items-center justify-center text-3xl shadow-sm">
+          <div id="pin-selected-avatar" class="w-16 h-16 mx-auto rounded-3xl bg-sage-600 text-white flex items-center justify-center text-3xl shadow-sm overflow-hidden">
             👩
           </div>
           <h3 id="pin-selected-name" class="font-display font-extrabold text-xl text-slate-900">Ibu Siti</h3>
@@ -235,7 +235,7 @@
         </form>
       </div>
 
-      <!-- STEP 3: FORM + TAMBAH USER BARU -->
+      <!-- STEP 3: FORM + TAMBAH USER BARU (DENGAN GENDER, USIA & BERAT BADAN) -->
       <div id="add-user-card" class="hidden floating-card rounded-3xl p-5 sm:p-6 space-y-4 tab-animate">
         <div class="flex items-center justify-between">
           <button type="button" onclick="backToProfilePicker()" class="px-3 py-1.5 rounded-xl bg-sage-50 hover:bg-sage-100 text-sage-800 font-bold text-xs sm:text-sm transition">
@@ -246,12 +246,12 @@
 
         <div class="text-center space-y-1">
           <h3 class="font-display font-extrabold text-xl text-slate-900">Tambah Profil Pengguna</h3>
-          <p class="text-xs sm:text-sm text-slate-500">Buat kartu profil dengan PIN 4 angka yang mudah diingat.</p>
+          <p class="text-xs sm:text-sm text-slate-500">Isi data dasar & PIN 4 angka agar profil dan target kalori langsung siap.</p>
         </div>
 
         <div id="add-user-error-box" class="hidden p-2.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs sm:text-sm font-semibold text-center"></div>
 
-        <form onsubmit="handleAddUserSubmit(event)" class="space-y-4">
+        <form onsubmit="handleAddUserSubmit(event)" class="space-y-3.5">
           <div>
             <label for="new-user-name" class="block font-bold text-sage-900 text-sm mb-1">Nama Pengguna / Panggilan</label>
             <input
@@ -263,13 +263,52 @@
             />
           </div>
 
+          <!-- Pilihan Gender (Otomatis Menentukan Ikon Perempuan / Laki-laki) -->
           <div>
-            <label class="block font-bold text-sage-900 text-sm mb-1.5">Pilih Ikon Profil</label>
-            <div class="grid grid-cols-4 gap-2">
-              <button type="button" onclick="selectNewUserAvatar('👵')" data-avatar="👵" class="avatar-pick-btn py-2.5 rounded-2xl border-2 border-sage-600 bg-sage-100 text-2xl transition">👵</button>
-              <button type="button" onclick="selectNewUserAvatar('👴')" data-avatar="👴" class="avatar-pick-btn py-2.5 rounded-2xl border border-sage-200 bg-sage-50 text-2xl transition">👴</button>
-              <button type="button" onclick="selectNewUserAvatar('👩')" data-avatar="👩" class="avatar-pick-btn py-2.5 rounded-2xl border border-sage-200 bg-sage-50 text-2xl transition">👩</button>
-              <button type="button" onclick="selectNewUserAvatar('👨')" data-avatar="👨" class="avatar-pick-btn py-2.5 rounded-2xl border border-sage-200 bg-sage-50 text-2xl transition">👨</button>
+            <label class="block font-bold text-sage-900 text-sm mb-1.5">Jenis Kelamin</label>
+            <div class="grid grid-cols-2 gap-2.5">
+              <button type="button" onclick="selectNewUserGender('female')" id="new-gender-female-btn" class="py-2.5 px-3 rounded-2xl border-2 border-sage-600 bg-sage-100 text-sage-900 font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition">
+                <span class="text-xl">👩</span> <span>Perempuan</span>
+              </button>
+              <button type="button" onclick="selectNewUserGender('male')" id="new-gender-male-btn" class="py-2.5 px-3 rounded-2xl border border-sage-200 bg-sage-50 text-slate-700 font-semibold text-sm sm:text-base flex items-center justify-center gap-2 transition">
+                <span class="text-xl">👨</span> <span>Laki-laki</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Usia & Berat Badan Awal -->
+          <div class="grid grid-cols-2 gap-2.5">
+            <div>
+              <label for="new-user-age" class="block font-bold text-sage-900 text-sm mb-1">Usia</label>
+              <div class="relative">
+                <input
+                  type="number"
+                  id="new-user-age"
+                  required
+                  min="15"
+                  max="120"
+                  value="60"
+                  class="w-full px-3.5 py-2.5 pr-11 rounded-2xl bg-sage-50/70 border-2 border-sage-200 focus:border-sage-600 focus:bg-white focus:outline-none text-base font-bold text-slate-900"
+                />
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 font-medium text-xs">thn</span>
+              </div>
+            </div>
+
+            <div>
+              <label for="new-user-weight" class="block font-bold text-sage-900 text-sm mb-1">Berat Badan (BB)</label>
+              <div class="relative">
+                <input
+                  type="number"
+                  id="new-user-weight"
+                  required
+                  min="30"
+                  max="200"
+                  step="0.1"
+                  value="60"
+                  class="w-full px-3.5 py-2.5 pr-10 rounded-2xl bg-sage-50/70 border-2 border-sage-200 focus:border-sage-600 focus:bg-white focus:outline-none text-base font-bold text-slate-900"
+                />
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 font-medium text-xs">kg</span>
+              </div>
             </div>
           </div>
 
@@ -283,7 +322,7 @@
               maxlength="4"
               required
               placeholder="Contoh: 1234"
-              class="w-full text-center tracking-[0.5em] font-display font-extrabold text-xl px-4 py-3 rounded-2xl bg-sage-50/70 border-2 border-sage-200 focus:border-sage-600 focus:bg-white focus:outline-none text-slate-900"
+              class="w-full text-center tracking-[0.5em] font-display font-extrabold text-xl px-4 py-2.5 rounded-2xl bg-sage-50/70 border-2 border-sage-200 focus:border-sage-600 focus:bg-white focus:outline-none text-slate-900"
             />
           </div>
 
@@ -344,8 +383,8 @@
             <h2 class="font-display font-extrabold text-xl sm:text-2xl text-slate-900" id="greeting-title">
               Halo, Kawan Bugar!
             </h2>
-            <button type="button" onclick="handleLogout()" id="active-user-pill" class="px-2.5 py-1 rounded-xl bg-white/90 hover:bg-sage-100 border border-sage-200 text-sage-800 font-bold text-xs flex items-center gap-1 shadow-2xs transition">
-              <span id="active-user-pill-avatar">👤</span>
+            <button type="button" onclick="handleLogout()" id="active-user-pill" class="px-2.5 py-1 rounded-xl bg-white/90 hover:bg-sage-100 border border-sage-200 text-sage-800 font-bold text-xs flex items-center gap-1.5 shadow-2xs transition">
+              <span id="active-user-pill-avatar" class="w-5 h-5 rounded-full bg-sage-100 flex items-center justify-center overflow-hidden text-xs">👩</span>
               <span id="active-user-pill-name">Profil</span>
               <span class="text-sage-500">▾</span>
             </button>
@@ -426,6 +465,40 @@
               <span class="font-display font-extrabold text-base text-slate-900"><span id="meal-sum-Camilan">0</span> <span class="text-xs font-normal text-slate-500">kkal</span></span>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- KARTU REKOMENDASI TARGET KALORI HARIAN (DI HALAMAN UTAMA BAWAH DASHBOARD KALORI) -->
+      <div class="bg-sage-700 text-white rounded-3xl p-4 sm:p-6 shadow-float space-y-3.5">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sage-500/50 pb-3">
+          <div>
+            <p class="text-sage-100 text-xs sm:text-sm font-medium">Rekomendasi Target Kalori Harian</p>
+            <p class="font-display font-extrabold text-2xl sm:text-3xl mt-0.5">
+              <span id="home-rec-target">1.376</span> <span class="text-base font-normal text-sage-100">kkal / hari</span>
+            </p>
+          </div>
+          <div class="bg-sage-800/80 px-3.5 py-2 rounded-2xl text-right">
+            <span class="block text-[11px] text-sage-200">Metabolisme Basal (BMR)</span>
+            <span class="font-bold text-sm sm:text-base"><span id="home-rec-bmr">1.147</span> kkal</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs sm:text-sm text-sage-100">
+          <span>Kebutuhan Harian (TDEE): <strong id="home-rec-tdee" class="text-white">1.376 kkal</strong></span>
+          <span class="sm:text-right">Status IMT: <strong id="home-rec-bmi" class="text-white">24.8 (Normal)</strong></span>
+        </div>
+
+        <div class="bg-sage-800/65 rounded-2xl p-3.5 border border-sage-500/40 space-y-1.5 text-xs sm:text-sm">
+          <p class="font-bold text-sage-100 flex items-center justify-between">
+            <span>📊 Acuan Rentang Aktivitas Anda:</span>
+            <span id="home-rec-multiplier-badge" class="px-2 py-0.5 rounded-lg bg-sage-600 text-white text-[11px] font-bold">× 1,2</span>
+          </p>
+          <p class="text-sage-100 leading-relaxed" id="home-rec-range-text">
+            Berdasarkan aktivitas Anda (<strong>× 1,2</strong>), kebutuhan harian normal berada pada rentang <strong>1.376–1.501 kkal/hari</strong> (BMR dasar: <strong>1.147–1.251 kkal</strong>).
+          </p>
+          <p class="text-[11px] text-sage-200/90 leading-snug" id="home-rec-safety-note">
+            ✅ Menggunakan rumus klinis Mifflin-St Jeor dengan batas aman minimal 1.200 kkal/hari agar asupan tidak kurang dari anjuran.
+          </p>
         </div>
       </div>
 
@@ -1014,18 +1087,27 @@
     <!-- ========================================== -->
     <section id="view-profil" class="hidden space-y-4 sm:space-y-5 tab-animate">
 
-      <!-- Kartu Daftar Profil Keluarga & Ganti User -->
+      <!-- Kartu Foto Profil / Ikon Gender & Ganti User -->
       <div class="floating-card rounded-3xl p-4 sm:p-5 space-y-3">
-        <div class="flex items-center justify-between gap-2">
-          <div class="flex items-center gap-2.5 min-w-0">
-            <div id="active-account-avatar" class="w-11 h-11 rounded-2xl bg-sage-700 text-white flex items-center justify-center text-2xl shrink-0">
-              👵
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-3 min-w-0">
+            <div id="active-account-avatar" class="w-14 h-14 rounded-2xl bg-sage-700 text-white flex items-center justify-center text-3xl shrink-0 overflow-hidden border-2 border-sage-300 shadow-2xs">
+              👩
             </div>
             <div class="min-w-0">
               <p class="text-xs font-bold text-sage-700 uppercase tracking-wider">Profil Sedang Aktif</p>
               <p class="font-display font-extrabold text-base sm:text-lg text-slate-900 truncate" id="active-account-displayname">
                 Pengguna
               </p>
+              <div class="flex items-center gap-1.5 mt-1">
+                <input type="file" id="profile-photo-input" accept="image/*" onchange="handleProfilePhotoUpload(event)" class="hidden" />
+                <button type="button" onclick="document.getElementById('profile-photo-input').click()" class="px-2.5 py-1 rounded-xl bg-sage-100 hover:bg-sage-200 text-sage-900 font-bold text-[11px] sm:text-xs transition">
+                  📷 Ganti Foto
+                </button>
+                <button type="button" id="remove-profile-photo-btn" onclick="removeProfilePhoto()" class="hidden px-2.5 py-1 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-[11px] sm:text-xs transition">
+                  Hapus Foto
+                </button>
+              </div>
             </div>
           </div>
           <div class="flex items-center gap-1.5 shrink-0">
@@ -1066,10 +1148,10 @@
             <label class="block font-bold text-sage-900 text-sm sm:text-base mb-1.5">Jenis Kelamin</label>
             <div class="grid grid-cols-2 gap-2.5">
               <button type="button" onclick="selectGender('female')" id="gender-female-btn" class="py-3 px-4 rounded-2xl border-2 border-sage-600 bg-sage-100/80 text-sage-900 font-bold text-base flex items-center justify-center gap-2 transition">
-                <span>👩</span> Wanita
+                <span>👩</span> Perempuan
               </button>
               <button type="button" onclick="selectGender('male')" id="gender-male-btn" class="py-3 px-4 rounded-2xl border border-sage-200 bg-sage-50/60 text-slate-700 font-semibold text-base flex items-center justify-center gap-2 transition">
-                <span>👨</span> Pria
+                <span>👨</span> Laki-laki
               </button>
             </div>
           </div>
@@ -1442,7 +1524,7 @@
     const CURRENT_USER_KEY = 'kawan_bugar_current_profile_id_v1';
     let currentUserId = null;
     let pendingPinUserId = null;
-    let selectedNewAvatar = '👵';
+    let selectedNewGender = 'female';
 
     // State interaksi halaman Catat Makan & Log
     let selectedMealTime = 'Sarapan';
@@ -1451,6 +1533,17 @@
     let activeLogFilter = 'Semua';
     let currentCustomEstimation = null;
     let plateComponentCounts = {};
+
+    function getGenderDefaultIcon(gender) {
+      return gender === 'male' ? '👨' : '👩';
+    }
+
+    function renderAvatarContent(photoDataUrl, gender, imgClass = 'w-full h-full object-cover') {
+      if (photoDataUrl) {
+        return `<img src="${photoDataUrl}" alt="Foto Profil" class="${imgClass}" />`;
+      }
+      return getGenderDefaultIcon(gender);
+    }
 
     function getTodayDateKey() {
       const now = new Date();
@@ -1461,7 +1554,7 @@
     }
 
     function formatShortDate(dateKey) {
-      if (!dateKey) return '';
+      if (!dateKey) return 'Hari Ini';
       const parts = dateKey.split('-');
       if (parts.length !== 3) return dateKey;
       const dt = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
@@ -1469,23 +1562,65 @@
     }
 
     function formatNumber(num) {
-      return Math.round(Number(num) || 0).toLocaleString('id-ID');
+      return Number(num || 0).toLocaleString('id-ID');
     }
 
-    function createDefaultUserState(displayName = '', avatar = '👵') {
+    function getAccountsMap() {
+      try {
+        const raw = localStorage.getItem(ACCOUNTS_DB_KEY);
+        const parsed = raw ? JSON.parse(raw) : null;
+        if (parsed && typeof parsed === 'object') {
+          return parsed;
+        }
+      } catch (err) {
+        console.warn('Gagal membaca daftar profil:', err);
+      }
+      const defaultProfiles = {
+        user_mama: {
+          userId: 'user_mama',
+          displayName: 'Ibu Siti',
+          gender: 'female',
+          avatar: '👩',
+          photoDataUrl: '',
+          age: 62,
+          weight: 62,
+          pin: '1234'
+        }
+      };
+      saveAccountsMap(defaultProfiles);
+      return defaultProfiles;
+    }
+
+    function saveAccountsMap(mapObj) {
+      try {
+        localStorage.setItem(ACCOUNTS_DB_KEY, JSON.stringify(mapObj));
+      } catch (err) {
+        console.warn('Gagal menyimpan daftar profil:', err);
+      }
+    }
+
+    function getUserStorageKey(userId) {
+      return `kawan_bugar_profile_data_v1_${userId}`;
+    }
+
+    function createDefaultUserState(displayName = '', gender = 'female', age = 60, weight = 60) {
+      const safeGender = gender === 'male' ? 'male' : 'female';
+      const defaultHeight = safeGender === 'male' ? 168 : 158;
+      const calc = calculateDailyCalories(safeGender, age, weight, defaultHeight, 1.2, 'maintain');
       return {
         fontScale: 'normal',
         activeDate: getTodayDateKey(),
         profile: {
           name: displayName,
-          avatar: avatar,
-          gender: 'female',
-          age: 60,
-          weight: 62,
-          height: 158,
+          gender: safeGender,
+          avatar: getGenderDefaultIcon(safeGender),
+          photoDataUrl: '',
+          age: age,
+          weight: weight,
+          height: defaultHeight,
           activity: 1.2,
           goal: 'maintain',
-          targetCalories: 1450
+          targetCalories: calc.target
         },
         todayLogs: [],
         waterGlasses: 0,
@@ -1496,40 +1631,10 @@
     }
 
     let appState = createDefaultUserState();
-
-    function getUserStorageKey(userId) {
-      return `kawan_bugar_profile_data_${userId}`;
-    }
-
-    function getAccountsMap() {
-      try {
-        const raw = localStorage.getItem(ACCOUNTS_DB_KEY);
-        return raw ? JSON.parse(raw) : {};
-      } catch (err) {
-        return {};
-      }
-    }
-
-    function saveAccountsMap(map) {
-      try {
-        localStorage.setItem(ACCOUNTS_DB_KEY, JSON.stringify(map));
-      } catch (err) {
-        console.warn('Gagal menyimpan daftar profil:', err);
-      }
-    }
-
-    function saveState() {
-      if (!currentUserId) return;
-      try {
-        localStorage.setItem(getUserStorageKey(currentUserId), JSON.stringify(appState));
-      } catch (err) {
-        console.warn('Gagal menyimpan data user ke localStorage:', err);
-      }
-    }
-
-    function loadUserState(userId, fallbackDisplayName = '', fallbackAvatar = '👵') {
+// ... existing code ... -->
+    function loadUserState(userId, fallbackDisplayName = '', fallbackGender = 'female', fallbackAge = 60, fallbackWeight = 60) {
       currentUserId = userId;
-      appState = createDefaultUserState(fallbackDisplayName, fallbackAvatar);
+      appState = createDefaultUserState(fallbackDisplayName, fallbackGender, fallbackAge, fallbackWeight);
       try {
         const raw = localStorage.getItem(getUserStorageKey(currentUserId));
         if (raw) {
@@ -1544,11 +1649,10 @@
         console.warn('Gagal membaca data user tersimpan:', err);
       }
 
-      // Cek pergantian tanggal (Auto-Reset Ganti Hari Otomatis)
       const todayKey = getTodayDateKey();
       if (appState.activeDate && appState.activeDate !== todayKey) {
-        const prevConsumed = (appState.todayLogs || []).reduce((sum, item) => sum + (Number(item.calories) || 0), 0);
-        if (prevConsumed > 0 || (appState.waterGlasses || 0) > 0) {
+        const prevConsumed = appState.todayLogs.reduce((sum, item) => sum + (Number(item.calories) || 0), 0);
+        if (prevConsumed > 0 || appState.waterGlasses > 0) {
           appState.historyLogs.push({
             dateKey: appState.activeDate,
             label: formatShortDate(appState.activeDate),
@@ -1556,15 +1660,22 @@
             targetCalories: appState.profile.targetCalories || 1450,
             waterGlasses: appState.waterGlasses || 0
           });
-          appState.historyLogs = appState.historyLogs.slice(-14);
         }
         appState.activeDate = todayKey;
         appState.todayLogs = [];
         appState.waterGlasses = 0;
-        saveState();
-      } else if (!appState.activeDate) {
+      } else {
         appState.activeDate = todayKey;
-        saveState();
+      }
+      saveState();
+    }
+
+    function saveState() {
+      if (!currentUserId) return;
+      try {
+        localStorage.setItem(getUserStorageKey(currentUserId), JSON.stringify(appState));
+      } catch (err) {
+        console.warn('Gagal menyimpan state user:', err);
       }
     }
 
@@ -1579,14 +1690,15 @@
 
       const userCardsHTML = userIds.map(uid => {
         const acc = accounts[uid];
+        const avatarHTML = renderAvatarContent(acc.photoDataUrl, acc.gender);
         return `
           <button
             type="button"
             onclick="openPinPromptForUser('${uid}')"
             class="group p-4 rounded-3xl bg-sage-50/80 hover:bg-sage-100 border-2 border-sage-200 hover:border-sage-600 active:scale-95 transition flex flex-col items-center justify-center text-center gap-2 shadow-2xs"
           >
-            <div class="w-14 h-14 rounded-2xl bg-white border border-sage-200 group-hover:scale-105 transition flex items-center justify-center text-3xl shadow-2xs">
-              ${acc.avatar || '👵'}
+            <div class="w-14 h-14 rounded-2xl bg-white border border-sage-200 group-hover:scale-105 transition flex items-center justify-center text-3xl shadow-2xs overflow-hidden">
+              ${avatarHTML}
             </div>
             <div class="min-w-0 w-full">
               <p class="font-display font-extrabold text-sm sm:text-base text-slate-900 truncate">${acc.displayName}</p>
@@ -1631,7 +1743,7 @@
       if (!acc) return;
 
       pendingPinUserId = userId;
-      document.getElementById('pin-selected-avatar').textContent = acc.avatar || '👵';
+      document.getElementById('pin-selected-avatar').innerHTML = renderAvatarContent(acc.photoDataUrl, acc.gender);
       document.getElementById('pin-selected-name').textContent = acc.displayName;
       document.getElementById('pin-error-box').classList.add('hidden');
 
@@ -1644,22 +1756,28 @@
       setTimeout(() => pinInput.focus(), 60);
     }
 
-    function selectNewUserAvatar(emoji) {
-      selectedNewAvatar = emoji;
-      document.querySelectorAll('.avatar-pick-btn').forEach(btn => {
-        if (btn.dataset.avatar === emoji) {
-          btn.className = 'avatar-pick-btn py-2.5 rounded-2xl border-2 border-sage-600 bg-sage-100 text-2xl transition';
-        } else {
-          btn.className = 'avatar-pick-btn py-2.5 rounded-2xl border border-sage-200 bg-sage-50 text-2xl transition';
-        }
-      });
+    function selectNewUserGender(gender) {
+      selectedNewGender = gender === 'male' ? 'male' : 'female';
+      const femaleBtn = document.getElementById('new-gender-female-btn');
+      const maleBtn = document.getElementById('new-gender-male-btn');
+      if (!femaleBtn || !maleBtn) return;
+
+      if (selectedNewGender === 'female') {
+        femaleBtn.className = 'py-2.5 px-3 rounded-2xl border-2 border-sage-600 bg-sage-100 text-sage-900 font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition';
+        maleBtn.className = 'py-2.5 px-3 rounded-2xl border border-sage-200 bg-sage-50 text-slate-700 font-semibold text-sm sm:text-base flex items-center justify-center gap-2 transition';
+      } else {
+        maleBtn.className = 'py-2.5 px-3 rounded-2xl border-2 border-sage-600 bg-sage-100 text-sage-900 font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition';
+        femaleBtn.className = 'py-2.5 px-3 rounded-2xl border border-sage-200 bg-sage-50 text-slate-700 font-semibold text-sm sm:text-base flex items-center justify-center gap-2 transition';
+      }
     }
 
     function openAddUserForm() {
       document.getElementById('new-user-name').value = '';
+      document.getElementById('new-user-age').value = '60';
+      document.getElementById('new-user-weight').value = '60';
       document.getElementById('new-user-pin').value = '';
       document.getElementById('add-user-error-box').classList.add('hidden');
-      selectNewUserAvatar('👵');
+      selectNewUserGender('female');
 
       document.getElementById('profile-picker-card').classList.add('hidden');
       document.getElementById('pin-entry-card').classList.add('hidden');
@@ -1675,9 +1793,9 @@
       openAddUserForm();
     }
 
-    function enterAppForUser(userId, fallbackName = '', fallbackAvatar = '👵') {
+    function enterAppForUser(userId, fallbackName = '', fallbackGender = 'female', fallbackAge = 60, fallbackWeight = 60) {
       localStorage.setItem(CURRENT_USER_KEY, userId);
-      loadUserState(userId, fallbackName, fallbackAvatar);
+      loadUserState(userId, fallbackName, fallbackGender, fallbackAge, fallbackWeight);
 
       setFontScale(appState.fontScale || 'normal');
       applyProfileToUI();
@@ -1693,6 +1811,8 @@
     function handleAddUserSubmit(event) {
       event.preventDefault();
       const fullName = document.getElementById('new-user-name').value.trim();
+      const age = parseFloat(document.getElementById('new-user-age').value) || 60;
+      const weight = parseFloat(document.getElementById('new-user-weight').value) || 60;
       const pin = document.getElementById('new-user-pin').value.trim();
       const errBox = document.getElementById('add-user-error-box');
 
@@ -1712,12 +1832,16 @@
       accounts[newUserId] = {
         userId: newUserId,
         displayName: fullName,
-        avatar: selectedNewAvatar,
+        gender: selectedNewGender,
+        avatar: getGenderDefaultIcon(selectedNewGender),
+        photoDataUrl: '',
+        age: age,
+        weight: weight,
         pin: pin
       };
       saveAccountsMap(accounts);
 
-      enterAppForUser(newUserId, fullName, selectedNewAvatar);
+      enterAppForUser(newUserId, fullName, selectedNewGender, age, weight);
       showToast(`Profil ${fullName} berhasil dibuat!`, '🎉');
     }
 
@@ -1742,7 +1866,7 @@
         return;
       }
 
-      enterAppForUser(pendingPinUserId, account.displayName, account.avatar);
+      enterAppForUser(pendingPinUserId, account.displayName, account.gender || 'female', account.age || 60, account.weight || 60);
       showToast(`Selamat datang kembali, ${appState.profile.name || account.displayName}!`, '👋');
     }
 
@@ -2868,18 +2992,94 @@
     // ==========================================
     // PROFIL & KALKULATOR KEBUTUHAN KALORI
     // ==========================================
+    function syncActiveUserAvatarDisplays() {
+      const p = appState.profile;
+      const pillAvatarEl = document.getElementById('active-user-pill-avatar');
+      if (pillAvatarEl) {
+        pillAvatarEl.innerHTML = renderAvatarContent(p.photoDataUrl, p.gender);
+      }
+      const activeAvatarEl = document.getElementById('active-account-avatar');
+      if (activeAvatarEl) {
+        activeAvatarEl.innerHTML = renderAvatarContent(p.photoDataUrl, p.gender);
+      }
+      const removePhotoBtn = document.getElementById('remove-profile-photo-btn');
+      if (removePhotoBtn) {
+        removePhotoBtn.classList.toggle('hidden', !p.photoDataUrl);
+      }
+    }
+
+    function handleProfilePhotoUpload(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          // Kompres foto profil ke ukuran avatar ringan agar aman disimpan di localStorage
+          const canvas = document.createElement('canvas');
+          const maxDim = 240;
+          let w = img.width;
+          let h = img.height;
+          if (w > h) {
+            if (w > maxDim) { h = Math.round((h * maxDim) / w); w = maxDim; }
+          } else {
+            if (h > maxDim) { w = Math.round((w * maxDim) / h); h = maxDim; }
+          }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const compressedUrl = canvas.toDataURL('image/jpeg', 0.82);
+
+          appState.profile.photoDataUrl = compressedUrl;
+          saveState();
+          syncActiveUserAvatarDisplays();
+
+          if (currentUserId) {
+            const accounts = getAccountsMap();
+            if (accounts[currentUserId]) {
+              accounts[currentUserId].photoDataUrl = compressedUrl;
+              saveAccountsMap(accounts);
+            }
+          }
+          showToast('Foto profil berhasil diperbarui!', '📷');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+      event.target.value = '';
+    }
+
+    function removeProfilePhoto() {
+      appState.profile.photoDataUrl = '';
+      saveState();
+      syncActiveUserAvatarDisplays();
+
+      if (currentUserId) {
+        const accounts = getAccountsMap();
+        if (accounts[currentUserId]) {
+          accounts[currentUserId].photoDataUrl = '';
+          saveAccountsMap(accounts);
+        }
+      }
+      showToast('Foto dihapus, kembali menggunakan ikon profil.', '👤');
+    }
+
     function selectGender(gender) {
-      appState.profile.gender = gender;
+      appState.profile.gender = gender === 'male' ? 'male' : 'female';
+      appState.profile.avatar = getGenderDefaultIcon(appState.profile.gender);
       const femaleBtn = document.getElementById('gender-female-btn');
       const maleBtn = document.getElementById('gender-male-btn');
 
-      if (gender === 'female') {
+      if (appState.profile.gender === 'female') {
         femaleBtn.className = 'py-3 px-4 rounded-2xl border-2 border-sage-600 bg-sage-100/80 text-sage-900 font-bold text-base flex items-center justify-center gap-2 transition';
         maleBtn.className = 'py-3 px-4 rounded-2xl border border-sage-200 bg-sage-50/60 text-slate-700 font-semibold text-base flex items-center justify-center gap-2 transition';
       } else {
         maleBtn.className = 'py-3 px-4 rounded-2xl border-2 border-sage-600 bg-sage-100/80 text-sage-900 font-bold text-base flex items-center justify-center gap-2 transition';
         femaleBtn.className = 'py-3 px-4 rounded-2xl border border-sage-200 bg-sage-50/60 text-slate-700 font-semibold text-base flex items-center justify-center gap-2 transition';
       }
+      syncActiveUserAvatarDisplays();
       updateLiveCalculation();
     }
 
@@ -2966,6 +3166,26 @@
         safetyNoteEl.textContent = `✅ Menggunakan rumus klinis Mifflin-St Jeor dengan batas aman minimal ${formatNumber(res.safeFloor)} kkal/hari agar asupan tidak kurang dari anjuran.`;
       }
 
+      // Sinkronkan juga ke kartu Rekomendasi Target Kalori Harian di Halaman Utama
+      const homeTargetEl = document.getElementById('home-rec-target');
+      if (homeTargetEl) homeTargetEl.textContent = formatNumber(res.target);
+      const homeBmrEl = document.getElementById('home-rec-bmr');
+      if (homeBmrEl) homeBmrEl.textContent = formatNumber(res.bmr);
+      const homeTdeeEl = document.getElementById('home-rec-tdee');
+      if (homeTdeeEl) homeTdeeEl.textContent = `${formatNumber(res.tdee)} kkal`;
+      const homeBmiEl = document.getElementById('home-rec-bmi');
+      if (homeBmiEl) homeBmiEl.textContent = `${res.bmi} (${res.bmiLabel})`;
+      const homeMultEl = document.getElementById('home-rec-multiplier-badge');
+      if (homeMultEl) homeMultEl.textContent = `× ${String(activity).replace('.', ',')}`;
+      const homeRangeEl = document.getElementById('home-rec-range-text');
+      if (homeRangeEl) {
+        homeRangeEl.innerHTML = `Berdasarkan aktivitas Anda (<strong>× ${String(activity).replace('.', ',')}</strong>), kebutuhan harian normal berada pada rentang <strong>${formatNumber(res.tdeeMin)}–${formatNumber(res.tdeeMax)} kkal/hari</strong> (BMR dasar: <strong>${formatNumber(res.bmrMin)}–${formatNumber(res.bmrMax)} kkal</strong>).`;
+      }
+      const homeSafetyEl = document.getElementById('home-rec-safety-note');
+      if (homeSafetyEl) {
+        homeSafetyEl.textContent = `✅ Menggunakan rumus klinis Mifflin-St Jeor dengan batas aman minimal ${formatNumber(res.safeFloor)} kkal/hari agar asupan tidak kurang dari anjuran.`;
+      }
+
       return res;
     }
 
@@ -2985,6 +3205,7 @@
       appState.profile = {
         ...appState.profile,
         name,
+        avatar: getGenderDefaultIcon(appState.profile.gender),
         age,
         weight,
         height,
@@ -2997,11 +3218,15 @@
       applyProfileToUI();
       renderSummaryAndLogs();
 
-      // Sinkronkan nama panggilan ke kartu profil login
+      // Sinkronkan nama panggilan & gender ke kartu profil login
       if (currentUserId) {
         const accounts = getAccountsMap();
         if (accounts[currentUserId]) {
           accounts[currentUserId].displayName = name || accounts[currentUserId].displayName;
+          accounts[currentUserId].gender = appState.profile.gender;
+          accounts[currentUserId].avatar = getGenderDefaultIcon(appState.profile.gender);
+          accounts[currentUserId].age = age;
+          accounts[currentUserId].weight = weight;
           saveAccountsMap(accounts);
         }
       }
@@ -3034,18 +3259,15 @@
       document.getElementById('profile-height').value = p.height || 158;
 
       const greetingName = (p.name && p.name.trim()) ? p.name.trim() : 'Kawan Bugar';
-      const avatar = p.avatar || '👵';
       document.getElementById('greeting-title').textContent = `Halo, ${greetingName}!`;
 
       const pillNameEl = document.getElementById('active-user-pill-name');
       if (pillNameEl) pillNameEl.textContent = greetingName;
-      const pillAvatarEl = document.getElementById('active-user-pill-avatar');
-      if (pillAvatarEl) pillAvatarEl.textContent = avatar;
 
-      const activeAvatarEl = document.getElementById('active-account-avatar');
-      if (activeAvatarEl) activeAvatarEl.textContent = avatar;
       const activeDispEl = document.getElementById('active-account-displayname');
       if (activeDispEl) activeDispEl.textContent = greetingName;
+
+      syncActiveUserAvatarDisplays();
 
       const actRadio = document.querySelector(`input[name="activity"][value="${p.activity}"]`);
       if (actRadio) actRadio.checked = true;
@@ -3073,7 +3295,8 @@
       const accounts = getAccountsMap();
 
       if (savedSessionUser && accounts[savedSessionUser]) {
-        enterAppForUser(savedSessionUser, accounts[savedSessionUser].displayName, accounts[savedSessionUser].avatar);
+        const acc = accounts[savedSessionUser];
+        enterAppForUser(savedSessionUser, acc.displayName, acc.gender || 'female', acc.age || 60, acc.weight || 60);
       } else {
         backToProfilePicker();
         document.getElementById('auth-screen').classList.remove('hidden');
