@@ -166,12 +166,10 @@
 
   <!-- Dekorasi Latar Belakang Bunga Cantik & Aksen Segar Ceria -->
   <div class="botanical-bg-layer" aria-hidden="true">
-    <!-- Aksen gradien segar ceria -->
     <div class="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-emerald-200/35 blur-3xl"></div>
     <div class="absolute top-1/4 -right-24 w-80 h-80 rounded-full bg-amber-200/35 blur-3xl"></div>
     <div class="absolute bottom-20 left-1/4 w-72 h-72 rounded-full bg-rose-200/25 blur-3xl"></div>
 
-    <!-- Bunga & Aksen Botani di Sudut/Sisi -->
     <svg class="botanical-motif w-24 h-24 top-20 -left-4" style="animation-delay: 0s;" viewBox="0 0 100 100" fill="none">
       <circle cx="50" cy="24" r="16" fill="#F4A7B9"/>
       <circle cx="74" cy="42" r="16" fill="#F9C5D1"/>
@@ -213,7 +211,7 @@
     <span class="botanical-motif text-2xl bottom-48 right-10" style="animation-delay: 3.6s;">🌻</span>
   </div>
 
-  <!-- Floating Toast Notification (Bawah layar di atas floating dock) -->
+  <!-- Floating Toast Notification -->
   <div id="toast-container" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 w-11/12 max-w-md pointer-events-none transition-all duration-300 opacity-0 translate-y-4">
     <div id="toast-box" class="bg-sage-800/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-float flex items-center gap-3 border border-sage-600/60">
       <span id="toast-icon" class="text-xl shrink-0">✅</span>
@@ -221,7 +219,7 @@
     </div>
   </div>
 
-  <!-- Modal Konfirmasi Kustom (Pengganti confirm) -->
+  <!-- Modal Konfirmasi Kustom -->
   <div id="confirm-modal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs hidden items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-float border border-sage-200 tab-animate">
       <div class="flex items-center gap-3 mb-3">
@@ -266,7 +264,7 @@
       <div id="profile-picker-card" class="floating-card rounded-3xl p-5 sm:p-6 space-y-4">
         <div class="text-center space-y-1">
           <h2 class="font-display font-extrabold text-xl sm:text-2xl text-slate-900">Assalamualaikum, diet yuk 😊🥗💪</h2>
-          <p class="text-xs sm:text-sm text-slate-600">Pilih kartu nama Anda atau tambah user baru.</p>
+          <p class="text-xs sm:text-sm text-slate-600">Pilih kartu nama Anda atau tambah user baru. Data tersimpan otomatis & terpisah tiap user.</p>
         </div>
 
         <div id="auth-error-box" class="hidden p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs sm:text-sm font-semibold text-center"></div>
@@ -287,7 +285,7 @@
         </div>
 
         <div class="text-center space-y-1.5">
-          <div id="pin-selected-avatar" class="w-16 h-16 mx-auto rounded-3xl bg-sage-600 text-white flex items-center justify-center text-3xl shadow-sm overflow-hidden">
+          <div id="pin-selected-avatar" class="w-16 h-16 mx-auto rounded-3xl bg-sage-100 text-sage-900 border-2 border-sage-300 flex items-center justify-center text-3xl shadow-sm">
             👩
           </div>
           <h3 id="pin-selected-name" class="font-display font-extrabold text-xl text-slate-900">Ibu Siti</h3>
@@ -316,7 +314,7 @@
         </form>
       </div>
 
-      <!-- STEP 3: FORM + TAMBAH USER BARU (DENGAN GENDER, USIA & BERAT BADAN) -->
+      <!-- STEP 3: FORM + TAMBAH USER BARU -->
       <div id="add-user-card" class="hidden floating-card rounded-3xl p-5 sm:p-6 space-y-4 tab-animate">
         <div class="flex items-center justify-between">
           <button type="button" onclick="backToProfilePicker()" class="px-3 py-1.5 rounded-xl bg-sage-50 hover:bg-sage-100 text-sage-800 font-bold text-xs sm:text-sm transition">
@@ -327,7 +325,7 @@
 
         <div class="text-center space-y-1">
           <h3 class="font-display font-extrabold text-xl text-slate-900">Tambah Profil Pengguna</h3>
-          <p class="text-xs sm:text-sm text-slate-500">Isi data dasar & PIN 4 angka agar profil dan target kalori langsung siap.</p>
+          <p class="text-xs sm:text-sm text-slate-500">Isi data dasar & PIN 4 angka agar profil dan target kalori langsung tersimpan otomatis.</p>
         </div>
 
         <div id="add-user-error-box" class="hidden p-2.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs sm:text-sm font-semibold text-center"></div>
@@ -433,7 +431,7 @@
     </div>
   </div>
 
-  <!-- Floating Top Header (Kaca Sage Lembut Mengambang) -->
+  <!-- Floating Top Header -->
   <div class="sticky top-2.5 sm:top-3.5 z-30 px-3 sm:px-4">
     <header class="max-w-3xl mx-auto rounded-3xl bg-gradient-to-r from-sage-600/95 via-sage-500/95 to-sage-600/95 backdrop-blur-md text-white shadow-float border border-sage-300/50 px-4 py-2.5 sm:px-5 sm:py-3 flex items-center justify-between gap-3">
       <div class="flex items-center gap-3 min-w-0">
@@ -450,28 +448,34 @@
         </div>
       </div>
 
-      <!-- Kontrol Ukuran Teks diganti menjadi Toggle Keluar Akun yang Halus & Rapi -->
-      <button
-        type="button"
-        onclick="handleExitToAuthScreen()"
-        role="switch"
-        aria-checked="true"
-        aria-label="Toggle Keluar Akun"
-        class="smooth-toggle-track group flex items-center gap-2 bg-white/95 hover:bg-rose-50 active:scale-97 pl-3 pr-1.5 py-1.5 rounded-full border border-white/60 shadow-2xs shrink-0 transition"
-      >
-        <span class="text-xs sm:text-sm font-display font-bold text-rose-700 group-hover:text-rose-800 tracking-tight">
-          Keluar
+      <!-- Indikator Autosave & Tombol Keluar -->
+      <div class="flex items-center gap-2 shrink-0">
+        <span id="autosave-indicator" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/20 border border-white/30 text-[11px] font-bold text-white">
+          <span>☁️</span>
+          <span>Tersimpan</span>
         </span>
-        <span class="w-9 h-5 rounded-full bg-rose-500 group-hover:bg-rose-600 p-0.5 flex items-center justify-end transition-colors">
-          <span class="smooth-toggle-thumb w-4 h-4 rounded-full bg-white shadow-2xs flex items-center justify-center text-[9px] text-rose-600 font-extrabold">
-            ⎋
+        <button
+          type="button"
+          onclick="handleExitToAuthScreen()"
+          role="switch"
+          aria-checked="true"
+          aria-label="Toggle Keluar Akun"
+          class="smooth-toggle-track group flex items-center gap-2 bg-white/95 hover:bg-rose-50 active:scale-97 pl-3 pr-1.5 py-1.5 rounded-full border border-white/60 shadow-2xs shrink-0 transition"
+        >
+          <span class="text-xs sm:text-sm font-display font-bold text-rose-700 group-hover:text-rose-800 tracking-tight">
+            Keluar
           </span>
-        </span>
-      </button>
+          <span class="w-9 h-5 rounded-full bg-rose-500 group-hover:bg-rose-600 p-0.5 flex items-center justify-end transition-colors">
+            <span class="smooth-toggle-thumb w-4 h-4 rounded-full bg-white shadow-2xs flex items-center justify-center text-[9px] text-rose-600 font-extrabold">
+              ⎋
+            </span>
+          </span>
+        </button>
+      </div>
     </header>
   </div>
 
-  <!-- Konten Utama Ringkas & Proporsional -->
+  <!-- Konten Utama -->
   <main class="relative z-10 flex-1 max-w-3xl w-full mx-auto px-3.5 sm:px-4 pt-4 sm:pt-5 pb-4 space-y-4 sm:space-y-5">
 
     <!-- ========================================== -->
@@ -490,7 +494,7 @@
               Halo, Kawan Bugar!
             </h2>
             <button type="button" onclick="handleLogout()" id="active-user-pill" class="px-2.5 py-1 rounded-xl bg-white/90 hover:bg-sage-100 border border-sage-200 text-sage-800 font-bold text-xs flex items-center gap-1.5 shadow-2xs transition">
-              <span id="active-user-pill-avatar" class="w-5 h-5 rounded-full bg-sage-100 flex items-center justify-center overflow-hidden text-xs">👩</span>
+              <span id="active-user-pill-avatar" class="w-5 h-5 rounded-full bg-sage-100 flex items-center justify-center text-xs">👩</span>
               <span id="active-user-pill-name">Profil</span>
               <span class="text-sage-500">▾</span>
             </button>
@@ -509,7 +513,7 @@
         </div>
       </div>
 
-      <!-- Kartu Ringkasan Kalori dengan Progress Ring (Tanpa Tombol Catat Makanan Duplikat) -->
+      <!-- Kartu Ringkasan Kalori dengan Progress Ring -->
       <div class="floating-card rounded-3xl p-4 sm:p-6 space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 sm:gap-5 items-center">
           <!-- Lingkaran Progress -->
@@ -574,7 +578,7 @@
         </div>
       </div>
 
-      <!-- KARTU REKOMENDASI TARGET KALORI HARIAN (DI HALAMAN UTAMA BAWAH DASHBOARD KALORI) -->
+      <!-- KARTU REKOMENDASI TARGET KALORI HARIAN -->
       <div class="bg-gradient-to-br from-sage-100 via-sage-50 to-white text-sage-900 rounded-3xl p-4 sm:p-6 shadow-float border-2 border-sage-200 space-y-3.5">
         <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sage-200/90 pb-3">
           <div>
@@ -594,7 +598,6 @@
           <span class="sm:text-right">Status IMT: <strong id="home-rec-bmi" class="font-display font-bold text-sage-900">24.8 (Normal)</strong></span>
         </div>
 
-        <!-- Usia Metabolisme Tubuh berdasarkan IMT, BMR & Data Tubuh -->
         <div class="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 rounded-2xl bg-white/85 border border-sage-200/90 text-xs sm:text-sm text-sage-800">
           <span class="font-semibold">🧬 Usia Metabolisme Tubuh:</span>
           <span id="home-rec-metabolic-age" class="font-display font-extrabold text-sage-900">± 60 tahun (Setara usia aktual)</span>
@@ -613,7 +616,6 @@
           </p>
         </div>
 
-        <!-- Rekomendasi Aktivitas Harian Sesuai Intensitas Gerak User -->
         <div class="bg-white/90 rounded-2xl p-3.5 border border-sage-200/90 space-y-1.5 text-xs sm:text-sm">
           <div class="flex items-center justify-between gap-2">
             <span class="font-bold text-sage-900">🏃 Rekomendasi Aktivitas Harian:</span>
@@ -645,20 +647,16 @@
           </span>
         </div>
 
-        <!-- Visualisasi Animasi Hidrasi Tubuh (Tangki Gelombang Air Interaktif) -->
+        <!-- Visualisasi Animasi Hidrasi Tubuh -->
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-3.5 items-center bg-gradient-to-br from-sky-50/90 via-white to-sage-50/80 p-3.5 sm:p-4 rounded-2xl border border-sky-200/80">
-          <!-- Siluet / Wadah Hidrasi Tubuh dengan Gelombang Air Naik -->
           <div class="sm:col-span-5 flex justify-center">
             <div id="hydration-tank-box" class="relative w-28 h-32 rounded-3xl bg-white border-2 border-sky-300 shadow-inner overflow-hidden flex items-center justify-center">
-              <!-- Lapisan Air dengan Gelombang Bergerak -->
               <div id="hydration-water-fill" style="height: 0%;" class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-sky-500 via-sky-400 to-cyan-300 transition-all duration-700 ease-out">
                 <svg class="water-wave-svg absolute -top-3 left-0 w-[200%] h-3.5 text-cyan-300" viewBox="0 0 1200 120" preserveAspectRatio="none">
                   <path d="M0,60 C150,120 350,0 600,60 C850,120 1050,0 1200,60 L1200,120 L0,120 Z" fill="currentColor"></path>
                 </svg>
               </div>
-              <!-- Wadah Gelembung Interaktif saat Diminum -->
               <div id="hydration-bubbles-layer" class="absolute inset-0 pointer-events-none"></div>
-              <!-- Teks Persentase di Tengah Tangki -->
               <div class="relative z-10 text-center px-2 py-1 rounded-xl bg-white/80 backdrop-blur-2xs border border-sky-100 shadow-2xs">
                 <span id="hydration-percent-text" class="block font-display font-extrabold text-xl text-sky-800 leading-none">0%</span>
                 <span class="text-[10px] font-bold text-slate-600 uppercase tracking-wide">Hidrasi</span>
@@ -666,7 +664,6 @@
             </div>
           </div>
 
-          <!-- Info Kebugaran Hidrasi & Gelas Terisi -->
           <div class="sm:col-span-7 space-y-2.5">
             <div class="flex items-baseline justify-between">
               <div>
@@ -680,14 +677,12 @@
               Yuk mulai teguk segelas air putih hangat untuk membantu peredaran darah dan menjaga fokus!
             </p>
 
-            <!-- 8 Ikon Gelas Visual Interaktif -->
             <div id="water-glasses-grid" class="grid grid-cols-8 gap-1.5">
               <!-- Diisi otomatis oleh JavaScript -->
             </div>
           </div>
         </div>
 
-        <!-- Tombol Cepat Tambah / Kurang Air -->
         <div class="flex items-center gap-2.5">
           <button type="button" onclick="changeWater(-1)" class="py-2.5 px-4 rounded-2xl bg-sage-50 hover:bg-sage-100 border border-sage-200 active:scale-95 text-slate-700 font-bold text-sm sm:text-base transition">
             - 1
@@ -699,7 +694,7 @@
         </div>
       </div>
 
-      <!-- KARTU PANDUAN PIRING SEHAT & TIPS BUGAR (PENGGANTI CATATAN MAKAN DI HALAMAN PERTAMA) -->
+      <!-- KARTU PANDUAN PIRING SEHAT & TIPS BUGAR -->
       <div class="floating-card rounded-3xl p-4 sm:p-6 space-y-3.5">
         <div class="flex items-center justify-between gap-2">
           <div class="flex items-center gap-2.5">
@@ -774,7 +769,7 @@
     <!-- ========================================== -->
     <section id="view-tambah" class="hidden space-y-4 sm:space-y-5 tab-animate">
 
-      <!-- Kartu Gabungan Waktu Makan & Ukuran Porsi (Ringkas) -->
+      <!-- Kartu Gabungan Waktu Makan & Ukuran Porsi -->
       <div class="floating-card rounded-3xl p-4 sm:p-6 space-y-4">
         <div class="flex items-center justify-between gap-2">
           <div>
@@ -849,7 +844,6 @@
                   placeholder="Contoh: madu, dark cokelat, pisang goreng, tambah gula, garam"
                   class="w-full pl-3.5 pr-12 py-3 rounded-2xl bg-white border-2 border-sage-200 focus:border-sage-600 focus:outline-none text-base text-slate-900 placeholder:text-slate-400 transition"
                 />
-                <!-- Tombol Bintang Favorit muncul saat user mengetik nama makanan -->
                 <button
                   type="button"
                   id="custom-favorite-star-btn"
@@ -885,18 +879,15 @@
             </div>
           </div>
 
-          <!-- Badge Status Estimasi Kalori Otomatis -->
           <div id="auto-calorie-hint" class="hidden px-3.5 py-2.5 rounded-2xl bg-sage-100/90 border border-sage-200 text-sage-900 text-xs sm:text-sm font-medium flex items-center justify-between gap-2">
             <span id="auto-calorie-hint-text">✨ Estimasi akurat: ~140 kkal</span>
             <span class="text-[11px] font-bold text-sage-700 bg-white/80 px-2 py-0.5 rounded-lg shrink-0">Terkunci Akurat</span>
           </div>
 
-          <!-- Pesan Ramah Jika Menu Belum Dikenali di Kamus -->
           <div id="auto-calorie-unknown" class="hidden px-3.5 py-2.5 rounded-2xl bg-amber-50/95 border border-amber-200 text-amber-900 text-xs sm:text-sm leading-relaxed">
             <strong>Menu belum dikenali di kamus.</strong> Coba gunakan kata kunci makanan terdekat seperti <em>madu, dark cokelat, pisang goreng, gula, garam, nasi, ayam, telur, tempe, tahu, sayur, buah, kue, gorengan, soto, bakso, kopi,</em> atau <em>teh</em>.
           </div>
 
-          <!-- Chip Contoh Cepat -->
           <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-0.5">
             <span class="text-xs font-semibold text-slate-500 shrink-0">Coba ketik:</span>
             <button type="button" onclick="fillCustomExample('madu dan dark cokelat')" class="shrink-0 px-2.5 py-1 rounded-xl bg-white hover:bg-sage-100 border border-sage-200 text-xs font-semibold text-sage-800 transition">
@@ -933,116 +924,6 @@
         </form>
       </div>
 
-      <!-- FITUR BARU: FOTO PIRING MAKANAN (AI HITUNG KALORI 1 PIRING) -->
-      <div class="floating-card rounded-3xl p-4 sm:p-6 bg-gradient-to-br from-white via-sage-50/70 to-sage-100/60 space-y-4">
-      <!-- FITUR: FOTO & TAKAR 1 PIRING MAKANAN (PERHITUNGAN LOKAL AKURAT) -->
-      <div class="floating-card rounded-3xl p-4 sm:p-6 bg-gradient-to-br from-white via-sage-50/70 to-sage-100/60 space-y-4">
-        <div class="flex items-start justify-between gap-2">
-          <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-2xl bg-sage-600 text-white flex items-center justify-center text-2xl shrink-0 shadow-2xs">
-              📸
-            </div>
-            <div>
-              <h3 class="font-display font-bold text-lg sm:text-xl text-slate-900 leading-tight">
-                Foto & Hitung 1 Piring
-              </h3>
-              <p class="text-xs sm:text-sm text-slate-600">
-                Foto isi piring Anda lalu centang komponen makanan di dalamnya untuk menghitung total kalori 1 piring secara akurat.
-              </p>
-            </div>
-          </div>
-          <span class="px-2.5 py-1 rounded-xl bg-sage-100 text-sage-800 font-bold text-[11px] shrink-0 border border-sage-200">
-            Takaran Akurat
-          </span>
-        </div>
-
-        <!-- Input File Tersembunyi (Kamera & Galeri) -->
-        <input type="file" id="plate-camera-input" accept="image/*" capture="environment" onchange="handlePlateImageSelected(event)" class="hidden" />
-        <input type="file" id="plate-gallery-input" accept="image/*" onchange="handlePlateImageSelected(event)" class="hidden" />
-
-        <!-- Tombol Ambil Foto / Pilih Galeri -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          <button
-            type="button"
-            onclick="document.getElementById('plate-camera-input').click()"
-            class="py-3 px-4 rounded-2xl bg-sage-600 hover:bg-sage-700 active:scale-98 text-white font-display font-bold text-sm sm:text-base shadow-sm transition flex items-center justify-center gap-2"
-          >
-            <span>📷</span>
-            <span>Ambil Foto Kamera</span>
-          </button>
-          <button
-            type="button"
-            onclick="document.getElementById('plate-gallery-input').click()"
-            class="py-3 px-4 rounded-2xl bg-white hover:bg-sage-50 active:scale-98 text-sage-800 border-2 border-sage-200 font-display font-bold text-sm sm:text-base transition flex items-center justify-center gap-2"
-          >
-            <span>🖼️</span>
-            <span>Pilih Foto dari Galeri</span>
-          </button>
-        </div>
-
-        <!-- Preview Foto Piring & Kalkulator Isi Piring Akurat -->
-        <div id="plate-analysis-container" class="hidden space-y-3.5 pt-1">
-          <div class="relative rounded-2xl overflow-hidden border-2 border-sage-200 bg-sage-900/5 max-h-60 flex items-center justify-center">
-            <img id="plate-preview-img" src="" alt="Preview Piring Makanan" class="w-full max-h-60 object-cover" />
-            <button
-              type="button"
-              onclick="resetPlatePhoto()"
-              aria-label="Hapus foto"
-              class="absolute top-2.5 right-2.5 px-3 py-1.5 rounded-xl bg-slate-900/75 hover:bg-slate-900 text-white text-xs font-bold backdrop-blur-xs transition"
-            >
-              ✕ Ganti Foto
-            </button>
-          </div>
-
-          <!-- Kalkulator Rincian Isi Piring (Berdasarkan Foto di Atas) -->
-          <div id="plate-result-box" class="p-4 rounded-2xl bg-white border-2 border-sage-300 shadow-2xs space-y-3.5">
-            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sage-100 pb-3">
-              <div>
-                <span class="inline-block text-[11px] font-bold uppercase tracking-wider text-sage-700 bg-sage-100 px-2.5 py-0.5 rounded-lg mb-1">
-                  Hitung Isi Piring Sesuai Foto
-                </span>
-                <h4 class="font-display font-bold text-base sm:text-lg text-slate-900">
-                  Pilih Makanan yang Terlihat di Piring:
-                </h4>
-              </div>
-              <div class="bg-sage-600 text-white px-3.5 py-2 rounded-2xl text-right shrink-0 shadow-2xs">
-                <span class="block text-[10px] text-sage-100 uppercase font-bold">Total 1 Piring</span>
-                <span id="plate-total-calories" class="font-display font-extrabold text-xl">0 kkal</span>
-              </div>
-            </div>
-
-            <!-- Pilihan Cepat Komponen Piring (Takaran Baku TKPI / Kemenkes) -->
-            <div id="plate-builder-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <!-- Diisi otomatis via JS -->
-            </div>
-
-            <!-- Ringkasan Piring Terpilih -->
-            <div class="p-3 rounded-2xl bg-sage-50/90 border border-sage-200/80 space-y-1">
-              <p class="text-xs font-bold text-sage-800">Komposisi 1 Piring Anda:</p>
-              <p id="plate-dish-title" class="text-xs sm:text-sm font-semibold text-slate-800 leading-relaxed">
-                Belum ada komponen dipilih. Tekan tombol + pada makanan yang ada di foto piring Anda.
-              </p>
-            </div>
-
-            <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
-              <span class="text-xs text-slate-600">
-                Dicatat ke: <strong id="plate-meal-indicator" class="text-sage-800">Sarapan</strong>
-              </span>
-              <button
-                type="button"
-                id="save-plate-btn"
-                onclick="savePlateResultToLog()"
-                disabled
-                class="w-full sm:w-auto py-2.5 px-5 rounded-2xl bg-sage-300 text-white/90 cursor-not-allowed font-display font-bold text-sm sm:text-base shadow-2xs transition flex items-center justify-center gap-1.5"
-              >
-                <span>➕</span>
-                <span>Simpan 1 Piring ke Catatan</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- MENU FAVORIT / SERING DIMAKAN -->
       <div class="floating-card rounded-3xl p-4 sm:p-5 space-y-2.5">
         <div class="flex items-center justify-between">
@@ -1056,7 +937,7 @@
         </div>
       </div>
 
-      <!-- PENCARIAN & DATABASE MAKANAN INDONESIA (SEMUA KATEGORI & SUMMARY DINAMIS) -->
+      <!-- PENCARIAN & DATABASE MAKANAN INDONESIA -->
       <div class="floating-card rounded-3xl p-4 sm:p-6 space-y-4">
         <div>
           <label for="food-search-input" class="block font-display font-bold text-slate-900 text-lg mb-2">
@@ -1077,7 +958,6 @@
           </div>
         </div>
 
-        <!-- Horizontal Filter Chips dengan Ikon -->
         <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
           <button type="button" onclick="setCategoryFilter('Semua')" data-cat="Semua" class="cat-filter-btn shrink-0 px-3.5 py-2 rounded-2xl font-bold text-xs sm:text-sm bg-sage-600 text-white transition">
             Semua
@@ -1096,18 +976,16 @@
           </button>
         </div>
 
-        <!-- Kotak Summary / Ringkasan Kategori Dinamis -->
         <div id="category-summary-box" class="p-3.5 sm:p-4 rounded-2xl bg-sage-50/90 border border-sage-200/90 space-y-1.5">
-          <!-- Diisi dinamis oleh JS sesuai kategori aktif -->
+          <!-- Diisi dinamis oleh JS -->
         </div>
 
-        <!-- Daftar Menu Harian (Dikelompokkan per Kategori saat "Semua" aktif) -->
         <div id="food-database-list" class="space-y-5">
           <!-- Diisi otomatis via JS -->
         </div>
       </div>
 
-      <!-- RINGKASAN CATATAN MAKANAN HARI INI (DIPINDAHKAN KE TAB CATAT MAKAN) -->
+      <!-- RINGKASAN CATATAN MAKANAN HARI INI -->
       <div class="floating-card rounded-3xl p-4 sm:p-6 space-y-3.5">
         <div class="flex items-center justify-between gap-2">
           <div>
@@ -1160,7 +1038,6 @@
           </div>
         </div>
 
-        <!-- Form Input Berat Badan -->
         <form onsubmit="handleWeightLogSubmit(event)" class="flex items-center gap-2.5">
           <div class="relative flex-1">
             <input
@@ -1183,7 +1060,6 @@
           </button>
         </form>
 
-        <!-- Grafik Batang Tren Berat Badan -->
         <div class="p-4 rounded-2xl bg-sage-50/80 border border-sage-200/80">
           <div id="weight-trend-chart" class="grid grid-cols-5 gap-2 items-end min-h-[115px] pt-2">
             <!-- Diisi otomatis via JS -->
@@ -1213,11 +1089,11 @@
     <!-- ========================================== -->
     <section id="view-profil" class="hidden space-y-4 sm:space-y-5 tab-animate">
 
-      <!-- Kartu Foto Profil / Ikon Gender & Ganti User -->
+      <!-- Kartu Identitas Profil & Ganti User (Tanpa Upload Foto) -->
       <div class="floating-card rounded-3xl p-4 sm:p-5 space-y-3">
         <div class="flex flex-wrap items-center justify-between gap-3">
           <div class="flex items-center gap-3 min-w-0">
-            <div id="active-account-avatar" class="w-14 h-14 rounded-2xl bg-sage-100 text-sage-900 flex items-center justify-center text-3xl shrink-0 overflow-hidden border-2 border-sage-300 shadow-2xs">
+            <div id="active-account-avatar" class="w-14 h-14 rounded-2xl bg-sage-100 text-sage-900 flex items-center justify-center text-3xl shrink-0 border-2 border-sage-300 shadow-2xs">
               👩
             </div>
             <div class="min-w-0">
@@ -1225,15 +1101,10 @@
               <p class="font-display font-extrabold text-base sm:text-lg text-slate-900 truncate" id="active-account-displayname">
                 Pengguna
               </p>
-              <div class="flex items-center gap-1.5 mt-1">
-                <input type="file" id="profile-photo-input" accept="image/*" onchange="handleProfilePhotoUpload(event)" class="hidden" />
-                <button type="button" onclick="document.getElementById('profile-photo-input').click()" class="px-2.5 py-1 rounded-xl bg-sage-100 hover:bg-sage-200 text-sage-900 font-bold text-[11px] sm:text-xs transition">
-                  📷 Ganti Foto
-                </button>
-                <button type="button" id="remove-profile-photo-btn" onclick="removeProfilePhoto()" class="hidden px-2.5 py-1 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-[11px] sm:text-xs transition">
-                  Hapus Foto
-                </button>
-              </div>
+              <p class="text-[11px] sm:text-xs text-sage-700 font-semibold mt-0.5 flex items-center gap-1">
+                <span>☁️</span>
+                <span>Semua perubahan tersimpan otomatis per user</span>
+              </p>
             </div>
           </div>
           <div class="flex items-center gap-1.5 shrink-0">
@@ -1251,7 +1122,7 @@
         <div class="flex flex-wrap items-center justify-between gap-2 mb-5">
           <div>
             <h2 class="font-display font-extrabold text-xl sm:text-2xl text-slate-900">Profil & Target Kalori</h2>
-            <p class="text-slate-600 text-xs sm:text-sm">Sesuaikan data diri untuk menghitung kebutuhan kalori harian yang aman.</p>
+            <p class="text-slate-600 text-xs sm:text-sm">Sesuaikan data diri — setiap ketikan langsung tersimpan otomatis untuk akun Anda.</p>
           </div>
         </div>
 
@@ -1263,7 +1134,7 @@
               type="text"
               id="profile-name"
               required
-              oninput="handleLiveGreetingUpdate()"
+              oninput="handleLiveProfileInput()"
               placeholder="Contoh: Ibu Siti / Bapak Budi / Mama"
               class="w-full px-4 py-3 rounded-2xl bg-sage-50/70 border-2 border-sage-200 focus:border-sage-600 focus:bg-white focus:outline-none text-base sm:text-lg text-slate-900"
             />
@@ -1294,7 +1165,7 @@
                   min="15"
                   max="120"
                   value="60"
-                  oninput="updateLiveCalculation()"
+                  oninput="handleLiveProfileInput()"
                   class="w-full px-3 py-3 pr-11 rounded-2xl bg-sage-50/70 border-2 border-sage-200 focus:border-sage-600 focus:bg-white focus:outline-none text-lg font-bold text-slate-900"
                 />
                 <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 font-medium text-xs">thn</span>
@@ -1312,7 +1183,7 @@
                   max="200"
                   step="0.1"
                   value="62"
-                  oninput="updateLiveCalculation()"
+                  oninput="handleLiveProfileInput()"
                   class="w-full px-3 py-3 pr-9 rounded-2xl bg-sage-50/70 border-2 border-sage-200 focus:border-sage-600 focus:bg-white focus:outline-none text-lg font-bold text-slate-900"
                 />
                 <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 font-medium text-xs">kg</span>
@@ -1329,7 +1200,7 @@
                   min="100"
                   max="220"
                   value="158"
-                  oninput="updateLiveCalculation()"
+                  oninput="handleLiveProfileInput()"
                   class="w-full px-3 py-3 pr-9 rounded-2xl bg-sage-50/70 border-2 border-sage-200 focus:border-sage-600 focus:bg-white focus:outline-none text-lg font-bold text-slate-900"
                 />
                 <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 font-medium text-xs">cm</span>
@@ -1342,7 +1213,7 @@
             <label class="block font-bold text-sage-900 text-sm sm:text-base mb-2">Aktivitas Sehari-hari</label>
             <div class="space-y-2">
               <label class="flex items-start gap-3 p-3.5 rounded-2xl border border-sage-200 bg-sage-50/50 hover:bg-sage-50 cursor-pointer transition has-checked:border-2 has-checked:border-sage-600 has-checked:bg-sage-100/70">
-                <input type="radio" name="activity" value="1.2" checked onchange="updateLiveCalculation()" class="mt-1 w-4 h-4 accent-sage-600" />
+                <input type="radio" name="activity" value="1.2" checked onchange="handleLiveProfileInput()" class="mt-1 w-4 h-4 accent-sage-600" />
                 <div>
                   <span class="block font-bold text-slate-900 text-sm sm:text-base">Sangat Ringan (Banyak di rumah)</span>
                   <span class="text-xs sm:text-sm text-slate-600">Aktivitas harian santai di dalam rumah, duduk, atau istirahat.</span>
@@ -1350,7 +1221,7 @@
               </label>
 
               <label class="flex items-start gap-3 p-3.5 rounded-2xl border border-sage-200 bg-sage-50/50 hover:bg-sage-50 cursor-pointer transition has-checked:border-2 has-checked:border-sage-600 has-checked:bg-sage-100/70">
-                <input type="radio" name="activity" value="1.375" onchange="updateLiveCalculation()" class="mt-1 w-4 h-4 accent-sage-600" />
+                <input type="radio" name="activity" value="1.375" onchange="handleLiveProfileInput()" class="mt-1 w-4 h-4 accent-sage-600" />
                 <div>
                   <span class="block font-bold text-slate-900 text-sm sm:text-base">Ringan (Jalan kaki santai / kerja rumah ringan)</span>
                   <span class="text-xs sm:text-sm text-slate-600">Jalan pagi 15–30 menit, berkebun ringan, atau membereskan rumah.</span>
@@ -1358,7 +1229,7 @@
               </label>
 
               <label class="flex items-start gap-3 p-3.5 rounded-2xl border border-sage-200 bg-sage-50/50 hover:bg-sage-50 cursor-pointer transition has-checked:border-2 has-checked:border-sage-600 has-checked:bg-sage-100/70">
-                <input type="radio" name="activity" value="1.55" onchange="updateLiveCalculation()" class="mt-1 w-4 h-4 accent-sage-600" />
+                <input type="radio" name="activity" value="1.55" onchange="handleLiveProfileInput()" class="mt-1 w-4 h-4 accent-sage-600" />
                 <div>
                   <span class="block font-bold text-slate-900 text-sm sm:text-base">Sedang (Rutin senam / jalan cepat 3–5x seminggu)</span>
                   <span class="text-xs sm:text-sm text-slate-600">Aktif bergerak hampir setiap hari dengan olahraga teratur.</span>
@@ -1372,7 +1243,7 @@
             <label class="block font-bold text-sage-900 text-sm sm:text-base mb-2">Tujuan Pengaturan Makan</label>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               <label class="flex items-start gap-2.5 p-3.5 rounded-2xl border border-sage-200 bg-sage-50/50 hover:bg-sage-50 cursor-pointer transition has-checked:border-2 has-checked:border-sage-600 has-checked:bg-sage-100/70">
-                <input type="radio" name="goal" value="maintain" checked onchange="updateLiveCalculation()" class="mt-1 w-4 h-4 accent-sage-600 shrink-0" />
+                <input type="radio" name="goal" value="maintain" checked onchange="handleLiveProfileInput()" class="mt-1 w-4 h-4 accent-sage-600 shrink-0" />
                 <div>
                   <span class="block font-bold text-slate-900 text-sm sm:text-base">⚖️ Jaga Berat</span>
                   <span class="text-xs text-slate-600">Pola makan seimbang agar stabil & bertenaga.</span>
@@ -1380,7 +1251,7 @@
               </label>
 
               <label class="flex items-start gap-2.5 p-3.5 rounded-2xl border border-sage-200 bg-sage-50/50 hover:bg-sage-50 cursor-pointer transition has-checked:border-2 has-checked:border-sage-600 has-checked:bg-sage-100/70">
-                <input type="radio" name="goal" value="lose_gentle" onchange="updateLiveCalculation()" class="mt-1 w-4 h-4 accent-sage-600 shrink-0" />
+                <input type="radio" name="goal" value="lose_gentle" onchange="handleLiveProfileInput()" class="mt-1 w-4 h-4 accent-sage-600 shrink-0" />
                 <div>
                   <span class="block font-bold text-slate-900 text-sm sm:text-base">🌿 Turun Perlahan</span>
                   <span class="text-xs text-slate-600">Kurangi 300 kkal dengan lembut & aman.</span>
@@ -1388,7 +1259,7 @@
               </label>
 
               <label class="flex items-start gap-2.5 p-3.5 rounded-2xl border border-sage-200 bg-sage-50/50 hover:bg-sage-50 cursor-pointer transition has-checked:border-2 has-checked:border-sage-600 has-checked:bg-sage-100/70">
-                <input type="radio" name="goal" value="lose_steady" onchange="updateLiveCalculation()" class="mt-1 w-4 h-4 accent-sage-600 shrink-0" />
+                <input type="radio" name="goal" value="lose_steady" onchange="handleLiveProfileInput()" class="mt-1 w-4 h-4 accent-sage-600 shrink-0" />
                 <div>
                   <span class="block font-bold text-slate-900 text-sm sm:text-base">🔥 Turun Bertahap</span>
                   <span class="text-xs text-slate-600">Kurangi 500 kkal dengan batas aman minimal.</span>
@@ -1400,7 +1271,7 @@
           <!-- Tombol Simpan Profilku -->
           <button type="submit" class="w-full py-3.5 px-6 rounded-2xl bg-sage-600 hover:bg-sage-700 active:scale-98 text-white font-display font-bold text-base sm:text-lg shadow-sm transition flex items-center justify-center gap-2">
             <span>💾</span>
-            <span>Simpan Profilku</span>
+            <span>Simpan & Kembali ke Hari Ini</span>
           </button>
         </form>
       </div>
@@ -1437,9 +1308,9 @@
   <!-- LOGIKA APLIKASI (JAVASCRIPT)               -->
   <!-- ========================================== -->
   <script>
-    const CURRENT_USER_KEY = 'kawanBugarActiveUserId_v1';
-    const ACCOUNTS_STORAGE_KEY = 'kawanBugarAccounts_v1';
-    const STORAGE_PREFIX = 'kawanBugarUserData_v1_';
+    const CURRENT_USER_KEY = 'kawanBugarActiveUserId_v2';
+    const ACCOUNTS_STORAGE_KEY = 'kawanBugarAccounts_v2';
+    const STORAGE_PREFIX = 'kawanBugarUserData_v2_';
 
     let currentUserId = null;
     let pendingPinUserId = null;
@@ -1486,19 +1357,6 @@
       { name: 'Telur Rebus', calories: 75, icon: '🥚' },
       { name: 'Sayur Bening Bayam & Jagung', calories: 55, icon: '🥬' },
       { name: 'Pisang Ambon / Kepok', calories: 95, icon: '🍌' }
-    ];
-
-    const PLATE_STANDARD_COMPONENTS = [
-      { id: 'nasi_putih', name: 'Nasi Putih', unit: '1 centong (±100g)', cal: 175, icon: '🍚' },
-      { id: 'nasi_merah', name: 'Nasi Merah', unit: '1 centong (±100g)', cal: 150, icon: '🌾' },
-      { id: 'ayam_bakar', name: 'Ayam Panggang / Kukus', unit: '1 potong (±80g)', cal: 130, icon: '🍗' },
-      { id: 'ayam_goreng', name: 'Ayam Goreng', unit: '1 potong sedang', cal: 210, icon: '🍖' },
-      { id: 'ikan_panggang', name: 'Ikan / Pepes', unit: '1 potong/bungkus', cal: 140, icon: '🐟' },
-      { id: 'telur_rebus', name: 'Telur Rebus', unit: '1 butir (±55g)', cal: 75, icon: '🥚' },
-      { id: 'tempe_tahu', name: 'Tempe / Tahu', unit: '2 potong sedang', cal: 95, icon: '🟫' },
-      { id: 'sayur_bening', name: 'Sayur Bening / Sop', unit: '1 mangkuk sayur', cal: 65, icon: '🥬' },
-      { id: 'tumis_sayur', name: 'Tumis Sayur', unit: '1 porsi kecil', cal: 85, icon: '🥗' },
-      { id: 'buah_potong', name: 'Buah Potong', unit: '1 porsi sedang', cal: 75, icon: '🍌' }
     ];
 
     const AUTO_CALORIE_DICTIONARY = [
@@ -1628,7 +1486,6 @@
     let activeLogFilter = 'Semua';
     let activeCategoryFilter = 'Semua';
     let currentCustomEstimation = null;
-    let plateComponentCounts = {};
 
     function getTodayDateKey() {
       const now = new Date();
@@ -1658,7 +1515,7 @@
         const raw = localStorage.getItem(ACCOUNTS_STORAGE_KEY);
         if (!raw) return {};
         const parsed = JSON.parse(raw);
-        return parsed && typeof parsed === 'object' ? parsed : {};
+        return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
       } catch (e) {
         return {};
       }
@@ -1682,12 +1539,10 @@
       const safeHeight = Math.max(100, Math.min(220, Number(height) || (gender === 'male' ? 168 : 158)));
       const mult = Number(activityMultiplier) || 1.2;
 
-      // Rumus Mifflin-St Jeor (standar klinis akurat)
       const bmrMifflin = gender === 'male'
         ? (10 * safeWeight) + (6.25 * safeHeight) - (5 * safeAge) + 5
         : (10 * safeWeight) + (6.25 * safeHeight) - (5 * safeAge) - 161;
 
-      // Rumus Harris-Benedict (sebagai batas atas rentang acuan klinis)
       const bmrHarris = gender === 'male'
         ? 88.362 + (13.397 * safeWeight) + (4.799 * safeHeight) - (5.677 * safeAge)
         : 447.593 + (9.247 * safeWeight) + (3.098 * safeHeight) - (4.330 * safeAge);
@@ -1699,7 +1554,6 @@
       if (goal === 'lose_gentle') adjustment = -300;
       if (goal === 'lose_steady') adjustment = -500;
 
-      // Batas aman minimum harian agar tidak kurang dari anjuran (1.200 wanita / 1.400 pria)
       const minSafeCalories = gender === 'male' ? 1400 : 1200;
       const rawTarget = tdeeMifflin + adjustment;
       const finalTarget = Math.max(minSafeCalories, Math.round(rawTarget));
@@ -1711,7 +1565,6 @@
       else if (bmi >= 25 && bmi < 30) bmiStatus = 'Berlebih';
       else if (bmi >= 30) bmiStatus = 'Obesitas';
 
-      // Estimasi Usia Metabolisme berdasarkan BMR referensi usia, IMT & komposisi data tubuh
       const refAgeBmr = gender === 'male'
         ? (10 * safeWeight) + (6.25 * safeHeight) - (5 * safeAge) + 5
         : (10 * safeWeight) + (6.25 * safeHeight) - (5 * safeAge) - 161;
@@ -1743,20 +1596,20 @@
       };
     }
 
-    function createDefaultUserState(displayName = '', gender = 'female', age = 60, weight = 60, height = null) {
+    function createDefaultUserState(userId, displayName = '', gender = 'female', age = 60, weight = 60, height = null) {
       const safeGender = gender === 'male' ? 'male' : 'female';
       const defaultHeight = height && !isNaN(height) ? Number(height) : (safeGender === 'male' ? 168 : 158);
       const calc = calculateDailyCalories(safeGender, age, weight, defaultHeight, 1.2, 'maintain');
       return {
+        ownerUserId: userId,
         fontScale: 'normal',
         activeDate: getTodayDateKey(),
         profile: {
           name: displayName,
           gender: safeGender,
           avatar: getGenderDefaultIcon(safeGender),
-          photoDataUrl: '',
-          age: age,
-          weight: weight,
+          age: Number(age) || 60,
+          weight: Number(weight) || 60,
           height: defaultHeight,
           activity: 1.2,
           goal: 'maintain',
@@ -1765,41 +1618,69 @@
         todayLogs: [],
         waterGlasses: 0,
         historyLogs: [],
-        weightLogs: [],
-        favoriteFoods: [...DEFAULT_FAVORITES]
+        weightLogs: [{ date: getTodayDateKey(), weight: Number(weight) || 60 }],
+        favoriteFoods: DEFAULT_FAVORITES.map(f => ({ ...f }))
       };
     }
 
-    let appState = createDefaultUserState();
+    let appState = createDefaultUserState('guest');
 
     function loadUserState(userId, fallbackDisplayName = '', fallbackGender = 'female', fallbackAge = 60, fallbackWeight = 60, fallbackHeight = null) {
+      if (!userId) return;
       currentUserId = userId;
-      appState = createDefaultUserState(fallbackDisplayName, fallbackGender, fallbackAge, fallbackWeight, fallbackHeight);
+
+      const freshDefault = createDefaultUserState(
+        userId,
+        fallbackDisplayName,
+        fallbackGender,
+        fallbackAge,
+        fallbackWeight,
+        fallbackHeight
+      );
+
+      let loadedState = freshDefault;
+      let hasExistingRecord = false;
+
       try {
-        const raw = localStorage.getItem(getUserStorageKey(currentUserId));
+        const raw = localStorage.getItem(getUserStorageKey(userId));
         if (raw) {
           const parsed = JSON.parse(raw);
-          const mergedGender = (parsed.profile && parsed.profile.gender) || fallbackGender || 'female';
-          appState = {
-            ...appState,
-            ...parsed,
-            profile: {
-              ...appState.profile,
-              ...(parsed.profile || {}),
-              gender: mergedGender,
-              avatar: getGenderDefaultIcon(mergedGender)
-            },
-            todayLogs: Array.isArray(parsed.todayLogs) ? parsed.todayLogs : [],
-            historyLogs: Array.isArray(parsed.historyLogs) ? parsed.historyLogs : [],
-            weightLogs: Array.isArray(parsed.weightLogs) ? parsed.weightLogs : [],
-            favoriteFoods: Array.isArray(parsed.favoriteFoods) && parsed.favoriteFoods.length > 0
-              ? parsed.favoriteFoods
-              : [...DEFAULT_FAVORITES]
-          };
+          // Pastikan data benar-benar milik userId yang sedang login agar tidak tercampur
+          if (parsed && typeof parsed === 'object' && (!parsed.ownerUserId || parsed.ownerUserId === userId)) {
+            hasExistingRecord = true;
+            const mergedGender = (parsed.profile && parsed.profile.gender) || fallbackGender || 'female';
+            loadedState = {
+              ownerUserId: userId,
+              fontScale: parsed.fontScale || 'normal',
+              activeDate: parsed.activeDate || getTodayDateKey(),
+              profile: {
+                name: (parsed.profile && parsed.profile.name) || fallbackDisplayName,
+                gender: mergedGender,
+                avatar: getGenderDefaultIcon(mergedGender),
+                age: Number((parsed.profile && parsed.profile.age) || fallbackAge || 60),
+                weight: Number((parsed.profile && parsed.profile.weight) || fallbackWeight || 60),
+                height: Number((parsed.profile && parsed.profile.height) || fallbackHeight || (mergedGender === 'male' ? 168 : 158)),
+                activity: Number((parsed.profile && parsed.profile.activity) || 1.2),
+                goal: (parsed.profile && parsed.profile.goal) || 'maintain',
+                targetCalories: Number((parsed.profile && parsed.profile.targetCalories) || freshDefault.profile.targetCalories)
+              },
+              todayLogs: Array.isArray(parsed.todayLogs) ? parsed.todayLogs.map(item => ({ ...item })) : [],
+              waterGlasses: Number(parsed.waterGlasses) || 0,
+              historyLogs: Array.isArray(parsed.historyLogs) ? parsed.historyLogs.map(item => ({ ...item })) : [],
+              weightLogs: Array.isArray(parsed.weightLogs) && parsed.weightLogs.length > 0
+                ? parsed.weightLogs.map(item => ({ ...item }))
+                : [{ date: getTodayDateKey(), weight: Number((parsed.profile && parsed.profile.weight) || fallbackWeight || 60) }],
+              favoriteFoods: Array.isArray(parsed.favoriteFoods)
+                ? parsed.favoriteFoods.map(item => ({ ...item }))
+                : DEFAULT_FAVORITES.map(f => ({ ...f }))
+            };
+          }
         }
       } catch (e) {
         console.warn('Gagal memuat data user:', e);
       }
+
+      appState = loadedState;
 
       const todayKey = getTodayDateKey();
       if (appState.activeDate && appState.activeDate !== todayKey) {
@@ -1807,41 +1688,53 @@
         appState.todayLogs = [];
         appState.waterGlasses = 0;
         appState.activeDate = todayKey;
-        saveState();
       } else if (!appState.activeDate) {
         appState.activeDate = todayKey;
       }
+
+      // Langsung simpan ke localStorage khusus userId ini saat pertama dibuat atau dimuat
+      if (!hasExistingRecord) {
+        saveState();
+      }
+    }
+
+    function flashAutosaveIndicator() {
+      const badge = document.getElementById('autosave-indicator');
+      if (!badge) return;
+      badge.innerHTML = '<span>✓</span><span>Tersimpan</span>';
+      clearTimeout(window.autosaveFlashTimer);
+      window.autosaveFlashTimer = setTimeout(() => {
+        badge.innerHTML = '<span>☁️</span><span>Tersimpan</span>';
+      }, 1200);
     }
 
     function saveState() {
       if (!currentUserId) return;
       try {
+        appState.ownerUserId = currentUserId;
         localStorage.setItem(getUserStorageKey(currentUserId), JSON.stringify(appState));
+
         const accounts = getAccountsMap();
         if (accounts[currentUserId]) {
           const g = appState.profile.gender === 'male' ? 'male' : 'female';
           accounts[currentUserId].displayName = appState.profile.name || accounts[currentUserId].displayName;
           accounts[currentUserId].gender = g;
           accounts[currentUserId].avatar = getGenderDefaultIcon(g);
-          accounts[currentUserId].photoDataUrl = appState.profile.photoDataUrl || '';
           accounts[currentUserId].age = appState.profile.age;
           accounts[currentUserId].weight = appState.profile.weight;
           accounts[currentUserId].height = appState.profile.height;
           saveAccountsMap(accounts);
         }
+        flashAutosaveIndicator();
       } catch (e) {
         console.warn('Gagal menyimpan data ke penyimpanan lokal:', e);
       }
     }
 
-    function renderAvatarContent(containerEl, gender, photoDataUrl, emojiClass = 'text-2xl') {
+    function renderAvatarEmoji(containerEl, gender, emojiClass = 'text-2xl') {
       if (!containerEl) return;
       const g = gender === 'male' ? 'male' : 'female';
-      if (photoDataUrl) {
-        containerEl.innerHTML = `<img src="${photoDataUrl}" alt="Foto Profil" class="w-full h-full object-cover" />`;
-      } else {
-        containerEl.innerHTML = `<span class="${emojiClass} leading-none">${getGenderDefaultIcon(g)}</span>`;
-      }
+      containerEl.innerHTML = `<span class="${emojiClass} leading-none">${getGenderDefaultIcon(g)}</span>`;
     }
 
     function selectNewUserGender(gender) {
@@ -1868,9 +1761,6 @@
 
       let html = userList.map(acc => {
         const g = acc.gender === 'male' ? 'male' : 'female';
-        const avatarHtml = acc.photoDataUrl
-          ? `<img src="${acc.photoDataUrl}" alt="${escapeHtml(acc.displayName)}" class="w-full h-full object-cover" />`
-          : `<span class="text-3xl leading-none">${getGenderDefaultIcon(g)}</span>`;
         const metaText = `${g === 'male' ? 'Laki-laki' : 'Perempuan'} • ${acc.age || 60} thn • ${acc.weight || 60} kg`;
         return `
           <button
@@ -1878,8 +1768,8 @@
             onclick="openPinModalForUser('${acc.userId}')"
             class="group p-3.5 rounded-2xl bg-sage-50/80 hover:bg-sage-100 border-2 border-sage-200 hover:border-sage-600 flex flex-col items-center justify-center text-center gap-1.5 transition active:scale-96 shadow-2xs"
           >
-            <div class="w-14 h-14 rounded-2xl bg-white border border-sage-200 flex items-center justify-center overflow-hidden shadow-2xs group-hover:scale-105 transition">
-              ${avatarHtml}
+            <div class="w-14 h-14 rounded-2xl bg-white border border-sage-200 flex items-center justify-center shadow-2xs group-hover:scale-105 transition">
+              <span class="text-3xl leading-none">${getGenderDefaultIcon(g)}</span>
             </div>
             <span class="font-display font-bold text-sm sm:text-base text-slate-900 truncate w-full">${escapeHtml(acc.displayName)}</span>
             <span class="text-[10px] text-slate-500 font-medium leading-tight">${metaText}</span>
@@ -1921,7 +1811,7 @@
 
       pendingPinUserId = userId;
       const g = acc.gender === 'male' ? 'male' : 'female';
-      renderAvatarContent(document.getElementById('pin-selected-avatar'), g, acc.photoDataUrl, 'text-3xl');
+      renderAvatarEmoji(document.getElementById('pin-selected-avatar'), g, 'text-3xl');
       document.getElementById('pin-selected-name').textContent = acc.displayName;
       document.getElementById('login-pin-input').value = '';
       document.getElementById('pin-error-box').classList.add('hidden');
@@ -1957,6 +1847,15 @@
     }
 
     function enterAppForUser(userId, fallbackName = '', fallbackGender = 'female', fallbackAge = 60, fallbackWeight = 60, fallbackHeight = null) {
+      // Reset state sementara form & filter saat berganti akun
+      activeLogFilter = 'Semua';
+      activeCategoryFilter = 'Semua';
+      currentCustomEstimation = null;
+      const searchInp = document.getElementById('food-search-input');
+      if (searchInp) searchInp.value = '';
+      const customInp = document.getElementById('custom-food-name');
+      if (customInp) customInp.value = '';
+
       localStorage.setItem(CURRENT_USER_KEY, userId);
       loadUserState(userId, fallbackName, fallbackGender, fallbackAge, fallbackWeight, fallbackHeight);
 
@@ -1965,7 +1864,9 @@
       renderWaterTracker();
       renderSummaryAndLogs();
       renderFavoriteChips();
+      renderCategorySummary();
       renderFoodDatabase();
+      handleAutoCalorieInput();
 
       document.getElementById('auth-screen').classList.add('hidden');
       switchTab('beranda');
@@ -1991,14 +1892,13 @@
         return;
       }
 
-      const newUserId = 'user_' + Date.now();
+      const newUserId = 'user_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
       const accounts = getAccountsMap();
       accounts[newUserId] = {
         userId: newUserId,
         displayName: fullName,
         gender: selectedNewGender,
         avatar: getGenderDefaultIcon(selectedNewGender),
-        photoDataUrl: '',
         age: age,
         weight: weight,
         height: height,
@@ -2006,8 +1906,12 @@
       };
       saveAccountsMap(accounts);
 
+      // Buat penyimpanan terisolasi segera agar data user baru langsung tersimpan
+      const initialUserState = createDefaultUserState(newUserId, fullName, selectedNewGender, age, weight, height);
+      localStorage.setItem(getUserStorageKey(newUserId), JSON.stringify(initialUserState));
+
       enterAppForUser(newUserId, fullName, selectedNewGender, age, weight, height);
-      showToast(`Profil ${fullName} berhasil dibuat!`, '🎉');
+      showToast(`Profil ${fullName} dibuat & tersimpan otomatis!`, '🎉');
     }
 
     function handlePinLoginSubmit(event) {
@@ -2068,31 +1972,6 @@
         backToProfilePicker();
       }
       showToast('Anda telah keluar dari akun', '⎋');
-    }
-
-    function handleProfilePhotoUpload(event) {
-      const file = event.target.files && event.target.files[0];
-      if (!file) return;
-      if (!file.type.startsWith('image/')) {
-        showToast('Pilih file gambar (JPG/PNG) untuk foto profil', '⚠️');
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        appState.profile.photoDataUrl = e.target.result || '';
-        saveState();
-        applyProfileToUI();
-        showToast('Foto profil berhasil diperbarui!', '📷');
-      };
-      reader.readAsDataURL(file);
-      event.target.value = '';
-    }
-
-    function removeProfilePhoto() {
-      appState.profile.photoDataUrl = '';
-      saveState();
-      applyProfileToUI();
-      showToast('Kembali memakai ikon gender', '✨');
     }
 
     function showToast(message, icon = '✅') {
@@ -2176,8 +2055,42 @@
       document.getElementById('active-account-displayname').textContent = displayName;
     }
 
-    function handleLiveGreetingUpdate() {
+    // Autosave otomatis setiap ada perubahan di form Profil (nama, gender, usia, berat, tinggi, aktivitas, tujuan)
+    function handleLiveProfileInput() {
+      if (!currentUserId) return;
+
+      const nameVal = document.getElementById('profile-name').value.trim();
+      const ageVal = parseFloat(document.getElementById('profile-age').value);
+      const weightVal = parseFloat(document.getElementById('profile-weight').value);
+      const heightVal = parseFloat(document.getElementById('profile-height').value);
+      const actRadio = document.querySelector('input[name="activity"]:checked');
+      const goalRadio = document.querySelector('input[name="goal"]:checked');
+
+      if (nameVal) {
+        appState.profile.name = nameVal;
+      }
+      if (!isNaN(ageVal) && ageVal >= 15 && ageVal <= 120) {
+        appState.profile.age = ageVal;
+      }
+      if (!isNaN(weightVal) && weightVal >= 30 && weightVal <= 200) {
+        appState.profile.weight = weightVal;
+      }
+      if (!isNaN(heightVal) && heightVal >= 100 && heightVal <= 220) {
+        appState.profile.height = heightVal;
+      }
+      if (actRadio) {
+        appState.profile.activity = parseFloat(actRadio.value) || 1.2;
+      }
+      if (goalRadio) {
+        appState.profile.goal = goalRadio.value || 'maintain';
+      }
+
+      const calc = updateLiveCalculation();
+      appState.profile.targetCalories = calc.target;
+
       updateGreetingDisplay();
+      renderSummaryAndLogs();
+      saveState();
     }
 
     function selectGender(gender) {
@@ -2195,15 +2108,15 @@
         fBtn.className = 'py-3 px-4 rounded-2xl border border-sage-200 bg-sage-50/60 text-slate-700 font-semibold text-base flex items-center justify-center gap-2 transition';
       }
 
-      renderAvatarContent(document.getElementById('active-account-avatar'), g, appState.profile.photoDataUrl, 'text-3xl');
-      renderAvatarContent(document.getElementById('active-user-pill-avatar'), g, appState.profile.photoDataUrl, 'text-xs');
-      updateLiveCalculation();
+      renderAvatarEmoji(document.getElementById('active-account-avatar'), g, 'text-3xl');
+      renderAvatarEmoji(document.getElementById('active-user-pill-avatar'), g, 'text-xs');
+      handleLiveProfileInput();
     }
 
     function updateLiveCalculation() {
-      const age = parseFloat(document.getElementById('profile-age').value) || 60;
-      const weight = parseFloat(document.getElementById('profile-weight').value) || 60;
-      const height = parseFloat(document.getElementById('profile-height').value) || (appState.profile.gender === 'male' ? 168 : 158);
+      const age = parseFloat(document.getElementById('profile-age').value) || appState.profile.age || 60;
+      const weight = parseFloat(document.getElementById('profile-weight').value) || appState.profile.weight || 60;
+      const height = parseFloat(document.getElementById('profile-height').value) || appState.profile.height || (appState.profile.gender === 'male' ? 168 : 158);
       const actRadio = document.querySelector('input[name="activity"]:checked');
       const goalRadio = document.querySelector('input[name="goal"]:checked');
       const activity = actRadio ? parseFloat(actRadio.value) : 1.2;
@@ -2263,30 +2176,10 @@
 
     function handleProfileSave(event) {
       event.preventDefault();
-      const name = document.getElementById('profile-name').value.trim() || 'Kawan Bugar';
-      const age = parseFloat(document.getElementById('profile-age').value) || 60;
-      const weight = parseFloat(document.getElementById('profile-weight').value) || 60;
-      const height = parseFloat(document.getElementById('profile-height').value) || (appState.profile.gender === 'male' ? 168 : 158);
-      const actRadio = document.querySelector('input[name="activity"]:checked');
-      const goalRadio = document.querySelector('input[name="goal"]:checked');
-      const activity = actRadio ? parseFloat(actRadio.value) : 1.2;
-      const goal = goalRadio ? goalRadio.value : 'maintain';
-
-      const calc = calculateDailyCalories(appState.profile.gender, age, weight, height, activity, goal);
-
-      appState.profile = {
-        ...appState.profile,
-        name,
-        avatar: getGenderDefaultIcon(appState.profile.gender),
-        age,
-        weight,
-        height,
-        activity,
-        goal,
-        targetCalories: calc.target
-      };
+      handleLiveProfileInput();
 
       const todayKey = getTodayDateKey();
+      const weight = Number(appState.profile.weight) || 60;
       const existingIdx = appState.weightLogs.findIndex(w => w.date === todayKey);
       if (existingIdx >= 0) {
         appState.weightLogs[existingIdx].weight = weight;
@@ -2297,7 +2190,7 @@
       saveState();
       applyProfileToUI();
       renderSummaryAndLogs();
-      showToast(`Profilku tersimpan! Target ${formatNumber(calc.target)} kkal/hari`, '💾');
+      showToast(`Profilku tersimpan! Target ${formatNumber(appState.profile.targetCalories)} kkal/hari`, '💾');
       switchTab('beranda');
     }
 
@@ -2312,9 +2205,8 @@
       document.getElementById('profile-weight').value = p.weight;
       document.getElementById('profile-height').value = p.height || (g === 'male' ? 168 : 158);
 
-      renderAvatarContent(document.getElementById('active-account-avatar'), g, p.photoDataUrl, 'text-3xl');
-      renderAvatarContent(document.getElementById('active-user-pill-avatar'), g, p.photoDataUrl, 'text-xs');
-      document.getElementById('remove-profile-photo-btn').classList.toggle('hidden', !p.photoDataUrl);
+      renderAvatarEmoji(document.getElementById('active-account-avatar'), g, 'text-3xl');
+      renderAvatarEmoji(document.getElementById('active-user-pill-avatar'), g, 'text-xs');
 
       const fBtn = document.getElementById('gender-female-btn');
       const mBtn = document.getElementById('gender-male-btn');
@@ -2345,8 +2237,6 @@
       const portionLabel = selectedPortion === 0.5 ? '½x' : (selectedPortion === 1.5 ? '1½x' : `${selectedPortion}x`);
       document.getElementById('active-setup-pill').textContent = `${shortMeal} • ${portionLabel}`;
       document.getElementById('custom-meal-indicator').textContent = selectedMealTime;
-      const plateMealEl = document.getElementById('plate-meal-indicator');
-      if (plateMealEl) plateMealEl.textContent = selectedMealTime;
     }
 
     function selectMealTime(meal) {
@@ -2425,7 +2315,6 @@
       const text = rawText.toLowerCase().trim();
       if (!text) return null;
 
-      // Pisahkan tiap item makanan/minuman pada kalimat bebas (koma, dan, serta, plus, garis miring, dll.)
       const rawSegments = text
         .split(/\b(?:dan|serta|plus|with|pakai|pake|tambah|tambahan|dgn|dg)\b|[+,&/;\n]+/)
         .map(s => s.trim())
@@ -2442,7 +2331,6 @@
         return 1;
       };
 
-      // Urutkan kamus berdasarkan panjang kata kunci terpanjang agar frasa spesifik menang atas kata umum
       const sortedDictionary = [...AUTO_CALORIE_DICTIONARY].sort((a, b) => {
         const maxA = Math.max(...a.keywords.map(k => k.length));
         const maxB = Math.max(...b.keywords.map(k => k.length));
@@ -2457,7 +2345,6 @@
 
         const mult = extractMultiplier(cleanItem);
 
-        // 1. Cek kecocokan kata kunci lengkap (word boundary) di kamus
         for (const entry of sortedDictionary) {
           for (const kw of entry.keywords) {
             const escapedKw = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -2475,7 +2362,6 @@
           }
         }
 
-        // 2. Jika bukan kata kunci kamus, tunggu hingga nama makanan ditulis lengkap (minimal 2 kata atau minimal 5 huruf tanpa spasi)
         const wordsOnly = cleanItem
           .replace(/\d+(?:[.,]\d+)?/g, ' ')
           .replace(/[^a-zA-Z\s-]/g, ' ')
@@ -2532,7 +2418,6 @@
 
       if (results.length === 0) return null;
 
-      // Jika masih ada potongan nama makanan yang belum selesai diketik lengkap, tahan dulu perhitungannya
       const hasIncompleteTyping = results.some(item => item.pendingTyping);
       if (hasIncompleteTyping) {
         return {
@@ -2620,7 +2505,7 @@
       if (!rawName) return;
 
       const est = currentCustomEstimation || estimateCaloriesFromText(rawName);
-      if (!est) {
+      if (!est || est.isTypingInProgress) {
         showToast('Ketik nama makanan yang dikenali dulu sebelum difavoritkan', '💡');
         return;
       }
@@ -2683,7 +2568,7 @@
       const name = nameInput.value.trim();
       const est = estimateCaloriesFromText(name);
 
-      if (!name || !est) {
+      if (!name || !est || est.isTypingInProgress) {
         handleAutoCalorieInput();
         showToast('Masukkan nama makanan yang dikenali agar kalori otomatis terhitung', '⚠️');
         return;
@@ -2703,130 +2588,6 @@
       nameInput.value = '';
       currentCustomEstimation = null;
       handleAutoCalorieInput();
-    }
-
-    function renderPlateBuilder() {
-      const grid = document.getElementById('plate-builder-grid');
-      const totalEl = document.getElementById('plate-total-calories');
-      const titleEl = document.getElementById('plate-dish-title');
-      const saveBtn = document.getElementById('save-plate-btn');
-      if (!grid || !totalEl || !titleEl || !saveBtn) return;
-
-      let totalCal = 0;
-      const summaryParts = [];
-
-      grid.innerHTML = PLATE_STANDARD_COMPONENTS.map(comp => {
-        const count = plateComponentCounts[comp.id] || 0;
-        const itemCal = count * comp.cal;
-        totalCal += itemCal;
-        if (count > 0) {
-          summaryParts.push(`${count}× ${comp.name} (${formatNumber(itemCal)} kkal)`);
-        }
-
-        return `
-          <div class="p-2.5 rounded-2xl border ${count > 0 ? 'border-sage-500 bg-sage-50/90' : 'border-sage-200/80 bg-sage-50/40'} flex items-center justify-between gap-2 transition">
-            <div class="flex items-center gap-2 min-w-0">
-              <span class="text-xl shrink-0">${comp.icon}</span>
-              <div class="min-w-0">
-                <p class="font-bold text-xs sm:text-sm text-slate-900 truncate">${comp.name}</p>
-                <p class="text-[11px] text-slate-500 truncate">${comp.unit} • <strong>${comp.cal} kkal</strong></p>
-              </div>
-            </div>
-            <div class="flex items-center gap-1 shrink-0">
-              <button
-                type="button"
-                onclick="changePlateComponent('${comp.id}', -1)"
-                class="w-7 h-7 rounded-xl bg-white hover:bg-sage-100 border border-sage-200 font-bold text-slate-700 text-sm flex items-center justify-center active:scale-90 transition"
-                aria-label="Kurangi ${comp.name}"
-              >−</button>
-              <span class="w-5 text-center font-display font-extrabold text-sm text-sage-900">${count}</span>
-              <button
-                type="button"
-                onclick="changePlateComponent('${comp.id}', 1)"
-                class="w-7 h-7 rounded-xl bg-sage-600 hover:bg-sage-700 font-bold text-white text-sm flex items-center justify-center active:scale-90 transition"
-                aria-label="Tambah ${comp.name}"
-              >+</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      totalEl.textContent = `${formatNumber(totalCal)} kkal`;
-
-      if (summaryParts.length > 0) {
-        titleEl.textContent = summaryParts.join(' + ');
-        saveBtn.disabled = false;
-        saveBtn.className = 'w-full sm:w-auto py-2.5 px-5 rounded-2xl bg-sage-600 hover:bg-sage-700 active:scale-98 text-white font-display font-bold text-sm sm:text-base shadow-2xs transition flex items-center justify-center gap-1.5 cursor-pointer';
-      } else {
-        titleEl.textContent = 'Belum ada komponen dipilih. Tekan tombol + pada makanan yang ada di foto piring Anda.';
-        saveBtn.disabled = true;
-        saveBtn.className = 'w-full sm:w-auto py-2.5 px-5 rounded-2xl bg-sage-300 text-white/90 cursor-not-allowed font-display font-bold text-sm sm:text-base shadow-2xs transition flex items-center justify-center gap-1.5';
-      }
-    }
-
-    function changePlateComponent(compId, delta) {
-      const current = plateComponentCounts[compId] || 0;
-      const next = Math.max(0, Math.min(10, current + delta));
-      plateComponentCounts[compId] = next;
-      renderPlateBuilder();
-    }
-
-    function handlePlateImageSelected(event) {
-      const file = event.target.files && event.target.files[0];
-      if (!file) return;
-
-      if (!file.type.startsWith('image/')) {
-        showToast('Pilih file gambar (JPG/PNG) untuk foto piring', '⚠️');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const dataUrl = e.target.result;
-        document.getElementById('plate-preview-img').src = dataUrl;
-        document.getElementById('plate-analysis-container').classList.remove('hidden');
-        plateComponentCounts = {};
-        renderPlateBuilder();
-        showToast('Foto piring siap! Silakan atur takaran isinya', '📸');
-      };
-      reader.readAsDataURL(file);
-      event.target.value = '';
-    }
-
-    function resetPlatePhoto() {
-      plateComponentCounts = {};
-      document.getElementById('plate-preview-img').src = '';
-      document.getElementById('plate-analysis-container').classList.add('hidden');
-      document.getElementById('plate-camera-input').value = '';
-      document.getElementById('plate-gallery-input').value = '';
-    }
-
-    function savePlateResultToLog() {
-      let totalCal = 0;
-      const parts = [];
-
-      PLATE_STANDARD_COMPONENTS.forEach(comp => {
-        const count = plateComponentCounts[comp.id] || 0;
-        if (count > 0) {
-          totalCal += count * comp.cal;
-          parts.push(`${count}× ${comp.name}`);
-        }
-      });
-
-      if (totalCal <= 0 || parts.length === 0) {
-        showToast('Pilih minimal 1 komponen makanan di piring terlebih dahulu', '💡');
-        return;
-      }
-
-      addFoodLog({
-        name: `1 Piring: ${parts.join(', ')}`,
-        calories: totalCal,
-        portionLabel: '1 piring (akurat)',
-        mealTime: selectedMealTime,
-        icon: '🍽️'
-      });
-
-      resetPlatePhoto();
     }
 
     function renderFavoriteChips() {
@@ -3468,6 +3229,13 @@
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
     }
+
+    // Pastikan data selalu tersimpan otomatis sebelum tab/halaman ditutup atau di-refresh
+    window.addEventListener('beforeunload', () => {
+      if (currentUserId) {
+        saveState();
+      }
+    });
 
     document.addEventListener('DOMContentLoaded', () => {
       const now = new Date();
