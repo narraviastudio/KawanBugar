@@ -163,6 +163,139 @@
     </div>
   </div>
 
+  <!-- ========================================== -->
+  <!-- HALAMAN PILIH PROFIL & PIN (ALA NETFLIX)   -->
+  <!-- ========================================== -->
+  <div id="auth-screen" class="fixed inset-0 z-50 bg-gradient-to-br from-sage-100 via-cream-50 to-sage-100 overflow-y-auto flex items-center justify-center p-4">
+    <div class="w-full max-w-lg space-y-5 my-auto tab-animate">
+      <!-- Logo & Sambutan -->
+      <div class="text-center space-y-1.5">
+        <div class="w-16 h-16 mx-auto rounded-3xl bg-sage-700 text-white flex items-center justify-center text-3xl shadow-float border border-sage-500/40">
+          🌿
+        </div>
+        <h1 class="font-display font-extrabold text-2xl sm:text-3xl text-slate-900 tracking-tight">
+          Kawan Bugar
+        </h1>
+        <p class="text-sage-700 text-sm sm:text-base font-semibold">
+          pasukan gak takut diet 💪🥗😊
+        </p>
+      </div>
+
+      <!-- STEP 1: DAFTAR KARTU PROFIL & TOMBOL + TAMBAH USER -->
+      <div id="profile-picker-card" class="floating-card rounded-3xl p-5 sm:p-6 space-y-4">
+        <div class="text-center space-y-1">
+          <h2 class="font-display font-extrabold text-xl text-slate-900">Siapa yang Menggunakan?</h2>
+          <p class="text-xs sm:text-sm text-slate-600">Pilih kartu nama Anda atau tambah user baru.</p>
+        </div>
+
+        <div id="auth-error-box" class="hidden p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs sm:text-sm font-semibold text-center"></div>
+
+        <!-- Grid Kartu Profil + Tombol + Tambah User -->
+        <div id="profile-cards-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <!-- Diisi otomatis via JavaScript -->
+        </div>
+      </div>
+
+      <!-- STEP 2: MASUKKAN PIN 4 ANGKA UNTUK PROFIL TERPILIH -->
+      <div id="pin-entry-card" class="hidden floating-card rounded-3xl p-5 sm:p-6 space-y-4 tab-animate">
+        <div class="flex items-center justify-between">
+          <button type="button" onclick="backToProfilePicker()" class="px-3 py-1.5 rounded-xl bg-sage-50 hover:bg-sage-100 text-sage-800 font-bold text-xs sm:text-sm transition">
+            ← Kembali
+          </button>
+          <span class="text-xs font-bold text-sage-700 bg-sage-100 px-2.5 py-1 rounded-xl">Verifikasi PIN</span>
+        </div>
+
+        <div class="text-center space-y-1.5">
+          <div id="pin-selected-avatar" class="w-16 h-16 mx-auto rounded-3xl bg-sage-600 text-white flex items-center justify-center text-3xl shadow-sm">
+            👩
+          </div>
+          <h3 id="pin-selected-name" class="font-display font-extrabold text-xl text-slate-900">Ibu Siti</h3>
+          <p class="text-xs sm:text-sm text-slate-500">Masukkan 4 angka PIN untuk membuka catatan Anda</p>
+        </div>
+
+        <div id="pin-error-box" class="hidden p-2.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs sm:text-sm font-semibold text-center"></div>
+
+        <form onsubmit="handlePinLoginSubmit(event)" class="space-y-4">
+          <div class="max-w-[240px] mx-auto">
+            <input
+              type="password"
+              id="login-pin-input"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              maxlength="4"
+              required
+              placeholder="••••"
+              class="w-full text-center tracking-[0.6em] font-display font-extrabold text-2xl sm:text-3xl px-4 py-3.5 rounded-2xl bg-sage-50/80 border-2 border-sage-300 focus:border-sage-600 focus:bg-white focus:outline-none text-slate-900"
+            />
+          </div>
+          <button type="submit" class="w-full py-3.5 px-6 rounded-2xl bg-sage-600 hover:bg-sage-700 active:scale-98 text-white font-display font-bold text-base sm:text-lg shadow-sm transition flex items-center justify-center gap-2">
+            <span>🔓</span>
+            <span>Buka Profil Saya</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- STEP 3: FORM + TAMBAH USER BARU -->
+      <div id="add-user-card" class="hidden floating-card rounded-3xl p-5 sm:p-6 space-y-4 tab-animate">
+        <div class="flex items-center justify-between">
+          <button type="button" onclick="backToProfilePicker()" class="px-3 py-1.5 rounded-xl bg-sage-50 hover:bg-sage-100 text-sage-800 font-bold text-xs sm:text-sm transition">
+            ← Kembali
+          </button>
+          <span class="text-xs font-bold text-sage-700 bg-sage-100 px-2.5 py-1 rounded-xl">User Baru</span>
+        </div>
+
+        <div class="text-center space-y-1">
+          <h3 class="font-display font-extrabold text-xl text-slate-900">Tambah Profil Pengguna</h3>
+          <p class="text-xs sm:text-sm text-slate-500">Buat kartu profil dengan PIN 4 angka yang mudah diingat.</p>
+        </div>
+
+        <div id="add-user-error-box" class="hidden p-2.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs sm:text-sm font-semibold text-center"></div>
+
+        <form onsubmit="handleAddUserSubmit(event)" class="space-y-4">
+          <div>
+            <label for="new-user-name" class="block font-bold text-sage-900 text-sm mb-1">Nama Pengguna / Panggilan</label>
+            <input
+              type="text"
+              id="new-user-name"
+              required
+              placeholder="Contoh: Mama / Papa / Ibu Siti / Bapak Budi"
+              class="w-full px-4 py-3 rounded-2xl bg-sage-50/70 border-2 border-sage-200 focus:border-sage-600 focus:bg-white focus:outline-none text-base text-slate-900"
+            />
+          </div>
+
+          <div>
+            <label class="block font-bold text-sage-900 text-sm mb-1.5">Pilih Ikon Profil</label>
+            <div class="grid grid-cols-4 gap-2">
+              <button type="button" onclick="selectNewUserAvatar('👵')" data-avatar="👵" class="avatar-pick-btn py-2.5 rounded-2xl border-2 border-sage-600 bg-sage-100 text-2xl transition">👵</button>
+              <button type="button" onclick="selectNewUserAvatar('👴')" data-avatar="👴" class="avatar-pick-btn py-2.5 rounded-2xl border border-sage-200 bg-sage-50 text-2xl transition">👴</button>
+              <button type="button" onclick="selectNewUserAvatar('👩')" data-avatar="👩" class="avatar-pick-btn py-2.5 rounded-2xl border border-sage-200 bg-sage-50 text-2xl transition">👩</button>
+              <button type="button" onclick="selectNewUserAvatar('👨')" data-avatar="👨" class="avatar-pick-btn py-2.5 rounded-2xl border border-sage-200 bg-sage-50 text-2xl transition">👨</button>
+            </div>
+          </div>
+
+          <div>
+            <label for="new-user-pin" class="block font-bold text-sage-900 text-sm mb-1">Buat PIN 4 Angka</label>
+            <input
+              type="password"
+              id="new-user-pin"
+              inputmode="numeric"
+              pattern="[0-9]{4}"
+              maxlength="4"
+              required
+              placeholder="Contoh: 1234"
+              class="w-full text-center tracking-[0.5em] font-display font-extrabold text-xl px-4 py-3 rounded-2xl bg-sage-50/70 border-2 border-sage-200 focus:border-sage-600 focus:bg-white focus:outline-none text-slate-900"
+            />
+          </div>
+
+          <button type="submit" class="w-full py-3.5 px-6 rounded-2xl bg-sage-600 hover:bg-sage-700 active:scale-98 text-white font-display font-bold text-base sm:text-lg shadow-sm transition flex items-center justify-center gap-2">
+            <span>✅</span>
+            <span>Simpan & Masuk Profil</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Floating Top Header (Kaca Sage Lembut Mengambang) -->
   <div class="sticky top-2.5 sm:top-3.5 z-30 px-3 sm:px-4">
     <header class="max-w-3xl mx-auto rounded-3xl bg-sage-700/95 backdrop-blur-md text-white shadow-float border border-sage-500/40 px-4 py-2.5 sm:px-5 sm:py-3 flex items-center justify-between gap-3">
@@ -207,13 +340,23 @@
           <p class="text-xs font-bold text-sage-600 uppercase tracking-wider" id="current-date-display">
             Hari Ini
           </p>
-          <h2 class="font-display font-extrabold text-xl sm:text-2xl text-slate-900" id="greeting-title">
-            Halo, Kawan Bugar!
-          </h2>
+          <div class="flex flex-wrap items-center gap-2">
+            <h2 class="font-display font-extrabold text-xl sm:text-2xl text-slate-900" id="greeting-title">
+              Halo, Kawan Bugar!
+            </h2>
+            <button type="button" onclick="handleLogout()" id="active-user-pill" class="px-2.5 py-1 rounded-xl bg-white/90 hover:bg-sage-100 border border-sage-200 text-sage-800 font-bold text-xs flex items-center gap-1 shadow-2xs transition">
+              <span id="active-user-pill-avatar">👤</span>
+              <span id="active-user-pill-name">Profil</span>
+              <span class="text-sage-500">▾</span>
+            </button>
+          </div>
         </div>
         <div class="flex items-center gap-2">
           <button type="button" onclick="confirmResetDay()" class="px-3 py-1.5 rounded-2xl bg-white/90 hover:bg-sage-50 border border-sage-200 text-sage-800 font-semibold text-xs sm:text-sm shadow-2xs transition">
             🌅 Reset Hari
+          </button>
+          <button type="button" onclick="handleLogout()" class="px-3 py-1.5 rounded-2xl bg-white/90 hover:bg-sage-100 border border-sage-200 text-sage-800 font-semibold text-xs sm:text-sm shadow-2xs transition">
+            🔄 Ganti User
           </button>
           <span id="status-badge" class="px-3.5 py-1.5 rounded-2xl font-bold text-xs sm:text-sm bg-sage-100 text-sage-800 border border-sage-200 shadow-2xs">
             ✅ Masih Aman
@@ -871,19 +1014,47 @@
     <!-- ========================================== -->
     <section id="view-profil" class="hidden space-y-4 sm:space-y-5 tab-animate">
 
+      <!-- Kartu Daftar Profil Keluarga & Ganti User -->
+      <div class="floating-card rounded-3xl p-4 sm:p-5 space-y-3">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div id="active-account-avatar" class="w-11 h-11 rounded-2xl bg-sage-700 text-white flex items-center justify-center text-2xl shrink-0">
+              👵
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs font-bold text-sage-700 uppercase tracking-wider">Profil Sedang Aktif</p>
+              <p class="font-display font-extrabold text-base sm:text-lg text-slate-900 truncate" id="active-account-displayname">
+                Pengguna
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button type="button" onclick="openAddUserFromProfile()" class="py-2 px-3 rounded-2xl bg-sage-600 hover:bg-sage-700 text-white font-display font-bold text-xs sm:text-sm transition">
+              ➕ Tambah User
+            </button>
+            <button type="button" onclick="handleLogout()" class="py-2 px-3 rounded-2xl bg-sage-50 hover:bg-sage-100 text-sage-800 border border-sage-200 font-display font-bold text-xs sm:text-sm transition">
+              🔄 Ganti User
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="floating-card rounded-3xl p-4 sm:p-6">
-        <div class="mb-5">
-          <h2 class="font-display font-extrabold text-xl sm:text-2xl text-slate-900">Profil & Target Kalori</h2>
-          <p class="text-slate-600 text-xs sm:text-sm">Sesuaikan data diri untuk menghitung kebutuhan kalori harian yang aman.</p>
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-5">
+          <div>
+            <h2 class="font-display font-extrabold text-xl sm:text-2xl text-slate-900">Profil & Target Kalori</h2>
+            <p class="text-slate-600 text-xs sm:text-sm">Sesuaikan data diri untuk menghitung kebutuhan kalori harian yang aman.</p>
+          </div>
         </div>
 
         <form id="profile-form" onsubmit="handleProfileSave(event)" class="space-y-5">
           <!-- Nama Panggilan -->
           <div>
-            <label for="profile-name" class="block font-bold text-sage-900 text-sm sm:text-base mb-1.5">Nama Panggilan (Opsional)</label>
+            <label for="profile-name" class="block font-bold text-sage-900 text-sm sm:text-base mb-1.5">Nama Pengguna / Panggilan</label>
             <input
               type="text"
               id="profile-name"
+              required
               oninput="handleLiveGreetingUpdate()"
               placeholder="Contoh: Ibu Siti / Bapak Budi / Mama"
               class="w-full px-4 py-3 rounded-2xl bg-sage-50/70 border-2 border-sage-200 focus:border-sage-600 focus:bg-white focus:outline-none text-base sm:text-lg text-slate-900"
@@ -1249,60 +1420,38 @@
       { id: 'fav-nasi-putih', dbId: 'nasi-putih', name: 'Nasi Putih', baseCalories: 130, unitDesc: '1 centong (100g)', icon: '🍚' },
       { id: 'fav-telur-rebus', dbId: 'telur-rebus', name: 'Telur Ayam Rebus / Ceplok Air', baseCalories: 75, unitDesc: '1 butir', icon: '🥚' },
       { id: 'fav-sayur-sop', dbId: 'sayur-sop', name: 'Sayur Sop Ayam & Wortel', baseCalories: 95, unitDesc: '1 mangkuk sedang', icon: '🥣' },
-      { id: 'fav-pisang-ambon', dbId: 'pisang-ambon', name: 'Pisang Ambon / Kepok Kukus', baseCalories: 105, unitDesc: '1 buah sedang', icon: '🍌' }
+      { id: 'fav-pisang', dbId: 'pisang-ambon', name: 'Pisang Ambon / Kepok Kukus', baseCalories: 105, unitDesc: '1 buah sedang', icon: '🍌' }
     ];
 
-    // State Utama Aplikasi (Tersimpan di localStorage)
-    const STORAGE_KEY = 'kawan_bugar_v2_state';
-    let appState = {
-      fontScale: 'normal',
-      activeDate: getTodayDateKey(),
-      profile: {
-        name: '',
-        gender: 'female',
-        age: 60,
-        weight: 62,
-        height: 158,
-        activity: 1.2,
-        goal: 'maintain',
-        targetCalories: 1450
-      },
-      todayLogs: [],
-      waterGlasses: 0,
-      historyLogs: [], // [{ dateKey, label, totalCalories, targetCalories, waterGlasses }]
-      weightLogs: [],  // [{ dateKey, label, weight }]
-      favoriteFoods: [...DEFAULT_FAVORITES]
-    };
+    // Komponen baku untuk fitur Foto & Hitung 1 Piring Akurat
+    const PLATE_STANDARD_COMPONENTS = [
+      { id: 'p-nasi-putih', name: 'Nasi Putih (1 centong)', unit: '100g', calories: 130, icon: '🍚' },
+      { id: 'p-nasi-merah', name: 'Nasi Merah (1 centong)', unit: '100g', calories: 110, icon: '🍚' },
+      { id: 'p-ayam-panggang', name: 'Ayam Panggang / Rebus', unit: '1 potong', calories: 165, icon: '🍗' },
+      { id: 'p-ayam-goreng', name: 'Ayam Goreng', unit: '1 potong', calories: 245, icon: '🍗' },
+      { id: 'p-ikan', name: 'Ikan Pepes / Bakar', unit: '1 potong', calories: 160, icon: '🐟' },
+      { id: 'p-telur', name: 'Telur Rebus / Dadar', unit: '1 butir', calories: 95, icon: '🥚' },
+      { id: 'p-tempe-tahu', name: 'Tempe / Tahu (2 potong)', unit: '2 potong', calories: 110, icon: '🟫' },
+      { id: 'p-sayur', name: 'Sayur Tumis / Kuah', unit: '1 mangkuk kecil', calories: 85, icon: '🥦' },
+      { id: 'p-sambal-kerupuk', name: 'Sambal + 1 Kerupuk', unit: '1 porsi', calories: 85, icon: '🍘' },
+      { id: 'p-buah', name: 'Buah Potong Segar', unit: '1 porsi', calories: 70, icon: '🍌' }
+    ];
 
-    // State UI sementara
+    // Penyimpanan Daftar Profil (PIN 4 Angka) + Data Terpisah per User
+    const ACCOUNTS_DB_KEY = 'kawan_bugar_pin_profiles_v1';
+    const CURRENT_USER_KEY = 'kawan_bugar_current_profile_id_v1';
+    let currentUserId = null;
+    let pendingPinUserId = null;
+    let selectedNewAvatar = '👵';
+
+    // State interaksi halaman Catat Makan & Log
     let selectedMealTime = 'Sarapan';
     let selectedPortion = 1;
     let activeCategoryFilter = 'Semua';
     let activeLogFilter = 'Semua';
-    let currentCustomEstimation = null; // Menyimpan hasil estimasi kalori otomatis saat ini
-    let plateComponentCounts = {};      // Menyimpan jumlah takaran komponen di foto 1 piring
+    let currentCustomEstimation = null;
+    let plateComponentCounts = {};
 
-    // Daftar komponen standar 1 piring makanan Indonesia (Nilai Gizi Baku TKPI / Kemenkes)
-    const PLATE_STANDARD_COMPONENTS = [
-      { id: 'nasi-putih', name: 'Nasi Putih', unit: '1 centong (100g)', calories: 130, icon: '🍚' },
-      { id: 'nasi-merah', name: 'Nasi Merah', unit: '1 centong (100g)', calories: 110, icon: '🍚' },
-      { id: 'ayam-goreng', name: 'Ayam Goreng', unit: '1 potong sedang', calories: 245, icon: '🍗' },
-      { id: 'ayam-panggang', name: 'Ayam Panggang / Rebus', unit: '1 potong sedang', calories: 165, icon: '🍗' },
-      { id: 'ikan-pepes', name: 'Ikan Pepes / Bakar', unit: '1 potong sedang', calories: 160, icon: '🐟' },
-      { id: 'ikan-goreng', name: 'Ikan Goreng', unit: '1 ekor sedang', calories: 210, icon: '🐟' },
-      { id: 'telur-rebus', name: 'Telur Rebus', unit: '1 butir', calories: 75, icon: '🥚' },
-      { id: 'telur-dadar', name: 'Telur Dadar / Ceplok', unit: '1 butir', calories: 115, icon: '🍳' },
-      { id: 'tempe-tahu-bacem', name: 'Tempe / Tahu Bacem', unit: '1 potong', calories: 55, icon: '🟫' },
-      { id: 'tempe-tahu-goreng', name: 'Tempe / Tahu Goreng', unit: '1 potong', calories: 115, icon: '🟨' },
-      { id: 'sayur-kuah', name: 'Sayur Sop / Bayam / Asem', unit: '1 mangkuk kecil', calories: 75, icon: '🥬' },
-      { id: 'tumis-sayur', name: 'Tumis Sayur / Capcay', unit: '1 porsi piring', calories: 105, icon: '🥦' },
-      { id: 'sambal-kerupuk', name: 'Sambal & Kerupuk', unit: '1 porsi pelengkap', calories: 85, icon: '🍘' },
-      { id: 'buah-potong', name: 'Buah Potong Segar', unit: '1 potong sedang', calories: 65, icon: '🍌' }
-    ];
-
-    // ==========================================
-    // UTILITAS TANGGAL, FORMAT & STORAGE
-    // ==========================================
     function getTodayDateKey() {
       const now = new Date();
       const y = now.getFullYear();
@@ -1323,17 +1472,66 @@
       return Math.round(Number(num) || 0).toLocaleString('id-ID');
     }
 
-    function saveState() {
+    function createDefaultUserState(displayName = '', avatar = '👵') {
+      return {
+        fontScale: 'normal',
+        activeDate: getTodayDateKey(),
+        profile: {
+          name: displayName,
+          avatar: avatar,
+          gender: 'female',
+          age: 60,
+          weight: 62,
+          height: 158,
+          activity: 1.2,
+          goal: 'maintain',
+          targetCalories: 1450
+        },
+        todayLogs: [],
+        waterGlasses: 0,
+        historyLogs: [],
+        weightLogs: [],
+        favoriteFoods: [...DEFAULT_FAVORITES]
+      };
+    }
+
+    let appState = createDefaultUserState();
+
+    function getUserStorageKey(userId) {
+      return `kawan_bugar_profile_data_${userId}`;
+    }
+
+    function getAccountsMap() {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        const raw = localStorage.getItem(ACCOUNTS_DB_KEY);
+        return raw ? JSON.parse(raw) : {};
       } catch (err) {
-        console.warn('Gagal menyimpan data ke localStorage:', err);
+        return {};
       }
     }
 
-    function loadState() {
+    function saveAccountsMap(map) {
       try {
-        const raw = localStorage.getItem(STORAGE_KEY);
+        localStorage.setItem(ACCOUNTS_DB_KEY, JSON.stringify(map));
+      } catch (err) {
+        console.warn('Gagal menyimpan daftar profil:', err);
+      }
+    }
+
+    function saveState() {
+      if (!currentUserId) return;
+      try {
+        localStorage.setItem(getUserStorageKey(currentUserId), JSON.stringify(appState));
+      } catch (err) {
+        console.warn('Gagal menyimpan data user ke localStorage:', err);
+      }
+    }
+
+    function loadUserState(userId, fallbackDisplayName = '', fallbackAvatar = '👵') {
+      currentUserId = userId;
+      appState = createDefaultUserState(fallbackDisplayName, fallbackAvatar);
+      try {
+        const raw = localStorage.getItem(getUserStorageKey(currentUserId));
         if (raw) {
           const parsed = JSON.parse(raw);
           appState = {
@@ -1343,7 +1541,7 @@
           };
         }
       } catch (err) {
-        console.warn('Gagal membaca data tersimpan:', err);
+        console.warn('Gagal membaca data user tersimpan:', err);
       }
 
       // Cek pergantian tanggal (Auto-Reset Ganti Hari Otomatis)
@@ -1368,6 +1566,193 @@
         appState.activeDate = todayKey;
         saveState();
       }
+    }
+
+    // ==========================================
+    // SISTEM PILIH KARTU PROFIL, PIN & + TAMBAH USER
+    // ==========================================
+    function renderProfileCardsGrid() {
+      const accounts = getAccountsMap();
+      const userIds = Object.keys(accounts);
+      const grid = document.getElementById('profile-cards-grid');
+      if (!grid) return;
+
+      const userCardsHTML = userIds.map(uid => {
+        const acc = accounts[uid];
+        return `
+          <button
+            type="button"
+            onclick="openPinPromptForUser('${uid}')"
+            class="group p-4 rounded-3xl bg-sage-50/80 hover:bg-sage-100 border-2 border-sage-200 hover:border-sage-600 active:scale-95 transition flex flex-col items-center justify-center text-center gap-2 shadow-2xs"
+          >
+            <div class="w-14 h-14 rounded-2xl bg-white border border-sage-200 group-hover:scale-105 transition flex items-center justify-center text-3xl shadow-2xs">
+              ${acc.avatar || '👵'}
+            </div>
+            <div class="min-w-0 w-full">
+              <p class="font-display font-extrabold text-sm sm:text-base text-slate-900 truncate">${acc.displayName}</p>
+              <p class="text-[11px] font-semibold text-sage-700">🔒 Klik & Isi PIN</p>
+            </div>
+          </button>
+        `;
+      }).join('');
+
+      const addBtnHTML = `
+        <button
+          type="button"
+          onclick="openAddUserForm()"
+          class="p-4 rounded-3xl bg-white hover:bg-sage-50 border-2 border-dashed border-sage-300 hover:border-sage-600 active:scale-95 transition flex flex-col items-center justify-center text-center gap-2"
+        >
+          <div class="w-14 h-14 rounded-2xl bg-sage-100 text-sage-700 flex items-center justify-center text-2xl font-bold">
+            ➕
+          </div>
+          <div>
+            <p class="font-display font-extrabold text-sm sm:text-base text-sage-800">Tambah User</p>
+            <p class="text-[11px] text-slate-500">Buat profil baru</p>
+          </div>
+        </button>
+      `;
+
+      grid.innerHTML = userCardsHTML + addBtnHTML;
+    }
+
+    function backToProfilePicker() {
+      pendingPinUserId = null;
+      document.getElementById('pin-entry-card').classList.add('hidden');
+      document.getElementById('add-user-card').classList.add('hidden');
+      document.getElementById('pin-error-box').classList.add('hidden');
+      document.getElementById('add-user-error-box').classList.add('hidden');
+      document.getElementById('profile-picker-card').classList.remove('hidden');
+      renderProfileCardsGrid();
+    }
+
+    function openPinPromptForUser(userId) {
+      const accounts = getAccountsMap();
+      const acc = accounts[userId];
+      if (!acc) return;
+
+      pendingPinUserId = userId;
+      document.getElementById('pin-selected-avatar').textContent = acc.avatar || '👵';
+      document.getElementById('pin-selected-name').textContent = acc.displayName;
+      document.getElementById('pin-error-box').classList.add('hidden');
+
+      const pinInput = document.getElementById('login-pin-input');
+      pinInput.value = '';
+
+      document.getElementById('profile-picker-card').classList.add('hidden');
+      document.getElementById('add-user-card').classList.add('hidden');
+      document.getElementById('pin-entry-card').classList.remove('hidden');
+      setTimeout(() => pinInput.focus(), 60);
+    }
+
+    function selectNewUserAvatar(emoji) {
+      selectedNewAvatar = emoji;
+      document.querySelectorAll('.avatar-pick-btn').forEach(btn => {
+        if (btn.dataset.avatar === emoji) {
+          btn.className = 'avatar-pick-btn py-2.5 rounded-2xl border-2 border-sage-600 bg-sage-100 text-2xl transition';
+        } else {
+          btn.className = 'avatar-pick-btn py-2.5 rounded-2xl border border-sage-200 bg-sage-50 text-2xl transition';
+        }
+      });
+    }
+
+    function openAddUserForm() {
+      document.getElementById('new-user-name').value = '';
+      document.getElementById('new-user-pin').value = '';
+      document.getElementById('add-user-error-box').classList.add('hidden');
+      selectNewUserAvatar('👵');
+
+      document.getElementById('profile-picker-card').classList.add('hidden');
+      document.getElementById('pin-entry-card').classList.add('hidden');
+      document.getElementById('add-user-card').classList.remove('hidden');
+      setTimeout(() => document.getElementById('new-user-name').focus(), 60);
+    }
+
+    function openAddUserFromProfile() {
+      saveState();
+      localStorage.removeItem(CURRENT_USER_KEY);
+      currentUserId = null;
+      document.getElementById('auth-screen').classList.remove('hidden');
+      openAddUserForm();
+    }
+
+    function enterAppForUser(userId, fallbackName = '', fallbackAvatar = '👵') {
+      localStorage.setItem(CURRENT_USER_KEY, userId);
+      loadUserState(userId, fallbackName, fallbackAvatar);
+
+      setFontScale(appState.fontScale || 'normal');
+      applyProfileToUI();
+      renderWaterTracker();
+      renderSummaryAndLogs();
+      renderFavoriteChips();
+      renderFoodDatabase();
+
+      document.getElementById('auth-screen').classList.add('hidden');
+      switchTab('beranda');
+    }
+
+    function handleAddUserSubmit(event) {
+      event.preventDefault();
+      const fullName = document.getElementById('new-user-name').value.trim();
+      const pin = document.getElementById('new-user-pin').value.trim();
+      const errBox = document.getElementById('add-user-error-box');
+
+      if (!fullName) {
+        errBox.textContent = 'Silakan isi nama panggilan terlebih dahulu.';
+        errBox.classList.remove('hidden');
+        return;
+      }
+      if (!/^\d{4}$/.test(pin)) {
+        errBox.textContent = 'PIN harus terdiri dari 4 digit angka (contoh: 1234).';
+        errBox.classList.remove('hidden');
+        return;
+      }
+
+      const newUserId = 'user_' + Date.now();
+      const accounts = getAccountsMap();
+      accounts[newUserId] = {
+        userId: newUserId,
+        displayName: fullName,
+        avatar: selectedNewAvatar,
+        pin: pin
+      };
+      saveAccountsMap(accounts);
+
+      enterAppForUser(newUserId, fullName, selectedNewAvatar);
+      showToast(`Profil ${fullName} berhasil dibuat!`, '🎉');
+    }
+
+    function handlePinLoginSubmit(event) {
+      event.preventDefault();
+      if (!pendingPinUserId) return;
+      const pin = document.getElementById('login-pin-input').value.trim();
+      const errBox = document.getElementById('pin-error-box');
+
+      const accounts = getAccountsMap();
+      const account = accounts[pendingPinUserId];
+      if (!account) {
+        backToProfilePicker();
+        return;
+      }
+
+      if (account.pin !== pin) {
+        errBox.textContent = 'PIN salah! Silakan masukkan 4 angka PIN yang benar.';
+        errBox.classList.remove('hidden');
+        document.getElementById('login-pin-input').value = '';
+        document.getElementById('login-pin-input').focus();
+        return;
+      }
+
+      enterAppForUser(pendingPinUserId, account.displayName, account.avatar);
+      showToast(`Selamat datang kembali, ${appState.profile.name || account.displayName}!`, '👋');
+    }
+
+    function handleLogout() {
+      saveState();
+      localStorage.removeItem(CURRENT_USER_KEY);
+      currentUserId = null;
+      backToProfilePicker();
+      document.getElementById('auth-screen').classList.remove('hidden');
+      showToast('Pilih profil untuk masuk kembali.', '🔄');
     }
 
     // ==========================================
@@ -2611,6 +2996,16 @@
       saveState();
       applyProfileToUI();
       renderSummaryAndLogs();
+
+      // Sinkronkan nama panggilan ke kartu profil login
+      if (currentUserId) {
+        const accounts = getAccountsMap();
+        if (accounts[currentUserId]) {
+          accounts[currentUserId].displayName = name || accounts[currentUserId].displayName;
+          saveAccountsMap(accounts);
+        }
+      }
+
       showToast(`Profil disimpan! Target harian: ${formatNumber(calc.target)} kkal`, '💾');
       switchTab('beranda');
     }
@@ -2620,6 +3015,14 @@
       appState.profile.name = rawName;
       const greetingName = rawName ? rawName : 'Kawan Bugar';
       document.getElementById('greeting-title').textContent = `Halo, ${greetingName}!`;
+      const pillNameEl = document.getElementById('active-user-pill-name');
+      if (pillNameEl) {
+        pillNameEl.textContent = greetingName;
+      }
+      const activeDispEl = document.getElementById('active-account-displayname');
+      if (activeDispEl) {
+        activeDispEl.textContent = greetingName;
+      }
       saveState();
     }
 
@@ -2631,7 +3034,18 @@
       document.getElementById('profile-height').value = p.height || 158;
 
       const greetingName = (p.name && p.name.trim()) ? p.name.trim() : 'Kawan Bugar';
+      const avatar = p.avatar || '👵';
       document.getElementById('greeting-title').textContent = `Halo, ${greetingName}!`;
+
+      const pillNameEl = document.getElementById('active-user-pill-name');
+      if (pillNameEl) pillNameEl.textContent = greetingName;
+      const pillAvatarEl = document.getElementById('active-user-pill-avatar');
+      if (pillAvatarEl) pillAvatarEl.textContent = avatar;
+
+      const activeAvatarEl = document.getElementById('active-account-avatar');
+      if (activeAvatarEl) activeAvatarEl.textContent = avatar;
+      const activeDispEl = document.getElementById('active-account-displayname');
+      if (activeDispEl) activeDispEl.textContent = greetingName;
 
       const actRadio = document.querySelector(`input[name="activity"][value="${p.activity}"]`);
       if (actRadio) actRadio.checked = true;
@@ -2647,9 +3061,6 @@
     // INISIALISASI SAAT HALAMAN DIMUAT
     // ==========================================
     window.addEventListener('DOMContentLoaded', () => {
-      loadState();
-      setFontScale(appState.fontScale || 'normal');
-
       const todayFormatted = new Date().toLocaleDateString('id-ID', {
         weekday: 'long',
         day: 'numeric',
@@ -2658,11 +3069,15 @@
       });
       document.getElementById('current-date-display').textContent = todayFormatted;
 
-      applyProfileToUI();
-      renderWaterTracker();
-      renderSummaryAndLogs();
-      renderFavoriteChips();
-      renderFoodDatabase();
+      const savedSessionUser = localStorage.getItem(CURRENT_USER_KEY);
+      const accounts = getAccountsMap();
+
+      if (savedSessionUser && accounts[savedSessionUser]) {
+        enterAppForUser(savedSessionUser, accounts[savedSessionUser].displayName, accounts[savedSessionUser].avatar);
+      } else {
+        backToProfilePicker();
+        document.getElementById('auth-screen').classList.remove('hidden');
+      }
     });
   </script>
 </body>
